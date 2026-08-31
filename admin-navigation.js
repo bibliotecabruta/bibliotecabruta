@@ -2,3 +2,27 @@ function adminHideAllViews(){const form=document.getElementById('bookForm'),list
 function showBookListView(){adminHideAllViews();const list=document.getElementById('bookList');if(list){list.classList.remove('hidden');renderTable();list.scrollIntoView({behavior:'smooth',block:'start'})}}
 function showBookFormView(reset=false){adminHideAllViews();const form=document.getElementById('bookForm'),title=document.getElementById('formTitle'),intro=document.getElementById('formIntro');if(form)form.classList.remove('hidden');if(title)title.classList.remove('hidden');if(intro)intro.classList.remove('hidden');if(reset&&typeof newBook==='function')newBook();setTimeout(()=>title?.scrollIntoView({behavior:'smooth',block:'start'}),50)}
 function showSpreadsheetImportView(){adminHideAllViews();const imp=document.getElementById('spreadsheetImportView');if(imp){imp.classList.remove('hidden');imp.scrollIntoView({behavior:'smooth',block:'start'})}}const _navEditBook=window.editBook;window.editBook=async function(id){adminHideAllViews();document.getElementById('bookForm')?.classList.remove('hidden');document.getElementById('formTitle')?.classList.remove('hidden');document.getElementById('formIntro')?.classList.remove('hidden');await _navEditBook(id)};const _navShowTaxonomy=window.showTaxonomyManager;window.showTaxonomyManager=function(which){adminHideAllViews();const tax=document.getElementById('taxonomyManager');if(tax)tax.classList.remove('hidden');if(typeof _navShowTaxonomy==='function')_navShowTaxonomy(which)};document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{if(!document.getElementById('adminPanel')?.classList.contains('hidden'))showBookListView()},900)});
+
+
+// O catálogo administrativo já ultrapassou 200 livros. Carregue todos os
+// registros atuais antes de aplicar a busca local por título ou autor.
+window.renderTable=async function renderCompleteAdminTable(){
+  const table=document.getElementById('adminTable');
+  const query=(document.getElementById('adminSearch')?.value||'').trim().toLowerCase();
+  const {data,error}=await sbAdmin
+    .from('books')
+    .select('id,title,area,authors(name),series(name),editions(publisher,publication_year,is_primary,country)')
+    .order('created_at',{ascending:false})
+    .limit(1000);
+  if(error){
+    console.error(error);
+    table.innerHTML='<tr><td colspan="5">Erro ao carregar.</td></tr>';
+    return;
+  }
+  const rows=(data||[]).filter(book=>!query||`${book.title} ${book.authors?.name||''}`.toLowerCase().includes(query));
+  table.innerHTML=rows.length?rows.map(book=>{
+    const edition=(book.editions||[]).find(item=>item.country==='Brasil'&&item.is_primary)||(book.editions||[]).find(item=>item.country==='Brasil');
+    const publication=[edition?.publisher,edition?.publication_year].filter(Boolean).join(' · ')||'—';
+    return `<tr><td>${esc(book.title)}</td><td>${esc(book.authors?.name||'—')}</td><td>${esc(publication)}</td><td>${esc(book.series?.name||'—')}</td><td><button class="secondary" onclick="editBook('${book.id}')">Editar</button> <button class="secondary" onclick="deleteBook('${book.id}')">Excluir</button></td></tr>`;
+  }).join(''):'<tr><td colspan="5">Nenhum livro cadastrado.</td></tr>';
+};
