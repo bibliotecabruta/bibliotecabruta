@@ -3,8 +3,7 @@
 .cards .area-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.58) 48%,rgba(0,0,0,.20) 100%);z-index:0;transition:background .2s ease}
 .cards .area-card::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.08),transparent 34%,transparent 70%,rgba(180,139,69,.08));z-index:0;pointer-events:none}
 .cards .area-card h3,.cards .area-card p{position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.7)}
-.cards .area-card h3{letter-spacing:.01em}
-.cards .area-negra h3,.cards .area-policial h3{white-space:nowrap;font-size:30px}
+.cards .area-card h3{letter-spacing:.01em;font-size:30px;white-space:nowrap}
 .cards .area-card p{color:#f0d9a8}
 .cards .area-card:hover,.cards .area-card:focus-visible{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.28);filter:saturate(1.08) contrast(1.03);outline:none}
 .cards .area-card:hover::before,.cards .area-card:focus-visible::before{background:linear-gradient(to top,rgba(0,0,0,.84) 0%,rgba(0,0,0,.48) 48%,rgba(0,0,0,.12) 100%)}
@@ -14,7 +13,7 @@
 .cards .area-fantasia{background-color:#263124!important;background-image:url('assets/grupos/fantasia.svg')!important}
 .cards .area-fc{background-color:#172837!important;background-image:url('assets/grupos/ficcao-cientifica.svg')!important}
 .cards .area-policial{background-color:#252223!important;background-image:url('assets/grupos/policial-misterio.svg')!important}
-@media(max-width:850px){.cards .area-card{min-height:190px}.cards .area-negra h3,.cards .area-policial h3{font-size:28px}}
+@media(max-width:850px){.cards .area-card{min-height:190px}.cards .area-card h3{font-size:28px}}
 </style></head><body>
 <header class="topbar"><nav class="nav"><a class="brand" href="index.html">BIBLIOTECA <b>BRUTA</b></a><a href="historica.html">Ficção Histórica</a><a href="colecao-negra.html">Coleção Negra</a><a href="militar.html">Ficção Militar</a><a href="autores.html">Autores</a><a href="series.html">Séries</a><a href="categorias.html">Categorias</a><a href="temas.html">Temas</a></nav></header>
 <section class="hero"><div class="hero-inner"><h1>Biblioteca <span>Bruta</span></h1><h2>Histórias para garimpar.</h2><p>Um catálogo de livros, autores, séries e edições publicados no Brasil.</p><div class="search"><input id="q" placeholder="Procure por livro, autor, série, coleção, categoria ou tema..." oninput="renderBooks('latest')"><button onclick="renderBooks('latest')">Buscar</button></div></div></section>
