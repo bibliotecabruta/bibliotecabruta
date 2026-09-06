@@ -6,16 +6,18 @@ function showSpreadsheetImportView(){adminHideAllViews();const imp=document.getE
 
 // O catálogo administrativo já ultrapassou 200 livros. Carregue todos os
 // registros atuais antes de aplicar a busca local por título ou autor.
+// Os relacionamentos usam explicitamente as FKs diretas de books para evitar
+// ambiguidade no PostgREST caso existam tabelas auxiliares de autores/séries.
 window.renderTable=async function renderCompleteAdminTable(){
   const table=document.getElementById('adminTable');
   const query=(document.getElementById('adminSearch')?.value||'').trim().toLowerCase();
   const {data,error}=await sbAdmin
     .from('books')
-    .select('id,title,area,authors(name),series(name),editions(publisher,publication_year,is_primary,country)')
+    .select('id,title,area,authors!books_author_id_fkey(name),series!books_series_id_fkey(name),editions(publisher,publication_year,is_primary,country)')
     .order('created_at',{ascending:false})
     .limit(1000);
   if(error){
-    console.error(error);
+    console.error('Erro ao carregar livros no admin:',error);
     table.innerHTML='<tr><td colspan="5">Erro ao carregar.</td></tr>';
     return;
   }
