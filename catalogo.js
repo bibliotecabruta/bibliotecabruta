@@ -15,11 +15,28 @@ function cBookCard(b){const cats=(b.book_categories||[]).map(x=>x.categories?.na
 function uniqBy(arr,keyFn){const m=new Map();for(const x of arr){const k=keyFn(x);if(k&&!m.has(k))m.set(k,x)}return [...m.values()]}
 function catalogAreasForFilter(area){if(!area)return[];return CATALOG_AREA_GROUPS[area]||[area]}
 function normalizeCatalogArea(area){if(area==='Ficção Militar')return'Ação / Militar';if(area==='Policial / Mistério')return'Policial/Mistério';return area}
-async function initCatalog(){const [{data:books,error},{data:cats},{data:tags}]=await Promise.all([
-  sbCatalog.from('books').select('id,title,original_title,area,original_year,cover_url,series_volume,created_at,authors(id,name),series(id,name,brazil_status),book_authors(author_order,is_primary,authors(id,name)),book_series(series_volume,is_primary,series(id,name,brazil_status)),book_collections(collections(id,name)),book_categories(categories(id,name,area)),book_tags(tags(id,name)),editions(publisher,publication_year,is_primary,country)').order('title'),
-  sbCatalog.from('categories').select('id,name,area').order('name'),
-  sbCatalog.from('tags').select('id,name').order('name')
-]);if(error){document.getElementById('filteredCatalog').innerHTML='<div class="empty">Não foi possível carregar o catálogo.</div>';return}catalogRows=books||[];catalogCategories=cats||[];catalogTags=tags||[];populateFilterOptions();restoreFiltersFromUrl();onAreaFilterChange(false);applyCatalogFilters()}
+function attachOptionalRelations(books,authorLinks,seriesLinks){
+  const am=new Map(),sm=new Map();
+  for(const x of authorLinks||[]){if(!am.has(x.book_id))am.set(x.book_id,[]);am.get(x.book_id).push(x)}
+  for(const x of seriesLinks||[]){if(!sm.has(x.book_id))sm.set(x.book_id,[]);sm.get(x.book_id).push(x)}
+  for(const b of books||[]){b.book_authors=am.get(b.id)||[];b.book_series=sm.get(b.id)||[]}
+  return books||[]
+}
+async function initCatalog(){
+  const [booksRes,catsRes,tagsRes,authorsRes,seriesRes]=await Promise.all([
+    sbCatalog.from('books').select('id,title,original_title,area,original_year,cover_url,series_volume,created_at,authors(id,name),series(id,name,brazil_status),book_collections(collections(id,name)),book_categories(categories(id,name,area)),book_tags(tags(id,name)),editions(publisher,publication_year,is_primary,country)').order('title'),
+    sbCatalog.from('categories').select('id,name,area').order('name'),
+    sbCatalog.from('tags').select('id,name').order('name'),
+    sbCatalog.from('book_authors').select('book_id,author_order,is_primary,authors(id,name)').limit(5000),
+    sbCatalog.from('book_series').select('book_id,series_volume,is_primary,series(id,name,brazil_status)').limit(5000)
+  ]);
+  if(booksRes.error){console.error('Erro ao carregar catálogo:',booksRes.error);document.getElementById('filteredCatalog').innerHTML='<div class="empty">Não foi possível carregar o catálogo.</div>';return}
+  if(authorsRes.error)console.warn('Autores múltiplos indisponíveis; usando compatibilidade.',authorsRes.error);
+  if(seriesRes.error)console.warn('Séries múltiplas indisponíveis; usando compatibilidade.',seriesRes.error);
+  catalogRows=attachOptionalRelations(booksRes.data||[],authorsRes.error?[]:authorsRes.data,seriesRes.error?[]:seriesRes.data);
+  catalogCategories=catsRes.data||[];catalogTags=tagsRes.data||[];
+  populateFilterOptions();restoreFiltersFromUrl();onAreaFilterChange(false);applyCatalogFilters()
+}
 function fillSelect(id,rows,labelFn,valueFn){const el=document.getElementById(id),first=el.options[0].outerHTML;el.innerHTML=first+rows.map(x=>`<option value="${cEsc(valueFn(x))}">${cEsc(labelFn(x))}</option>`).join('')}
 function populateFilterOptions(){fillSelect('filterTag',catalogTags,x=>x.name,x=>x.id);const authors=uniqBy(catalogRows.flatMap(cAuthors),x=>x.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));fillSelect('filterAuthor',authors,x=>x.name,x=>x.id);const series=uniqBy(catalogRows.flatMap(cSeries),x=>x.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));fillSelect('filterSeries',series,x=>x.name,x=>x.id)}
 function onAreaFilterChange(run=true){const area=document.getElementById('filterArea').value,current=document.getElementById('filterCategory').value,areas=catalogAreasForFilter(area),rows=catalogCategories.filter(c=>!area||areas.includes(c.area));fillSelect('filterCategory',rows,x=>x.name,x=>x.id);if(rows.some(x=>x.id===current))document.getElementById('filterCategory').value=current;if(run)applyCatalogFilters()}
