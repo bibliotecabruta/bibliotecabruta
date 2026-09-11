@@ -10,19 +10,23 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
-          import re, urllib.request, html
+          import re, urllib.request, urllib.parse, html
           pages={
             'O Impostor 1':'https://www.portaldoslivreiros.com.br/livro.asp?codigo=7756710&titulo=Nero+Wolfe+Em+o+Impostor',
             'O Impostor 2':'https://www.portaldoslivreiros.com.br/livro.asp?codigo=7941634&titulo=O+Impostor'
           }
           for name,u in pages.items():
               print('\n###',name)
-              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
-              txt=urllib.request.urlopen(req,timeout=25).read().decode('latin1','ignore')
+              try:
+                  req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
+                  txt=urllib.request.urlopen(req,timeout=25).read().decode('latin1','ignore')
+              except Exception as e:
+                  print('PAGEERR',repr(e)); continue
               txt=html.unescape(txt).replace('\\/','/')
-              urls=re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png)(?:\?[^"\'<> ]*)?',txt,re.I)
-              if not urls:
-                  urls=[urllib.parse.urljoin(u,x) for x in re.findall(r'(?:src|href)=["\']([^"\']+\.(?:jpg|jpeg|png)(?:\?[^"\']*)?)["\']',txt,re.I)] if False else []
+              urls=[]
+              urls += re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png)(?:\?[^"\'<> ]*)?',txt,re.I)
+              rels=re.findall(r'(?:src|href)=["\']([^"\']+\.(?:jpg|jpeg|png)(?:\?[^"\']*)?)["\']',txt,re.I)
+              urls += [urllib.parse.urljoin(u,x) for x in rels]
               for x in dict.fromkeys(urls):
                   if any(k in x.lower() for k in ['logo','icon','banner','sprite']): continue
                   print(x)
