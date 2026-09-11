@@ -6,22 +6,37 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract two Ed McBain covers
+      - name: Validate Homem do Saxofone and find Preco 1962
         shell: bash
         run: |
           python - <<'PY'
           import re, urllib.request, html
-          u='https://www.estantevirtual.com.br/livros/ed-mcbains'
+          # validate O Homem do Saxofone image
+          img='https://static.estantevirtual.com.br/book/00/1YK-4655-000/1YK-4655-000_detail1.jpg?ts=1710534981097'
+          req=urllib.request.Request(img,headers={'User-Agent':'Mozilla/5.0'})
+          d=urllib.request.urlopen(req,timeout=25).read()
+          print('HOMEM_BYTES',len(d))
+          if d[:2]==b'\xff\xd8':
+              i=2
+              while i+9<len(d):
+                  if d[i]!=255:i+=1;continue
+                  m=d[i+1];i+=2
+                  if m in (0xD8,0xD9):continue
+                  ln=int.from_bytes(d[i:i+2],'big')
+                  if m in range(0xC0,0xC4) and m!=0xC4:
+                      h=int.from_bytes(d[i+3:i+5],'big');w=int.from_bytes(d[i+5:i+7],'big');print('HOMEM_SIZE',w,h);break
+                  i+=ln
+          # find the exact 1962/201p O Preco de uma Vida result
+          u='https://www.estantevirtual.com.br/busca/Ed%20Mcbain?page=1'
           req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
           txt=urllib.request.urlopen(req,timeout=25).read().decode('utf-8','ignore')
           txt=html.unescape(txt).replace('\\u002F','/').replace('\\/','/')
           urls=re.findall(r'https://static\.estantevirtual\.com\.br/book/00/[^"\'<> ]+?_detail1\.jpg\?ts=\d+',txt,re.I)
           for x in dict.fromkeys(urls):
               i=txt.find(x)
-              ctx=re.sub(r'\s+',' ',txt[max(0,i-1200):i+1200])
+              ctx=re.sub(r'\s+',' ',txt[max(0,i-1600):i+1600])
               low=ctx.lower()
-              if 'preço de uma vida' in low or 'preco de uma vida' in low or 'homem do saxofone' in low:
-                  print('URL',x)
-                  print('CTX',ctx[:2400])
-                  print('---')
+              if ('preço de uma vida' in low or 'preco de uma vida' in low) and '1962' in low and '201' in low:
+                  print('PRECO_URL',x)
+                  print('PRECO_CTX',ctx[:3200])
           PY
