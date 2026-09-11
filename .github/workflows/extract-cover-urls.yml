@@ -1,0 +1,37 @@
+name: Extract cover URLs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-cover-urls.yml'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract OG images
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re, urllib.request
+          urls = {
+            'Um Cadaver de Luxo':'https://www.skoob.com.br/pt/book/32156',
+            'Brincando com a Morte':'https://www.skoob.com.br/pt/book/32154',
+            'Oito Cavalos Negros':'https://www.skoob.com.br/pt/book/55839',
+            'O Quebra-Cabeca':'https://www.skoob.com.br/pt/book/407956',
+            'Fantasmas':'https://www.skoob.com.br/pt/book/139471',
+            'Calipso':'https://www.skoob.com.br/busca/livro/calipso-ed-mcbain',
+            'Caso em Familia':'https://www.skoob.com.br/busca/livro/caso-em-familia-rex-stout',
+            'Um Toque de Campainha':'https://www.skoob.com.br/busca/livro/um-toque-de-campainha-rex-stout',
+          }
+          for name,u in urls.items():
+              try:
+                  req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
+                  html=urllib.request.urlopen(req,timeout=20).read().decode('utf-8','ignore')
+                  pats=[r'<meta[^>]+(?:property|name)=["\']og:image["\'][^>]+content=["\']([^"\']+)',r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']og:image["\']']
+                  found=[]
+                  for p in pats: found += re.findall(p,html,re.I)
+                  print(f'{name}\t{found[0] if found else "NO_OG_IMAGE"}')
+              except Exception as e:
+                  print(f'{name}\tERROR:{e}')
+          PY
