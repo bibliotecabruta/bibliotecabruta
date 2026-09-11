@@ -1,0 +1,51 @@
+name: Extract final cover URLs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-cover-urls-3.yml'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract covers
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re, urllib.request, html as htmllib
+          UA={'User-Agent':'Mozilla/5.0'}
+          pages={
+            'Sangue e Gelo':'https://www.estantevirtual.com.br/busca/sangue-e-gelo',
+            'Calipso':'https://www.casadovelho.com.br/1faff5/misterio-calipso-ed-mcbain-n-20-ano-1981',
+          }
+          def fetch(u):
+              req=urllib.request.Request(u,headers=UA)
+              with urllib.request.urlopen(req,timeout=25) as r:return r.read(),r.headers.get('Content-Type','')
+          def jsize(data):
+              if not data.startswith(b'\xff\xd8'): return None
+              i=2
+              while i+9<len(data):
+                  if data[i]!=255:i+=1;continue
+                  m=data[i+1];i+=2
+                  if m in (0xD8,0xD9):continue
+                  if i+2>len(data):break
+                  ln=int.from_bytes(data[i:i+2],'big')
+                  if m in range(0xC0,0xC4) and m!=0xC4:
+                      return int.from_bytes(data[i+5:i+7],'big'),int.from_bytes(data[i+3:i+5],'big')
+                  i+=ln
+          for name,u in pages.items():
+              print('\n###',name)
+              try: raw,_=fetch(u); txt=htmllib.unescape(raw.decode('utf-8','ignore')).replace('\\u002F','/').replace('\\/','/')
+              except Exception as e: print('PAGEERR',repr(e));continue
+              urls=re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png)(?:\?[^"\'<> ]*)?',txt,re.I)
+              seen=[]
+              for x in urls:
+                  if x in seen:continue
+                  seen.append(x)
+                  if any(z in x.lower() for z in ['logo','icon','indisponivel','avatar']):continue
+                  try:
+                      d,ct=fetch(x); sz=jsize(d)
+                      if sz and sz[0]>=250 and sz[1]>=350: print('GOOD',sz,len(d),x)
+                  except: pass
+          PY
