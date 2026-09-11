@@ -6,20 +6,27 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     steps:
-      - name: Map candidate context
+      - name: Map two exact listings
         shell: bash
         run: |
           python - <<'PY'
           import re, urllib.request, html
-          u='https://www.estantevirtual.com.br/busca/sangue-e-gelo'
-          req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
-          txt=urllib.request.urlopen(req,timeout=25).read().decode('utf-8','ignore')
-          txt=html.unescape(txt).replace('\\u002F','/').replace('\\/','/')
-          urls=re.findall(r'https://static\.estantevirtual\.com\.br/book/00/[^"\'<> ]+?_detail1\.jpg\?ts=\d+',txt,re.I)
-          for x in dict.fromkeys(urls):
-              i=txt.find(x)
-              ctx=re.sub(r'\s+',' ',txt[max(0,i-900):i+900])
-              print('URL',x)
-              print('CTX',ctx[:1800])
-              print('---')
+          pages={
+            'O Impostor':'https://www.estantevirtual.com.br/busca/o-impostor',
+            'O Homem do Saxofone':'https://www.estantevirtual.com.br/livros/ed-mcbains'
+          }
+          for name,u in pages.items():
+              print('\n###',name)
+              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
+              txt=urllib.request.urlopen(req,timeout=25).read().decode('utf-8','ignore')
+              txt=html.unescape(txt).replace('\\u002F','/').replace('\\/','/')
+              urls=re.findall(r'https://static\.estantevirtual\.com\.br/book/00/[^"\'<> ]+?_detail1\.jpg\?ts=\d+',txt,re.I)
+              for x in dict.fromkeys(urls):
+                  i=txt.find(x)
+                  ctx=re.sub(r'\s+',' ',txt[max(0,i-1000):i+1000])
+                  low=ctx.lower()
+                  if ('rex stout' in low and 'impostor' in low) or ('mcbain' in low and 'saxofone' in low):
+                      print('URL',x)
+                      print('CTX',ctx[:2000])
+                      print('---')
           PY
