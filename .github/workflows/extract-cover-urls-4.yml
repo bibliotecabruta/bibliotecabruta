@@ -1,0 +1,29 @@
+name: Extract last cover URLs
+on:
+  push:
+    paths: ['.github/workflows/extract-cover-urls-4.yml']
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Portal dos Livreiros images
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re, urllib.request, html
+          pages={
+            'O Impostor 1':'https://www.portaldoslivreiros.com.br/livro.asp?codigo=7756710&titulo=Nero+Wolfe+Em+o+Impostor',
+            'O Impostor 2':'https://www.portaldoslivreiros.com.br/livro.asp?codigo=7941634&titulo=O+Impostor'
+          }
+          for name,u in pages.items():
+              print('\n###',name)
+              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
+              txt=urllib.request.urlopen(req,timeout=25).read().decode('latin1','ignore')
+              txt=html.unescape(txt).replace('\\/','/')
+              urls=re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png)(?:\?[^"\'<> ]*)?',txt,re.I)
+              if not urls:
+                  urls=[urllib.parse.urljoin(u,x) for x in re.findall(r'(?:src|href)=["\']([^"\']+\.(?:jpg|jpeg|png)(?:\?[^"\']*)?)["\']',txt,re.I)] if False else []
+              for x in dict.fromkeys(urls):
+                  if any(k in x.lower() for k in ['logo','icon','banner','sprite']): continue
+                  print(x)
+          PY
