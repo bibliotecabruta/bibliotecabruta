@@ -9,65 +9,49 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract and validate selected covers
+      - name: Extract Estante Virtual images
         shell: bash
         run: |
           python - <<'PY'
-          import re, urllib.parse, urllib.request
-          from html import unescape
+          import re, urllib.request, html as htmllib
           UA={'User-Agent':'Mozilla/5.0'}
           pages={
-            'Um Baile no Matadouro':'https://www.skoob.com.br/pt/book/27513',
-            'Um Corpo no Porao':'https://www.skoob.com.br/pt/book/63883',
-            'Um Toque de Campainha':'https://www.touchelivros.com.br/um-toque-de-campainha-serie-misterio-e-suspense/',
-            'O Homem do Saxofone':'https://www.traca.com.br/livro/27707/',
+            'Caso em Familia':'https://www.estantevirtual.com.br/busca/caso-em-fam%C3%ADlia',
+            'Um Toque de Campainha':'https://www.estantevirtual.com.br/busca/um-toque-de-campainha',
           }
-          def read(u):
+          def fetch(u):
               req=urllib.request.Request(u,headers=UA)
-              with urllib.request.urlopen(req,timeout=20) as r:
-                  return r.read(),r.headers.get('Content-Type','')
-          def html(u): return read(u)[0].decode('utf-8','ignore')
-          def candidates(u):
-              h=html(u)
-              out=[]
-              pats=[r'<meta[^>]+(?:property|name)=["\']og:image(?::url)?["\'][^>]+content=["\']([^"\']+)',r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']og:image(?::url)?["\']']
-              for p in pats:
-                  out += re.findall(p,h,re.I)
-              out += re.findall(r'<img[^>]+(?:src|data-src)=["\']([^"\']+)["\']',h,re.I)
-              norm=[]
-              for x in out:
-                  x=unescape(x)
-                  if x.startswith('//'): x='https:'+x
-                  elif x.startswith('/'): x=urllib.parse.urljoin(u,x)
-                  if x.startswith('http') and x not in norm: norm.append(x)
-              return norm
+              with urllib.request.urlopen(req,timeout=25) as r:return r.read(),r.headers.get('Content-Type','')
           def jpeg_size(data):
               if not data.startswith(b'\xff\xd8'): return None
               i=2
-              while i+9 < len(data):
-                  if data[i] != 0xFF: i+=1; continue
-                  marker=data[i+1]; i+=2
-                  if marker in (0xD8,0xD9): continue
-                  if i+2>len(data): break
+              while i+9<len(data):
+                  if data[i]!=255:i+=1;continue
+                  marker=data[i+1];i+=2
+                  if marker in (0xD8,0xD9):continue
+                  if i+2>len(data):break
                   ln=int.from_bytes(data[i:i+2],'big')
-                  if marker in range(0xC0,0xC4) and marker != 0xC4:
-                      h=int.from_bytes(data[i+3:i+5],'big'); w=int.from_bytes(data[i+5:i+7],'big'); return w,h
+                  if marker in range(0xC0,0xC4) and marker!=0xC4:
+                      return int.from_bytes(data[i+5:i+7],'big'),int.from_bytes(data[i+3:i+5],'big')
                   i+=ln
               return None
           for name,u in pages.items():
-              print('\n###',name,'PAGE',u)
-              try:
-                  cs=candidates(u)
-              except Exception as e:
-                  print('PAGE_ERROR',repr(e)); continue
+              print('\n###',name)
+              try: raw,_=fetch(u); txt=raw.decode('utf-8','ignore')
+              except Exception as e: print('PAGEERR',repr(e));continue
+              txt=htmllib.unescape(txt).replace('\\u002F','/').replace('\\/','/')
+              urls=re.findall(r'https?://[^"\'<> ]+(?:jpg|jpeg)(?:\?[^"\'<> ]*)?',txt,re.I)
+              uniq=[]
+              for x in urls:
+                  x=x.rstrip('\\')
+                  if x not in uniq:uniq.append(x)
+              print('FOUND_URLS',len(uniq))
               good=[]
-              for x in cs[:40]:
-                  if not any(k in x.lower() for k in ['jpg','jpeg','png','webp']): continue
+              for x in uniq[:150]:
+                  if 'estantevirtual' not in x and 'magalu' not in x:continue
                   try:
-                      data,ct=read(x)
-                      sz=jpeg_size(data) if 'jpeg' in ct.lower() or x.lower().split('?')[0].endswith(('.jpg','.jpeg')) else None
-                      if sz and sz[0]>=250 and sz[1]>=350:
-                          good.append((sz,len(data),x))
-                  except Exception: pass
-              for item in sorted(good,reverse=True)[:8]: print('GOOD',item)
+                      data,ct=fetch(x); sz=jpeg_size(data)
+                      if sz and sz[0]>=250 and sz[1]>=350:good.append((sz,len(data),x))
+                  except Exception:pass
+              for g in sorted(good,reverse=True)[:20]:print('GOOD',g)
           PY
