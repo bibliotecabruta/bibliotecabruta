@@ -6,24 +6,25 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract individual-page images
+      - name: Validate one cover
         shell: bash
         run: |
           python - <<'PY'
-          import re, urllib.request, html
-          pages={
-            'Quem Matou a Milionaria':'https://sebodomessias.com.br/livro/literatura-estrangeira/quem-matou-a-milionaria-1',
-            'Colecao Misterio':'https://sebodomessias.com.br/livro/literatura-estrangeira/misterio-29-volumes-colecao'
-          }
-          def fetch(u):
-              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
-              return urllib.request.urlopen(req,timeout=25).read().decode('utf-8','ignore')
-          for name,u in pages.items():
-              print('\n###',name)
-              txt=html.unescape(fetch(u)).replace('\\u002F','/').replace('\\/','/')
-              urls=re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png)(?:\?[^"\'<> ]*)?',txt,re.I)
-              for x in dict.fromkeys(urls):
-                  low=x.lower()
-                  if any(k in low for k in ['logo','icon','avatar','loading','placeholder']):continue
-                  print(x)
+          import urllib.request
+          u='https://sebomessiasstorage.blob.core.windows.net/produtos/289/2895471_2895471.jpg'
+          req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
+          with urllib.request.urlopen(req,timeout=25) as r:
+              d=r.read()
+              print('status',r.status,'bytes',len(d),'type',r.headers.get('Content-Type'))
+              if d[:2]==b'\xff\xd8':
+                  i=2
+                  while i+9<len(d):
+                      if d[i]!=255:i+=1;continue
+                      m=d[i+1];i+=2
+                      if m in (0xD8,0xD9):continue
+                      ln=int.from_bytes(d[i:i+2],'big')
+                      if m in range(0xC0,0xC4) and m!=0xC4:
+                          h=int.from_bytes(d[i+3:i+5],'big'); w=int.from_bytes(d[i+5:i+7],'big')
+                          print('size',w,h);break
+                      i+=ln
           PY
