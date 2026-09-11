@@ -1,0 +1,80 @@
+name: Extract remaining cover URLs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-cover-urls-2.yml'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract remaining covers
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re, urllib.parse, urllib.request
+
+          UA={'User-Agent':'Mozilla/5.0'}
+          exact={
+            'Um Baile no Matadouro':'https://www.skoob.com.br/pt/book/27513',
+            'Um Corpo no Porao':'https://www.skoob.com.br/pt/book/63883',
+          }
+          queries={
+            'Calipso':'Calipso Ed McBain Skoob',
+            'Caso em Familia':'Caso em Família Rex Stout Skoob',
+            'Um Toque de Campainha':'Um Toque de Campainha Rex Stout Skoob',
+            'Sangue e Gelo':'Sangue e Gelo Ed McBain Skoob',
+            'O Impostor':'O Impostor Rex Stout Skoob',
+            'O Homem do Saxofone':'O Homem do Saxofone Ed McBain Skoob',
+          }
+
+          def fetch(u):
+              req=urllib.request.Request(u,headers=UA)
+              return urllib.request.urlopen(req,timeout=20).read().decode('utf-8','ignore')
+
+          def og(u):
+              html=fetch(u)
+              pats=[r'<meta[^>]+(?:property|name)=["\']og:image["\'][^>]+content=["\']([^"\']+)',r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']og:image["\']']
+              for p in pats:
+                  m=re.search(p,html,re.I)
+                  if m:return m.group(1)
+              return None
+
+          for name,u in exact.items():
+              try: print(name+'\tPAGE='+u+'\tIMG='+(og(u) or 'NONE'))
+              except Exception as e: print(name+'\tERROR='+repr(e))
+
+          for name,q in queries.items():
+              try:
+                  surl='https://html.duckduckgo.com/html/?q='+urllib.parse.quote('site:skoob.com.br "'+q+'"')
+                  h=fetch(surl)
+                  links=re.findall(r'nofollow" class="result__a" href="([^"]+)',h,re.I)
+                  cands=[]
+                  for x in links:
+                      x=x.replace('&amp;','&')
+                      if 'uddg=' in x:
+                          x=urllib.parse.parse_qs(urllib.parse.urlparse(x).query).get('uddg',[x])[0]
+                      if 'skoob.com.br' in x and '/book/' in x:
+                          cands.append(x)
+                  if not cands:
+                      # fallback any skoob result URL
+                      cands=re.findall(r'https?://(?:www\.)?skoob\.com\.br/[^"&<> ]+',h,re.I)
+                  seen=[]
+                  for u in cands:
+                      u=urllib.parse.unquote(u)
+                      if u not in seen: seen.append(u)
+                  if not seen:
+                      print(name+'\tNO_PAGE')
+                      continue
+                  ok=False
+                  for u in seen[:5]:
+                      try:
+                          img=og(u)
+                          if img:
+                              print(name+'\tPAGE='+u+'\tIMG='+img)
+                              ok=True; break
+                      except Exception: pass
+                  if not ok: print(name+'\tPAGES='+repr(seen[:5])+'\tNO_IMG')
+              except Exception as e: print(name+'\tERROR='+repr(e))
+          PY
