@@ -22,14 +22,18 @@ function primaryBrEdition(b) {
          (b.editions || []).find(e => e.country === 'Brasil');
 }
 
+function cCoverHtml(b) {
+  if (!b.cover_url) return cEsc(b.title);
+  const title = cEsc(b.title);
+  return `<img src="${cEsc(b.cover_url)}" alt="Capa brasileira de ${title}" onerror="this.replaceWith(document.createTextNode(this.alt.replace('Capa brasileira de ','')))">`;
+}
+
 function cBookCard(b) {
   const cats = (b.book_categories || []).map(x => x.categories?.name).filter(Boolean).join(' • ');
   const tags = (b.book_tags || []).map(x => x.tags?.name).filter(Boolean).join(' • ');
   const ed = primaryBrEdition(b);
   const br = [ed?.publisher, ed?.publication_year].filter(Boolean).join(' · ');
-  const cover = b.cover_url
-    ? `<img src="${cEsc(b.cover_url)}" alt="Capa brasileira de ${cEsc(b.title)}">`
-    : cEsc(b.title);
+  const cover = cCoverHtml(b);
 
   return `<a class="book book-link" href="livro.html?id=${encodeURIComponent(b.id)}"><div class="cover">${cover}</div><div class="book-body"><div class="book-title">${cEsc(b.title)}</div><div class="book-author">${cEsc(b.authors?.name || 'Autor não informado')}</div>${br ? `<div class="book-meta"><strong>Brasil:</strong> ${cEsc(br)}</div>` : ''}<div class="book-meta">${cEsc(b.series?.name || '')}${b.series_volume ? ' · vol. ' + cEsc(b.series_volume) : ''}</div>${cats ? `<div class="book-meta">${cEsc(cats)}</div>` : ''}${tags ? `<div class="book-meta">${cEsc(tags)}</div>` : ''}</div></a>`;
 }
