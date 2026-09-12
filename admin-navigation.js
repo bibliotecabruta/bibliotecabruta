@@ -28,67 +28,19 @@ function injectAdminAuditUI(){
  document.getElementById('adminAreaFilter').addEventListener('change',e=>{adminAreaFilter=e.target.value;renderTable()});
 }
 
-async function loadAdminAudit(){
- injectAdminAuditUI();
- const {data,error}=await sbAdmin.from('admin_book_audit').select('*').order('title');
- if(error){console.error('Erro na auditoria do Admin:',error);return}
- adminAuditRows=data||[];
- const areaSelect=document.getElementById('adminAreaFilter');
- if(areaSelect){const current=areaSelect.value;const areas=[...new Set(adminAuditRows.map(x=>x.area).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));areaSelect.innerHTML='<option value="">Todas as áreas</option>'+areas.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');areaSelect.value=current}
- renderAdminAudit();
-}
-
+async function loadAdminAudit(){injectAdminAuditUI();const {data,error}=await sbAdmin.from('admin_book_audit').select('*').order('title');if(error){console.error('Erro na auditoria do Admin:',error);return}adminAuditRows=data||[];const areaSelect=document.getElementById('adminAreaFilter');if(areaSelect){const current=areaSelect.value;const areas=[...new Set(adminAuditRows.map(x=>x.area).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));areaSelect.innerHTML='<option value="">Todas as áreas</option>'+areas.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');areaSelect.value=current}renderAdminAudit()}
 function setAdminIssueFilter(issue){adminIssueFilter=adminIssueFilter===issue?'':issue;stopAdminWorkQueue(false);renderAdminAudit();renderTable()}
-function renderAdminAudit(){
- const box=document.getElementById('adminAuditPanel');if(!box)return;
- const total=adminAuditRows.length;
- const withCover=adminAuditRows.filter(x=>x.cover_url).length;
- const complete=adminAuditRows.filter(x=>(x.issues||[]).length===0).length;
- const needs=total-complete;
- const counts={};Object.keys(ADMIN_ISSUE_LABELS).forEach(k=>counts[k]=0);adminAuditRows.forEach(r=>(r.issues||[]).forEach(i=>counts[i]=(counts[i]||0)+1));
- box.innerHTML=`<div class="audit-summary"><button class="audit-card" onclick="setAdminIssueFilter('')"><strong>${total}</strong><span>Livros no catálogo</span></button><button class="audit-card" onclick="setAdminIssueFilter('sem_capa')"><strong>${withCover}</strong><span>Com capa</span></button><button class="audit-card"><strong>${complete}</strong><span>Sem pendências</span></button><button class="audit-card warn" onclick="startAdminWorkQueue()"><strong>${needs}</strong><span>Precisam de revisão</span></button></div><div class="audit-filters"><button class="audit-filter ${!adminIssueFilter?'active':''}" onclick="setAdminIssueFilter('')">Todos</button>${Object.entries(ADMIN_ISSUE_LABELS).filter(([k])=>counts[k]>0).map(([k,label])=>`<button class="audit-filter ${adminIssueFilter===k?'active':''}" onclick="setAdminIssueFilter('${k}')">${esc(label)} · ${counts[k]}</button>`).join('')}<button class="audit-filter queue-start" onclick="startAdminWorkQueue()">▶ Corrigir pendências</button></div>`;
-}
-
+function renderAdminAudit(){const box=document.getElementById('adminAuditPanel');if(!box)return;const total=adminAuditRows.length,withCover=adminAuditRows.filter(x=>x.cover_url).length,complete=adminAuditRows.filter(x=>(x.issues||[]).length===0).length,needs=total-complete;const counts={};Object.keys(ADMIN_ISSUE_LABELS).forEach(k=>counts[k]=0);adminAuditRows.forEach(r=>(r.issues||[]).forEach(i=>counts[i]=(counts[i]||0)+1));box.innerHTML=`<div class="audit-summary"><button class="audit-card" onclick="setAdminIssueFilter('')"><strong>${total}</strong><span>Livros no catálogo</span></button><button class="audit-card" onclick="setAdminIssueFilter('sem_capa')"><strong>${withCover}</strong><span>Com capa</span></button><button class="audit-card"><strong>${complete}</strong><span>Sem pendências</span></button><button class="audit-card warn" onclick="startAdminWorkQueue()"><strong>${needs}</strong><span>Precisam de revisão</span></button></div><div class="audit-filters"><button class="audit-filter ${!adminIssueFilter?'active':''}" onclick="setAdminIssueFilter('')">Todos</button>${Object.entries(ADMIN_ISSUE_LABELS).filter(([k])=>counts[k]>0).map(([k,label])=>`<button class="audit-filter ${adminIssueFilter===k?'active':''}" onclick="setAdminIssueFilter('${k}')">${esc(label)} · ${counts[k]}</button>`).join('')}<button class="audit-filter queue-start" onclick="startAdminWorkQueue()">▶ Corrigir pendências</button></div>`}
 function getAdminFilteredRows(){let rows=adminAuditRows.filter(x=>!adminAreaFilter||x.area===adminAreaFilter);if(adminIssueFilter)rows=rows.filter(x=>(x.issues||[]).includes(adminIssueFilter));else rows=rows.filter(x=>(x.issues||[]).length>0);return rows}
-function startAdminWorkQueue(){
- adminAreaFilter=document.getElementById('adminAreaFilter')?.value||adminAreaFilter;
- adminWorkQueue=getAdminFilteredRows().map(x=>x.id);adminWorkIndex=0;adminWorkMode=adminWorkQueue.length>0;
- if(!adminWorkMode){msg('Não há pendências neste filtro.','ok');return}
- renderAdminWorkQueueBar();openAdminWorkItem();
-}
+function startAdminWorkQueue(){adminAreaFilter=document.getElementById('adminAreaFilter')?.value||adminAreaFilter;adminWorkQueue=getAdminFilteredRows().map(x=>x.id);adminWorkIndex=0;adminWorkMode=adminWorkQueue.length>0;if(!adminWorkMode){msg('Não há pendências neste filtro.','ok');return}renderAdminWorkQueueBar();openAdminWorkItem()}
 function stopAdminWorkQueue(showList=true){adminWorkMode=false;adminWorkQueue=[];adminWorkIndex=-1;document.getElementById('adminWorkQueueBar')?.classList.add('hidden');document.getElementById('adminWorkFormBar')?.remove();if(showList)showBookListView()}
 function renderAdminWorkQueueBar(){const bar=document.getElementById('adminWorkQueueBar');if(!bar)return;if(!adminWorkMode){bar.classList.add('hidden');return}bar.classList.remove('hidden');const current=Math.min(adminWorkIndex+1,adminWorkQueue.length);bar.innerHTML=`<div><strong>Fila de correção: ${current} de ${adminWorkQueue.length}</strong><div class="muted">${adminIssueFilter?esc(ADMIN_ISSUE_LABELS[adminIssueFilter]||adminIssueFilter):'Todas as pendências'}${adminAreaFilter?' · '+esc(adminAreaFilter):''}</div></div><div class="work-queue-actions"><button class="secondary" onclick="adminWorkPrevious()">← Anterior</button><button class="secondary" onclick="adminWorkNext()">Próxima →</button><button class="secondary" onclick="stopAdminWorkQueue()">Encerrar fila</button></div>`}
-function renderAdminWorkFormBar(id){document.getElementById('adminWorkFormBar')?.remove();if(!adminWorkMode)return;const row=adminAuditRows.find(x=>x.id===id);const form=document.getElementById('bookForm');if(!form||!row)return;const bar=document.createElement('div');bar.id='adminWorkFormBar';bar.className='work-form-bar';const issues=(row.issues||[]).map(i=>ADMIN_ISSUE_LABELS[i]||i).join(' · ');bar.innerHTML=`<div><strong>Pendência ${adminWorkIndex+1} de ${adminWorkQueue.length}: ${esc(row.title)}</strong><br><small>${esc(issues||'Sem pendências atuais')}</small></div><div class="work-queue-actions"><button type="button" class="secondary" onclick="adminWorkNext()">Pular / próxima →</button><button type="button" class="secondary" onclick="stopAdminWorkQueue()">Encerrar</button></div>`;form.before(bar)}
+function renderAdminWorkFormBar(id){document.getElementById('adminWorkFormBar')?.remove();if(!adminWorkMode)return;const row=adminAuditRows.find(x=>x.id===id),form=document.getElementById('bookForm');if(!form||!row)return;const bar=document.createElement('div');bar.id='adminWorkFormBar';bar.className='work-form-bar';const issues=(row.issues||[]).map(i=>ADMIN_ISSUE_LABELS[i]||i).join(' · ');bar.innerHTML=`<div><strong>Pendência ${adminWorkIndex+1} de ${adminWorkQueue.length}: ${esc(row.title)}</strong><br><small>${esc(issues||'Sem pendências atuais')}</small></div><div class="work-queue-actions"><button type="button" class="secondary" onclick="adminWorkNext()">Pular / próxima →</button><button type="button" class="secondary" onclick="stopAdminWorkQueue()">Encerrar</button></div>`;form.before(bar)}
 async function openAdminWorkItem(){if(!adminWorkMode)return;if(adminWorkIndex<0)adminWorkIndex=0;if(adminWorkIndex>=adminWorkQueue.length){msg('Fila de pendências concluída.','ok');stopAdminWorkQueue();return}const id=adminWorkQueue[adminWorkIndex];renderAdminWorkQueueBar();await window.editBook(id);renderAdminWorkFormBar(id)}
 function adminWorkNext(){if(!adminWorkMode)return;adminWorkIndex++;openAdminWorkItem()}
 function adminWorkPrevious(){if(!adminWorkMode)return;adminWorkIndex=Math.max(0,adminWorkIndex-1);openAdminWorkItem()}
-
-function auditRowHtml(b){
- const pub=[b.publisher,b.brazil_year].filter(Boolean).join(' · ')||'—';
- const issues=(b.issues||[]).map(i=>`<span class="issue-pill">${esc(ADMIN_ISSUE_LABELS[i]||i)}</span>`).join('');
- return `<tr><td><strong>${esc(b.title)}</strong>${issues?`<div class="issue-pills">${issues}</div>`:''}</td><td>${esc(b.author||'—')}</td><td>${esc(pub)}</td><td>${esc(b.series||'—')}</td><td><button class="secondary" onclick="editBook('${b.id}')">Editar</button> <button class="secondary" onclick="deleteBook('${b.id}')">Excluir</button></td></tr>`;
-}
-
-window.renderTable=async function renderCompleteAdminTable(){
- injectAdminAuditUI();
- if(!adminAuditRows.length)await loadAdminAudit();
- const table=document.getElementById('adminTable');if(!table)return;
- const query=(document.getElementById('adminSearch')?.value||'').trim();
- adminAreaFilter=document.getElementById('adminAreaFilter')?.value||adminAreaFilter;
- table.classList.add('admin-loading');
- let rows=[];
- if(query){
-   const {data,error}=await sbAdmin.rpc('admin_search_books',{q:query,area_filter:adminAreaFilter||null,limit_count:200});
-   if(error){console.error('Erro na busca administrativa:',error);table.innerHTML='<tr><td colspan="5">Erro ao pesquisar.</td></tr>';table.classList.remove('admin-loading');return}
-   const auditMap=new Map(adminAuditRows.map(x=>[x.id,x]));rows=(data||[]).map(x=>({...auditMap.get(x.id),...x}));
- }else rows=adminAuditRows.filter(x=>!adminAreaFilter||x.area===adminAreaFilter);
- if(adminIssueFilter)rows=rows.filter(x=>(x.issues||[]).includes(adminIssueFilter));
- table.innerHTML=rows.length?rows.map(auditRowHtml).join(''):'<tr><td colspan="5">Nenhum livro encontrado com estes filtros.</td></tr>';
- table.classList.remove('admin-loading');
- let count=document.getElementById('adminResultCount');if(!count){count=document.createElement('div');count.id='adminResultCount';count.className='admin-result-count';table.closest('div[style*="overflow"]')?.before(count)}count.textContent=`${rows.length} resultado${rows.length===1?'':'s'}${query?` para “${query}”`:''}`;
-};
-
-const _auditDeleteBook=window.deleteBook;window.deleteBook=async function(id){await _auditDeleteBook(id);adminAuditRows=[];await loadAdminAudit();await renderTable()};
-const _auditSaveBook=window.saveBook;window.saveBook=async function(e){const wasWork=adminWorkMode;const currentId=String(new FormData(e.target).get('book_id')||'');await _auditSaveBook(e);adminAuditRows=[];await loadAdminAudit();if(wasWork&&currentId){const stillPending=adminAuditRows.find(x=>x.id===currentId);if(!stillPending||(adminIssueFilter?!(stillPending.issues||[]).includes(adminIssueFilter):(stillPending.issues||[]).length===0)){adminWorkQueue=adminWorkQueue.filter(id=>id!==currentId);adminWorkIndex=Math.max(0,adminWorkIndex-1)}setTimeout(()=>{adminWorkIndex++;if(adminWorkIndex>=adminWorkQueue.length){msg('Fila de pendências concluída.','ok');stopAdminWorkQueue()}else openAdminWorkItem()},250)}};
-
-document.addEventListener('DOMContentLoaded',()=>{injectAdminAuditUI();setTimeout(async()=>{if(!document.getElementById('adminPanel')?.classList.contains('hidden')){await loadAdminAudit();showBookListView()}},900)});
+function auditRowHtml(b){const pub=[b.publisher,b.brazil_year].filter(Boolean).join(' · ')||'—';const issues=(b.issues||[]).map(i=>`<span class="issue-pill">${esc(ADMIN_ISSUE_LABELS[i]||i)}</span>`).join('');return `<tr><td><strong>${esc(b.title)}</strong>${issues?`<div class="issue-pills">${issues}</div>`:''}</td><td>${esc(b.author||'—')}</td><td>${esc(pub)}</td><td>${esc(b.series||'—')}</td><td><button class="secondary" onclick="editBook('${b.id}')">Editar</button> <button class="secondary" onclick="deleteBook('${b.id}')">Excluir</button></td></tr>`}
+window.renderTable=async function renderCompleteAdminTable(){injectAdminAuditUI();if(!adminAuditRows.length)await loadAdminAudit();const table=document.getElementById('adminTable');if(!table)return;const query=(document.getElementById('adminSearch')?.value||'').trim();adminAreaFilter=document.getElementById('adminAreaFilter')?.value||adminAreaFilter;table.classList.add('admin-loading');let rows=[];if(query){const {data,error}=await sbAdmin.rpc('admin_search_books',{q:query,area_filter:adminAreaFilter||null,limit_count:200});if(error){console.error('Erro na busca administrativa:',error);table.innerHTML='<tr><td colspan="5">Erro ao pesquisar.</td></tr>';table.classList.remove('admin-loading');return}const auditMap=new Map(adminAuditRows.map(x=>[x.id,x]));rows=(data||[]).map(x=>({...auditMap.get(x.id),...x}))}else rows=adminAuditRows.filter(x=>!adminAreaFilter||x.area===adminAreaFilter);if(adminIssueFilter)rows=rows.filter(x=>(x.issues||[]).includes(adminIssueFilter));table.innerHTML=rows.length?rows.map(auditRowHtml).join(''):'<tr><td colspan="5">Nenhum livro encontrado com estes filtros.</td></tr>';table.classList.remove('admin-loading');let count=document.getElementById('adminResultCount');if(!count){count=document.createElement('div');count.id='adminResultCount';count.className='admin-result-count';table.closest('div[style*="overflow"]')?.before(count)}count.textContent=`${rows.length} resultado${rows.length===1?'':'s'}${query?` para “${query}”`:''}`}
+const _auditDeleteBook=window.deleteBook;window.deleteBook=async function(id){await _auditDeleteBook(id);adminAuditRows=[];await loadAdminAudit();await renderTable();if(typeof loadAdminIntegrityAudit==='function')loadAdminIntegrityAudit()};
+const _auditSaveBook=window.saveBook;window.saveBook=async function(e){const wasWork=adminWorkMode,currentId=String(new FormData(e.target).get('book_id')||'');await _auditSaveBook(e);adminAuditRows=[];await loadAdminAudit();if(typeof loadAdminIntegrityAudit==='function')loadAdminIntegrityAudit();if(wasWork&&currentId){const stillPending=adminAuditRows.find(x=>x.id===currentId);if(!stillPending||(adminIssueFilter?!(stillPending.issues||[]).includes(adminIssueFilter):(stillPending.issues||[]).length===0)){adminWorkQueue=adminWorkQueue.filter(id=>id!==currentId);adminWorkIndex=Math.max(0,adminWorkIndex-1)}setTimeout(()=>{adminWorkIndex++;if(adminWorkIndex>=adminWorkQueue.length){msg('Fila de pendências concluída.','ok');stopAdminWorkQueue()}else openAdminWorkItem()},250)}};
+document.addEventListener('DOMContentLoaded',()=>{injectAdminAuditUI();const integrityScript=document.createElement('script');integrityScript.src='admin-integrity.js?v=20260912-1';document.body.appendChild(integrityScript);setTimeout(async()=>{if(!document.getElementById('adminPanel')?.classList.contains('hidden')){await loadAdminAudit();showBookListView()}},900)});
