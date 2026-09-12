@@ -1,261 +1,36 @@
-const sbCatalog = window.supabase.createClient(BB_CONFIG.supabaseUrl, BB_CONFIG.supabasePublishableKey);
-
-let catalogRows = [];
-let catalogCategories = [];
-let catalogTags = [];
-let catalogAddedDays = 0;
-
-const CATALOG_AREA_GROUPS = {
-  'Policial/Mistério': ['Policial/Mistério', 'Coleção Negra', 'Coleção Policial'],
-  'Ação / Militar': ['Ficção Militar', 'Ação / Militar'],
-  'Horror / Suspense': ['Horror / Suspense']
-};
-
-function cEsc(v) {
-  return String(v ?? '').replace(/[&<>"']/g, m => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-  }[m]));
-}
-
-function primaryBrEdition(b) {
-  return (b.editions || []).find(e => e.country === 'Brasil' && e.is_primary) ||
-         (b.editions || []).find(e => e.country === 'Brasil');
-}
-
-function cCoverHtml(b) {
-  if (!b.cover_url) return cEsc(b.title);
-  const title = cEsc(b.title);
-  return `<img src="${cEsc(b.cover_url)}" alt="Capa brasileira de ${title}" onerror="this.replaceWith(document.createTextNode(this.alt.replace('Capa brasileira de ','')))">`;
-}
-
-function cBookCard(b) {
-  const cats = (b.book_categories || []).map(x => x.categories?.name).filter(Boolean).join(' • ');
-  const tags = (b.book_tags || []).map(x => x.tags?.name).filter(Boolean).join(' • ');
-  const ed = primaryBrEdition(b);
-  const br = [ed?.publisher, ed?.publication_year].filter(Boolean).join(' · ');
-  const cover = cCoverHtml(b);
-
-  return `<a class="book book-link" href="livro.html?id=${encodeURIComponent(b.id)}"><div class="cover">${cover}</div><div class="book-body"><div class="book-title">${cEsc(b.title)}</div><div class="book-author">${cEsc(b.authors?.name || 'Autor não informado')}</div>${br ? `<div class="book-meta"><strong>Brasil:</strong> ${cEsc(br)}</div>` : ''}<div class="book-meta">${cEsc(b.series?.name || '')}${b.series_volume ? ' · vol. ' + cEsc(b.series_volume) : ''}</div>${cats ? `<div class="book-meta">${cEsc(cats)}</div>` : ''}${tags ? `<div class="book-meta">${cEsc(tags)}</div>` : ''}</div></a>`;
-}
-
-function uniqBy(arr, keyFn) {
-  const m = new Map();
-  for (const x of arr) {
-    const k = keyFn(x);
-    if (k && !m.has(k)) m.set(k, x);
-  }
-  return [...m.values()];
-}
-
-function catalogAreasForFilter(area) {
-  if (!area) return [];
-  return CATALOG_AREA_GROUPS[area] || [area];
-}
-
-function normalizeCatalogArea(area) {
-  if (area === 'Ficção Militar') return 'Ação / Militar';
-  if (area === 'Policial / Mistério') return 'Policial/Mistério';
-  return area;
-}
-
-async function initCatalog() {
-  const [{ data: books, error }, { data: cats }, { data: tags }] = await Promise.all([
-    sbCatalog.from('books')
-      .select('id,title,original_title,area,original_year,cover_url,series_volume,created_at,authors(id,name),series(id,name,brazil_status),book_categories(categories(id,name,area)),book_tags(tags(id,name)),editions(publisher,publication_year,is_primary,country)')
-      .order('title'),
-    sbCatalog.from('categories').select('id,name,area').order('name'),
-    sbCatalog.from('tags').select('id,name').order('name')
-  ]);
-
-  if (error) {
-    document.getElementById('filteredCatalog').innerHTML = '<div class="empty">Não foi possível carregar o catálogo.</div>';
-    return;
-  }
-
-  catalogRows = books || [];
-  catalogCategories = cats || [];
-  catalogTags = tags || [];
-  populateFilterOptions();
-  restoreFiltersFromUrl();
-  onAreaFilterChange(false);
-  applyCatalogFilters();
-}
-
-function fillSelect(id, rows, labelFn, valueFn) {
-  const el = document.getElementById(id);
-  const first = el.options[0].outerHTML;
-  el.innerHTML = first + rows.map(x => `<option value="${cEsc(valueFn(x))}">${cEsc(labelFn(x))}</option>`).join('');
-}
-
-function populateFilterOptions() {
-  fillSelect('filterTag', catalogTags, x => x.name, x => x.id);
-
-  const authors = uniqBy(catalogRows.map(x => x.authors).filter(Boolean), x => x.id)
-    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-  fillSelect('filterAuthor', authors, x => x.name, x => x.id);
-
-  const series = uniqBy(catalogRows.map(x => x.series).filter(Boolean), x => x.id)
-    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-  fillSelect('filterSeries', series, x => x.name, x => x.id);
-}
-
-function onAreaFilterChange(run = true) {
-  const area = document.getElementById('filterArea').value;
-  const current = document.getElementById('filterCategory').value;
-  const areas = catalogAreasForFilter(area);
-  const rows = catalogCategories.filter(c => !area || areas.includes(c.area));
-
-  fillSelect('filterCategory', rows, x => x.name, x => x.id);
-  if (rows.some(x => x.id === current)) document.getElementById('filterCategory').value = current;
-  if (run) applyCatalogFilters();
-}
-
-function getFilters() {
-  return {
-    q: document.getElementById('filterQ').value.trim(),
-    area: document.getElementById('filterArea').value,
-    category: document.getElementById('filterCategory').value,
-    tag: document.getElementById('filterTag').value,
-    author: document.getElementById('filterAuthor').value,
-    series: document.getElementById('filterSeries').value,
-    status: document.getElementById('filterStatus').value,
-    added: catalogAddedDays,
-    sort: document.getElementById('filterSort').value
-  };
-}
-
-function applyCatalogFilters() {
-  const f = getFilters();
-  const q = f.q.toLocaleLowerCase('pt-BR');
-  const selectedAreas = catalogAreasForFilter(f.area);
-
-  let rows = catalogRows.filter(b => {
-    if (f.added) {
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - Number(f.added));
-      if (new Date(b.created_at) < cutoff) return false;
-    }
-
-    if (f.area && !selectedAreas.includes(b.area)) return false;
-    if (f.category && !(b.book_categories || []).some(x => x.categories?.id === f.category)) return false;
-    if (f.tag && !(b.book_tags || []).some(x => x.tags?.id === f.tag)) return false;
-    if (f.author && b.authors?.id !== f.author) return false;
-    if (f.series && b.series?.id !== f.series) return false;
-    if (f.status && b.series?.brazil_status !== f.status) return false;
-
-    if (q) {
-      const hay = [
-        b.title,
-        b.original_title,
-        b.area,
-        b.authors?.name,
-        b.series?.name,
-        ...(b.book_categories || []).map(x => x.categories?.name),
-        ...(b.book_tags || []).map(x => x.tags?.name),
-        ...(b.editions || []).map(e => `${e.publisher || ''} ${e.publication_year || ''}`)
-      ].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR');
-
-      if (!hay.includes(q)) return false;
-    }
-
-    return true;
-  });
-
-  const brYear = b => primaryBrEdition(b)?.publication_year || 0;
-
-  if (f.sort === 'title') rows.sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'));
-  else if (f.sort === 'author') rows.sort((a, b) => (a.authors?.name || '').localeCompare(b.authors?.name || '', 'pt-BR') || a.title.localeCompare(b.title, 'pt-BR'));
-  else if (f.sort === 'br_newest') rows.sort((a, b) => brYear(b) - brYear(a) || a.title.localeCompare(b.title, 'pt-BR'));
-  else if (f.sort === 'br_oldest') rows.sort((a, b) => (brYear(a) || 9999) - (brYear(b) || 9999) || a.title.localeCompare(b.title, 'pt-BR'));
-  else if (f.sort === 'recent_added') rows.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-  document.getElementById('filteredCatalog').innerHTML = rows.length
-    ? rows.map(cBookCard).join('')
-    : '<div class="empty">Nenhum livro corresponde a essa combinação de filtros.</div>';
-
-  document.getElementById('filterSummary').textContent = `${rows.length} ${rows.length === 1 ? 'livro encontrado' : 'livros encontrados'}`;
-  renderActiveFilters(f);
-  syncFiltersToUrl(f);
-}
-
-function labelFor(selectId) {
-  const e = document.getElementById(selectId);
-  return e?.selectedOptions?.[0]?.textContent || '';
-}
-
-function renderActiveFilters(f) {
-  const items = [];
-  if (f.q) items.push(['Busca', f.q, 'filterQ']);
-  if (f.area) items.push(['Área', labelFor('filterArea') || f.area, 'filterArea']);
-  if (f.category) items.push(['Categoria', labelFor('filterCategory'), 'filterCategory']);
-  if (f.tag) items.push(['Tema', labelFor('filterTag'), 'filterTag']);
-  if (f.author) items.push(['Autor', labelFor('filterAuthor'), 'filterAuthor']);
-  if (f.series) items.push(['Série', labelFor('filterSeries'), 'filterSeries']);
-  if (f.status) items.push(['Status', f.status, 'filterStatus']);
-  if (f.added) items.push(['Cadastro', 'Últimos ' + f.added + ' dias', 'recentAdded']);
-
-  const box = document.getElementById('activeFilters');
-  box.innerHTML = items.map(([k, v, id]) => `<button class="active-filter" type="button" onclick="${id === 'recentAdded' ? 'clearRecentAdded()' : `removeFilter('${id}')`}"><span>${cEsc(k)}:</span> ${cEsc(v)} ×</button>`).join('');
-}
-
-function clearRecentAdded() {
-  catalogAddedDays = 0;
-  applyCatalogFilters();
-}
-
-function removeFilter(id) {
-  const e = document.getElementById(id);
-  if (!e) return;
-  e.value = '';
-  if (id === 'filterArea') onAreaFilterChange(false);
-  applyCatalogFilters();
-}
-
-function clearCatalogFilters() {
-  catalogAddedDays = 0;
-  ['filterQ', 'filterArea', 'filterCategory', 'filterTag', 'filterAuthor', 'filterSeries', 'filterStatus'].forEach(id => {
-    const e = document.getElementById(id);
-    if (e) e.value = '';
-  });
-  document.getElementById('filterSort').value = 'title';
-  onAreaFilterChange(false);
-  applyCatalogFilters();
-}
-
-function syncFiltersToUrl(f) {
-  const p = new URLSearchParams();
-  for (const [k, v] of Object.entries(f)) {
-    if (v && (k !== 'sort' || v !== 'title')) p.set(k, v);
-  }
-  history.replaceState(null, '', `${location.pathname}${p.toString() ? '?' + p.toString() : ''}`);
-}
-
-function restoreFiltersFromUrl() {
-  const p = new URLSearchParams(location.search);
-  catalogAddedDays = Math.max(0, Number(p.get('added')) || 0);
-
-  for (const id of ['q', 'area', 'tag', 'author', 'series', 'status', 'sort']) {
-    let v = p.get(id);
-    if (!v) continue;
-    if (id === 'area') v = normalizeCatalogArea(v);
-
-    const map = {
-      q: 'filterQ',
-      area: 'filterArea',
-      tag: 'filterTag',
-      author: 'filterAuthor',
-      series: 'filterSeries',
-      status: 'filterStatus',
-      sort: 'filterSort'
-    };
-
-    const e = document.getElementById(map[id]);
-    if (e) e.value = v;
-  }
-
-  onAreaFilterChange(false);
-  const cat = p.get('category');
-  if (cat) document.getElementById('filterCategory').value = cat;
-}
-
-document.addEventListener('DOMContentLoaded', initCatalog);
+const sbCatalog=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
+let catalogRows=[],catalogCategories=[],catalogTags=[],catalogAddedDays=0,catalogStandaloneOnly=false,catalogVisible=48,catalogFilteredRows=[],catalogTimer=null;
+const CATALOG_AREA_GROUPS={'Policial/Mistério':['Policial/Mistério','Coleção Negra','Coleção Policial'],'Ação / Militar':['Ficção Militar','Ação / Militar'],'Horror / Suspense':['Horror / Suspense']};
+function cEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function norm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').replace(/[^a-z0-9]+/g,' ').trim()}
+function primaryBrEdition(b){return (b.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(b.editions||[]).find(e=>e.country==='Brasil')}
+function cCoverHtml(b){if(!b.cover_url)return cEsc(b.title);const t=cEsc(b.title);return `<img src="${cEsc(b.cover_url)}" alt="Capa brasileira de ${t}" loading="lazy" onerror="this.replaceWith(document.createTextNode(this.alt.replace('Capa brasileira de ','')))">`}
+function bookSearchText(b){return norm([b.title,b.original_title,b.area,b.authors?.name,b.series?.name,...(b.book_categories||[]).map(x=>x.categories?.name),...(b.book_tags||[]).map(x=>x.tags?.name),...(b.editions||[]).map(e=>`${e.publisher||''} ${e.publication_year||''}`)].filter(Boolean).join(' '))}
+function searchScore(b,q){if(!q)return 0;const nq=norm(q),tokens=nq.split(' ').filter(Boolean),title=norm(b.title),orig=norm(b.original_title),author=norm(b.authors?.name),series=norm(b.series?.name),hay=b.__search||bookSearchText(b);if(!tokens.every(t=>hay.includes(t)))return -1;let score=0;if(title===nq)score+=100;if(title.startsWith(nq))score+=60;if(title.includes(nq))score+=40;if(orig===nq)score+=55;if(orig.includes(nq))score+=30;if(author===nq)score+=50;if(author.includes(nq))score+=32;if(series===nq)score+=45;if(series.includes(nq))score+=28;for(const t of tokens){if(title.includes(t))score+=8;if(author.includes(t))score+=6;if(series.includes(t))score+=5;if(orig.includes(t))score+=4}return score}
+function matchLabel(b,q){if(!q)return'';const nq=norm(q);if(norm(b.title).includes(nq))return'Título';if(norm(b.original_title).includes(nq))return'Título original';if(norm(b.authors?.name).includes(nq))return'Autor';if(norm(b.series?.name).includes(nq))return'Série';return'Categorias / temas / edição'}
+function cBookCard(b,q=''){const ed=primaryBrEdition(b),br=[ed?.publisher,ed?.publication_year].filter(Boolean).join(' · '),series=b.series?.name?`${b.series.name}${b.series_volume?' · vol. '+b.series_volume:''}`:'',editionCount=(b.editions||[]).filter(e=>e.country==='Brasil').length,match=matchLabel(b,q);return `<a class="book book-link" href="livro.html?id=${encodeURIComponent(b.id)}"><div class="cover">${cCoverHtml(b)}</div><div class="book-body"><div class="book-title">${cEsc(b.title)}</div><div class="book-author">${cEsc(b.authors?.name||'Autor não informado')}</div>${match?`<span class="search-match">Correspondência: ${cEsc(match)}</span>`:''}${br?`<div class="book-meta"><strong>Brasil:</strong> ${cEsc(br)}</div>`:''}<div class="book-meta">${series?cEsc(series):'<span class="badge status-volume-unico">Volume único</span>'}</div>${editionCount>1?`<div class="book-meta">${editionCount} edições brasileiras</div>`:''}</div></a>`}
+function uniqBy(arr,keyFn){const m=new Map();for(const x of arr){const k=keyFn(x);if(k&&!m.has(k))m.set(k,x)}return[...m.values()]}
+function catalogAreasForFilter(area){if(!area)return[];return CATALOG_AREA_GROUPS[area]||[area]}
+function normalizeCatalogArea(area){if(area==='Ficção Militar')return'Ação / Militar';if(area==='Policial / Mistério')return'Policial/Mistério';return area}
+async function initCatalog(){const [{data:books,error},{data:cats},{data:tags}]=await Promise.all([sbCatalog.from('books').select('id,title,original_title,area,original_year,cover_url,series_volume,created_at,authors(id,name),series(id,name,brazil_status),book_categories(categories(id,name,area)),book_tags(tags(id,name)),editions(publisher,publication_year,is_primary,country)').order('title'),sbCatalog.from('categories').select('id,name,area').order('name'),sbCatalog.from('tags').select('id,name').order('name')]);if(error){document.getElementById('filteredCatalog').innerHTML='<div class="empty">Não foi possível carregar o catálogo.</div>';return}catalogRows=(books||[]).map(b=>({...b,__search:bookSearchText(b)}));catalogCategories=cats||[];catalogTags=tags||[];populateFilterOptions();restoreFiltersFromUrl();onAreaFilterChange(false);applyCatalogFilters()}
+function fillSelect(id,rows,labelFn,valueFn){const el=document.getElementById(id);if(!el)return;const first=el.options[0].outerHTML;el.innerHTML=first+rows.map(x=>`<option value="${cEsc(valueFn(x))}">${cEsc(labelFn(x))}</option>`).join('')}
+function populateFilterOptions(){fillSelect('filterTag',catalogTags,x=>x.name,x=>x.id);const authors=uniqBy(catalogRows.map(x=>x.authors).filter(Boolean),x=>x.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));fillSelect('filterAuthor',authors,x=>x.name,x=>x.id);const series=uniqBy(catalogRows.map(x=>x.series).filter(Boolean),x=>x.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));fillSelect('filterSeries',series,x=>x.name,x=>x.id)}
+function onAreaFilterChange(run=true){const area=document.getElementById('filterArea').value,current=document.getElementById('filterCategory').value,areas=catalogAreasForFilter(area),rows=catalogCategories.filter(c=>!area||areas.includes(c.area));fillSelect('filterCategory',rows,x=>x.name,x=>x.id);if(rows.some(x=>x.id===current))document.getElementById('filterCategory').value=current;if(run)applyCatalogFilters()}
+function getFilters(){return{q:document.getElementById('filterQ').value.trim(),area:document.getElementById('filterArea').value,category:document.getElementById('filterCategory').value,tag:document.getElementById('filterTag').value,author:document.getElementById('filterAuthor').value,series:document.getElementById('filterSeries').value,status:document.getElementById('filterStatus').value,added:catalogAddedDays,standalone:catalogStandaloneOnly?1:0,sort:document.getElementById('filterSort').value}}
+function scheduleCatalogFilter(){clearTimeout(catalogTimer);catalogTimer=setTimeout(()=>{catalogVisible=48;applyCatalogFilters()},160)}
+function applyCatalogFilters(){const f=getFilters(),selectedAreas=catalogAreasForFilter(f.area);let rows=catalogRows.filter(b=>{if(f.added){const cutoff=new Date();cutoff.setDate(cutoff.getDate()-Number(f.added));if(new Date(b.created_at)<cutoff)return false}if(f.standalone&&b.series)return false;if(f.area&&!selectedAreas.includes(b.area))return false;if(f.category&&!(b.book_categories||[]).some(x=>x.categories?.id===f.category))return false;if(f.tag&&!(b.book_tags||[]).some(x=>x.tags?.id===f.tag))return false;if(f.author&&b.authors?.id!==f.author)return false;if(f.series&&b.series?.id!==f.series)return false;if(f.status){if(f.status==='Volume único'){if(b.series)return false}else if(b.series?.brazil_status!==f.status)return false}if(f.q&&searchScore(b,f.q)<0)return false;return true});const brYear=b=>primaryBrEdition(b)?.publication_year||0;if(f.q&&f.sort==='relevance')rows.sort((a,b)=>searchScore(b,f.q)-searchScore(a,f.q)||a.title.localeCompare(b.title,'pt-BR'));else if(f.sort==='title'||(!f.q&&f.sort==='relevance'))rows.sort((a,b)=>a.title.localeCompare(b.title,'pt-BR'));else if(f.sort==='author')rows.sort((a,b)=>(a.authors?.name||'').localeCompare(b.authors?.name||'','pt-BR')||a.title.localeCompare(b.title,'pt-BR'));else if(f.sort==='br_newest')rows.sort((a,b)=>brYear(b)-brYear(a)||a.title.localeCompare(b.title,'pt-BR'));else if(f.sort==='br_oldest')rows.sort((a,b)=>(brYear(a)||9999)-(brYear(b)||9999)||a.title.localeCompare(b.title,'pt-BR'));else if(f.sort==='recent_added')rows.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));catalogFilteredRows=rows;renderCatalogRows(f);renderActiveFilters(f);syncFiltersToUrl(f);syncQuickFilterState(f)}
+function renderCatalogRows(f){const root=document.getElementById('filteredCatalog'),shown=catalogFilteredRows.slice(0,catalogVisible);root.innerHTML=shown.length?shown.map(b=>cBookCard(b,f.q)).join(''):`<div class="empty catalog-no-results"><strong>Nada apareceu nesse garimpo.</strong>Tente retirar um filtro, buscar pelo sobrenome do autor ou usar menos palavras.</div>`;document.getElementById('filterSummary').textContent=`${catalogFilteredRows.length} ${catalogFilteredRows.length===1?'livro encontrado':'livros encontrados'}`;document.getElementById('catalogResultTitle').textContent=f.q?`Resultados para “${f.q}”`:'Acervo';const more=document.getElementById('catalogMoreWrap');more.classList.toggle('hidden',catalogVisible>=catalogFilteredRows.length);if(!more.classList.contains('hidden'))more.querySelector('button').textContent=`Mostrar mais ${Math.min(48,catalogFilteredRows.length-catalogVisible)} livros`}
+function showMoreCatalog(){catalogVisible+=48;renderCatalogRows(getFilters())}
+function surpriseMe(){if(!catalogFilteredRows.length)return;const b=catalogFilteredRows[Math.floor(Math.random()*catalogFilteredRows.length)];location.href=`livro.html?id=${encodeURIComponent(b.id)}`}
+function setQuickFilter(type){catalogAddedDays=0;catalogStandaloneOnly=false;document.getElementById('filterArea').value='';document.getElementById('filterStatus').value='';if(type==='recent')catalogAddedDays=30;else if(type==='standalone')catalogStandaloneOnly=true;else if(type==='complete')document.getElementById('filterStatus').value='Completa';else if(type==='interrupted')document.getElementById('filterStatus').value='Interrompida';else if(type==='fantasia')document.getElementById('filterArea').value='Fantasia';else if(type==='historica')document.getElementById('filterArea').value='Ficção Histórica';else if(type==='policial')document.getElementById('filterArea').value='Policial/Mistério';onAreaFilterChange(false);catalogVisible=48;applyCatalogFilters()}
+function syncQuickFilterState(f){document.querySelectorAll('#quickFilters button').forEach(b=>b.classList.remove('active'));const buttons=[...document.querySelectorAll('#quickFilters button')];let idx=-1;if(f.added===30)idx=0;else if(f.standalone)idx=1;else if(f.status==='Completa')idx=2;else if(f.status==='Interrompida')idx=3;else if(f.area==='Fantasia')idx=4;else if(f.area==='Ficção Histórica')idx=5;else if(f.area==='Policial/Mistério')idx=6;if(idx>=0)buttons[idx]?.classList.add('active')}
+function toggleAdvancedFilters(){const p=document.getElementById('catalogFilterPanel'),b=document.getElementById('advancedToggle');p.classList.toggle('collapsed');b.textContent=p.classList.contains('collapsed')?'Mostrar filtros':'Ocultar filtros'}
+function clearSearchOnly(){document.getElementById('filterQ').value='';catalogVisible=48;applyCatalogFilters()}
+function labelFor(id){const e=document.getElementById(id);return e?.selectedOptions?.[0]?.textContent||''}
+function renderActiveFilters(f){const items=[];if(f.q)items.push(['Busca',f.q,'filterQ']);if(f.area)items.push(['Área',labelFor('filterArea')||f.area,'filterArea']);if(f.category)items.push(['Categoria',labelFor('filterCategory'),'filterCategory']);if(f.tag)items.push(['Tema',labelFor('filterTag'),'filterTag']);if(f.author)items.push(['Autor',labelFor('filterAuthor'),'filterAuthor']);if(f.series)items.push(['Série',labelFor('filterSeries'),'filterSeries']);if(f.status)items.push(['Status',f.status,'filterStatus']);if(f.added)items.push(['Cadastro','Últimos '+f.added+' dias','recentAdded']);if(f.standalone)items.push(['Tipo','Volume único','standaloneOnly']);document.getElementById('activeFilters').innerHTML=items.map(([k,v,id])=>`<button class="active-filter" type="button" onclick="${id==='recentAdded'?'clearRecentAdded()':id==='standaloneOnly'?'clearStandalone()':`removeFilter('${id}')`}"><span>${cEsc(k)}:</span> ${cEsc(v)} ×</button>`).join('')}
+function clearRecentAdded(){catalogAddedDays=0;applyCatalogFilters()}function clearStandalone(){catalogStandaloneOnly=false;applyCatalogFilters()}
+function removeFilter(id){const e=document.getElementById(id);if(!e)return;e.value='';if(id==='filterArea')onAreaFilterChange(false);catalogVisible=48;applyCatalogFilters()}
+function clearCatalogFilters(){catalogAddedDays=0;catalogStandaloneOnly=false;['filterQ','filterArea','filterCategory','filterTag','filterAuthor','filterSeries','filterStatus'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('filterSort').value='relevance';onAreaFilterChange(false);catalogVisible=48;applyCatalogFilters()}
+function syncFiltersToUrl(f){const p=new URLSearchParams();for(const[k,v]of Object.entries(f)){if(v&&(k!=='sort'||v!=='relevance'))p.set(k,v)}history.replaceState(null,'',`${location.pathname}${p.toString()?'?'+p.toString():''}`)}
+function restoreFiltersFromUrl(){const p=new URLSearchParams(location.search);catalogAddedDays=Math.max(0,Number(p.get('added'))||0);catalogStandaloneOnly=p.get('standalone')==='1';const map={q:'filterQ',area:'filterArea',tag:'filterTag',author:'filterAuthor',series:'filterSeries',status:'filterStatus',sort:'filterSort'};for(const[id,elId]of Object.entries(map)){let v=p.get(id);if(!v)continue;if(id==='area')v=normalizeCatalogArea(v);const e=document.getElementById(elId);if(e)e.value=v}onAreaFilterChange(false);const cat=p.get('category');if(cat)document.getElementById('filterCategory').value=cat;if(!p.get('sort'))document.getElementById('filterSort').value='relevance'}
+document.addEventListener('DOMContentLoaded',initCatalog);
