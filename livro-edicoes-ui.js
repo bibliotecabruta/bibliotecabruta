@@ -28,11 +28,11 @@ function enhanceBookEditionUI() {
 
   cards.forEach((card, index) => {
     const body = card.querySelector('div');
-    const isPrimary = card.textContent.includes('edição principal');
+    const isPrimary = card.classList.contains('edition-primary') || card.textContent.toLowerCase().includes('edição principal');
     if (isPrimary) card.classList.add('edition-primary');
     const label = document.createElement('small');
     label.className = 'edition-label';
-    label.textContent = isPrimary ? 'EDIÇÃO PRINCIPAL NO SITE' : `OUTRA EDIÇÃO BRASILEIRA${cards.length > 2 ? ` · ${index + 1}` : ''}`;
+    label.textContent = isPrimary ? 'EDIÇÃO PRINCIPAL NO CATÁLOGO' : `OUTRA EDIÇÃO BRASILEIRA${cards.length > 2 ? ` · ${index + 1}` : ''}`;
     body?.prepend(label);
     if (!card.querySelector('img')) {
       const placeholder = document.createElement('div');
