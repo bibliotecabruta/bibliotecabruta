@@ -1,0 +1,9 @@
+(function(){
+const GROUPS={'Policial/Mistério':['Policial/Mistério','Coleção Negra','Coleção Policial'],'Ação / Militar':['Ficção Militar','Ação / Militar'],'Horror / Suspense':['Horror / Suspense']};
+const SELECT_IDS=['filterArea','themeArea','authorArea','seriesArea','areaFilter'];
+function areasFor(value){return GROUPS[value]||[value]}
+function decorateSelect(el,counts){if(!el)return;for(const option of el.querySelectorAll('option')){const value=option.value;if(!value)continue;const count=areasFor(value).reduce((sum,a)=>sum+(counts.get(a)||0),0);if(!option.dataset.baseLabel)option.dataset.baseLabel=option.textContent.replace(/\s+\(\d+\)$/,'');option.textContent=`${option.dataset.baseLabel} (${count})`;option.disabled=count===0;option.dataset.empty=count===0?'1':'0'} }
+function decorateQuickFilters(counts){document.querySelectorAll('#quickFilters button').forEach(btn=>{const call=btn.getAttribute('onclick')||'';let area='';if(call.includes("'fantasia'"))area='Fantasia';else if(call.includes("'historica'"))area='Ficção Histórica';else if(call.includes("'policial'"))area='Policial/Mistério';if(!area)return;const count=areasFor(area).reduce((sum,a)=>sum+(counts.get(a)||0),0);btn.disabled=count===0;btn.classList.toggle('area-unavailable',count===0);if(count===0)btn.title='Área em preparação';else btn.removeAttribute('title')})}
+async function initAreaAvailability(){if(!window.supabase||!window.BB_CONFIG)return;const client=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);const {data,error}=await client.from('books').select('area');if(error)return;const counts=new Map();for(const b of data||[])if(b.area)counts.set(b.area,(counts.get(b.area)||0)+1);SELECT_IDS.forEach(id=>decorateSelect(document.getElementById(id),counts));decorateQuickFilters(counts)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initAreaAvailability);else initAreaAvailability();
+})();
