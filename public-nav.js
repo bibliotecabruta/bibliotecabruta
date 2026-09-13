@@ -56,7 +56,7 @@ function initPublicNav(){
 function initPublicFooter(){
   const root=document.querySelector('.footer .footer-inner');if(!root||root.dataset.enhanced==='1')return;root.dataset.enhanced='1';
   const nav=document.createElement('nav');nav.className='footer-nav';nav.setAttribute('aria-label','Atalhos do rodapé');
-  const items=[['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Catálogo','catalogo.html'],['Autores','autores.html'],['Séries','series.html'],['Categorias','categorias.html'],['Temas','temas.html']];
+  const items=[['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Notícias','noticias.html'],['Catálogo','catalogo.html'],['Autores','autores.html'],['Séries','series.html'],['Categorias','categorias.html'],['Temas','temas.html']];
   nav.innerHTML=items.map(([label,href])=>`<a href="${href}">${label}</a>`).join('');root.appendChild(nav);
   if(!document.getElementById('publicFooterNavStyle')){const style=document.createElement('style');style.id='publicFooterNavStyle';style.textContent='.footer-nav{display:flex;gap:10px 18px;flex-wrap:wrap;flex-basis:100%;padding-top:15px;border-top:1px solid #ffffff18}.footer-nav a{font-size:11px;font-weight:800;color:#bfb7ab;text-transform:uppercase;letter-spacing:.03em}.footer-nav a:hover,.footer-nav a:focus-visible{color:#d0a252;outline:none}.public-error-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}.public-error-actions .secondary{text-decoration:none}.public-to-top{position:fixed;right:18px;bottom:18px;z-index:50;width:42px;height:42px;border:1px solid #ffffff35;border-radius:50%;background:#181510e8;color:#fff;font-size:20px;font-weight:900;box-shadow:0 6px 20px #0003;cursor:pointer;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .18s ease,transform .18s ease,background .18s ease}.public-to-top.visible{opacity:1;transform:none;pointer-events:auto}.public-to-top:hover,.public-to-top:focus-visible{background:#8e1712;outline:2px solid #d0a252;outline-offset:2px}.skip-link{position:fixed;left:12px;top:8px;z-index:1000;transform:translateY(-180%);background:#fff;color:#181510;border:2px solid #d0a252;border-radius:4px;padding:9px 12px;font-size:12px;font-weight:900;transition:transform .15s ease}.skip-link:focus{transform:none;outline:none}@media(max-width:680px){.public-to-top{right:12px;bottom:12px;width:40px;height:40px}}';document.head.appendChild(style)}
 }
@@ -68,7 +68,7 @@ function initDetailRecovery(){
     'tema.html':['temas.html','Ver todos os temas'],
     'categoria.html':['categorias.html','Ver todas as categorias'],
     'livro.html':['catalogo.html','Voltar ao catálogo'],
-    'noticia.html':['index.html#noticias','Voltar às notícias']
+    'noticia.html':['noticias.html','Ver todas as notícias']
   };
   const target=destinations[page];if(!target)return;
   const decorate=()=>document.querySelectorAll('.empty').forEach(empty=>{
