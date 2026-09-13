@@ -8,7 +8,7 @@ window.BB_NEWS=(()=>{
    while((m=re.exec(text))){
      out+=esc(text.slice(last,m.index));
      const url=safeUrl(m[2]);
-     out+=url?\`<a href="\${esc(url)}" target="_blank" rel="noopener noreferrer">\${esc(m[1])}</a>\`:esc(m[0]);
+     out+=url?`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(m[1])}</a>`:esc(m[0]);
      last=re.lastIndex;
    }
    out+=esc(text.slice(last));
@@ -17,14 +17,14 @@ window.BB_NEWS=(()=>{
  }
  function renderBody(raw){
    const lines=String(raw||'').replace(/\r/g,'').split('\n'),html=[];let list=[];
-   const flush=()=>{if(list.length){html.push('<ul>'+list.map(x=>\`<li>\${inline(x)}</li>\`).join('')+'</ul>');list=[]}};
+   const flush=()=>{if(list.length){html.push('<ul>'+list.map(x=>`<li>${inline(x)}</li>`).join('')+'</ul>');list=[]}};
    for(const line of lines){
      const t=line.trim();
      if(!t){flush();continue}
-     if(/^###\s+/.test(t)){flush();html.push(\`<h3>\${inline(t.replace(/^###\s+/,''))}</h3>\`);continue}
-     if(/^##\s+/.test(t)){flush();html.push(\`<h2>\${inline(t.replace(/^##\s+/,''))}</h2>\`);continue}
+     if(/^###\s+/.test(t)){flush();html.push(`<h3>${inline(t.replace(/^###\s+/,''))}</h3>`);continue}
+     if(/^##\s+/.test(t)){flush();html.push(`<h2>${inline(t.replace(/^##\s+/,''))}</h2>`);continue}
      if(/^-\s+/.test(t)){list.push(t.replace(/^-\s+/,''));continue}
-     flush();html.push(\`<p>\${inline(t)}</p>\`);
+     flush();html.push(`<p>${inline(t)}</p>`);
    }
    flush();return html.join('');
  }
