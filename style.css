@@ -53,3 +53,5 @@
 .context-back-row .backlink{margin:0}
 .context-back-row .secondary-backlink{color:var(--muted);font-weight:700}
 .context-back-row .secondary-backlink:hover{color:var(--red)}
+
+.taxonomy-public-note{margin-top:16px;max-width:820px;background:#fffaf0;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:6px;padding:13px 15px;font-size:13px;line-height:1.55;color:#4c4339}.taxonomy-public-note a{color:var(--red);font-weight:900;border-bottom:1px dotted #b48b45}.taxonomy-public-note a:hover{border-bottom-color:var(--red)}
