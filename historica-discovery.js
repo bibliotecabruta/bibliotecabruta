@@ -4,7 +4,7 @@ function hdEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'
 function hdCatalogUrl(kind,id){const p=new URLSearchParams({area:'Ficção Histórica'});p.set(kind,id);return 'catalogo.html?'+p.toString()}
 
 async function initHistoricalDiscovery(){
-  const catRoot=document.getElementById('historicalCategoryLinks'),tagRoot=document.getElementById('historicalThemeLinks');
+  const catRoot=document.getElementById('historicalCategoryLinks'),tagRoot=document.getElementById('historicalThemeLinks'),countRoot=document.getElementById('historicalBookCount');
   if(!catRoot||!tagRoot)return;
   const [{data:categories,error:catError},{data:tags,error:tagError},{data:books,error:bookError}]=await Promise.all([
     sbHistoricalDiscovery.from('categories').select('id,name,book_categories(book_id)').eq('area','Ficção Histórica').order('name'),
@@ -13,6 +13,7 @@ async function initHistoricalDiscovery(){
   ]);
   if(catError||tagError||bookError){catRoot.innerHTML='<span class="muted">Não foi possível carregar as categorias.</span>';tagRoot.innerHTML='<span class="muted">Não foi possível carregar os temas.</span>';return}
   const cats=(categories||[]).map(c=>({...c,count:(c.book_categories||[]).length})).filter(c=>c.count>0).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,'pt-BR')).slice(0,10);
+  if(countRoot)countRoot.textContent=`${(books||[]).length} livros no acervo histórico`;
   const tagCounts=new Map();
   for(const b of books||[])for(const bt of b.book_tags||[])if(bt.tag_id)tagCounts.set(bt.tag_id,(tagCounts.get(bt.tag_id)||0)+1);
   const themeById=new Map((tags||[]).map(t=>[t.id,t]));
