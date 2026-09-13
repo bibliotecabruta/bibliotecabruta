@@ -40,7 +40,7 @@ async function editNews(id){
   const n=newsRows.find(x=>x.id===id);if(!n)return;await ensureNewsCatalog();
   const f=document.getElementById('newsForm');f.reset();f.elements.news_id.value=n.id;
   ['title','slug','summary','body','image_alt','source_label','source_url','purchase_label','purchase_url'].forEach(name=>{if(f.elements[name])f.elements[name].value=n[name]||''});
-  f.elements.published_at.value=localNewsDate(n.published_at);f.elements.is_published.checked=!!n.is_published;f.elements.is_featured.checked=!!n.is_featured;
+  f.elements.published_at.value=localNewsDate(n.published_at);f.elements.is_published.checked=!!n.is_published;f.elements.is_featured.checked=!!n.is_featured;f.elements.purchase_is_affiliate.checked=!!n.purchase_is_affiliate;
   await loadNewsRelations(id);previewNewsDraft();f.classList.remove('hidden');document.getElementById('newsSaveButton').textContent='Salvar alterações';f.scrollIntoView({behavior:'smooth',block:'start'});
 }
 async function saveNews(e){
@@ -50,7 +50,7 @@ async function saveNews(e){
     const uploaded=await uploadNewsImage(fd.get('image_file')),typedImage=validNewsUrl(fd.get('image_url')),title=String(fd.get('title')||'').trim(),body=String(fd.get('body')||'').trim();
     if(!title||!body)throw new Error('Informe título e texto completo.');
     const slug=await uniqueNewsSlug(title,String(fd.get('slug')||'').trim(),id||null);
-    const payload={title,slug,summary:String(fd.get('summary')||'').trim()||null,body,image_alt:String(fd.get('image_alt')||'').trim()||null,source_label:String(fd.get('source_label')||'').trim()||null,source_url:validNewsUrl(fd.get('source_url')),purchase_label:String(fd.get('purchase_label')||'').trim()||null,purchase_url:validNewsUrl(fd.get('purchase_url')),published_at:fd.get('published_at')?new Date(fd.get('published_at')).toISOString():new Date().toISOString(),is_published:fd.get('is_published')==='on',is_featured:fd.get('is_featured')==='on'};
+    const payload={title,slug,summary:String(fd.get('summary')||'').trim()||null,body,image_alt:String(fd.get('image_alt')||'').trim()||null,source_label:String(fd.get('source_label')||'').trim()||null,source_url:validNewsUrl(fd.get('source_url')),purchase_label:String(fd.get('purchase_label')||'').trim()||null,purchase_url:validNewsUrl(fd.get('purchase_url')),published_at:fd.get('published_at')?new Date(fd.get('published_at')).toISOString():new Date().toISOString(),is_published:fd.get('is_published')==='on',is_featured:fd.get('is_featured')==='on',purchase_is_affiliate:fd.get('purchase_is_affiliate')==='on'};
     if(uploaded||typedImage)payload.image_url=uploaded||typedImage;
     let savedId=id;
     if(id){const q=await sbAdmin.from('news').update(payload).eq('id',id).select('id').single();if(q.error)throw q.error;savedId=q.data.id}
