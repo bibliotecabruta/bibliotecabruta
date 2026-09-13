@@ -7,6 +7,7 @@ function bookBackHref(){try{const u=new URL(document.referrer);const page=u.path
 function publicBookArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area||'Catálogo'}
 function bookAreaHref(area){const p=publicBookArea(area);if(p==='Ficção Histórica')return'historica.html';if(p==='Policial/Mistério')return'policial.html';if(p==='Ação / Militar')return'militar.html';return`catalogo.html?area=${encodeURIComponent(p)}`}
 function collectionPageHref(name){if(name==='Coleção Negra')return'colecao-negra.html';if(name==='Coleção Policial')return'colecao-policial.html';return''}
+function markBookAreaNav(area){const p=publicBookArea(area),href=p==='Ficção Histórica'?'historica.html':p==='Policial/Mistério'?'policial.html':p==='Ação / Militar'?'militar.html':'';if(!href)return;document.querySelectorAll('.nav a.nav-active').forEach(a=>{a.classList.remove('nav-active');a.removeAttribute('aria-current')});const a=document.querySelector(`.nav a[href="${href}"]`);if(a){a.classList.add('nav-active');a.setAttribute('aria-current','page')}}
 function bookCoverFromRow(x){const ed=(x.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(x.editions||[]).find(e=>e.country==='Brasil');return ed?.cover_url||x.cover_url||''}
 function rememberViewedBook(b,cover){try{const key='bb_recent_books',old=JSON.parse(localStorage.getItem(key)||'[]'),row={id:b.id,title:b.title,author:b.authors?.name||'',cover:cover||'',ts:Date.now()},next=[row,...old.filter(x=>x&&x.id!==b.id)].slice(0,8);localStorage.setItem(key,JSON.stringify(next))}catch{}}
 
@@ -18,8 +19,8 @@ async function loadBook(){
  if(error||!b){root.innerHTML='<div class="empty">Livro não encontrado.</div>';return}
  document.title=`${b.title} — Biblioteca Bruta`;
  const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.is_primary?1:0)-(a.is_primary?1:0)||(a.publication_year||9999)-(z.publication_year||9999));
- const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);
- const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean);const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean);const cover=primary?.cover_url||b.cover_url;updateBookMeta(b,cover);rememberViewedBook(b,cover);
+ const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);markBookAreaNav(b.area);
+ const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const cover=primary?.cover_url||b.cover_url;updateBookMeta(b,cover);rememberViewedBook(b,cover);
  let siblings=[];if(b.series_id){const {data}=await sbBook.from('books').select('id,title,cover_url,series_volume,editions(cover_url,is_primary,country)').eq('series_id',b.series_id).order('series_volume',{ascending:true});siblings=data||[]}
  let authorBooks=[];if(b.authors?.id){const {data}=await sbBook.from('books').select('id,title,cover_url,series_volume,series(name),editions(cover_url,is_primary,country)').eq('author_id',b.authors.id).neq('id',b.id).order('title').limit(6);authorBooks=data||[]}
  const currentSeriesIndex=siblings.findIndex(x=>x.id===b.id),prevVolume=currentSeriesIndex>0?siblings[currentSeriesIndex-1]:null,nextVolume=currentSeriesIndex>=0&&currentSeriesIndex<siblings.length-1?siblings[currentSeriesIndex+1]:null,backHref=bookBackHref();
