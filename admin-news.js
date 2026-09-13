@@ -9,6 +9,12 @@ function renderAllNewsSelected(){['books','series','authors'].forEach(renderNews
 function addNewsEntity(type,id){newsSelected[type].add(id);renderNewsSelected(type);const cfg=newsTypeConfig(type),input=document.getElementById(cfg.input),results=document.getElementById(cfg.results);if(input)input.value='';if(results)results.innerHTML=''}
 function removeNewsEntity(type,id){newsSelected[type].delete(id);renderNewsSelected(type)}
 function resetNewsSelected(){newsSelected={books:new Set(),series:new Set(),authors:new Set()};renderAllNewsSelected()}
+function newsPurchaseRowHtml(link={}){return '<div class="news-purchase-row"><input class="news-purchase-label" type="text" placeholder="Ex.: Amazon" value="'+esc(link.label||'')+'"><input class="news-purchase-url" type="url" placeholder="https://..." value="'+esc(link.url||'')+'"><label class="affiliate-check"><input class="news-purchase-affiliate" type="checkbox" '+(link.is_affiliate?'checked':'')+'> Comissionado</label><button class="secondary" type="button" onclick="this.closest(\'.news-purchase-row\').remove()">Remover</button></div>'}
+function addNewsPurchaseLink(link={}){const root=document.getElementById('newsPurchaseLinks');if(!root)return;root.insertAdjacentHTML('beforeend',newsPurchaseRowHtml(link))}
+function resetNewsPurchaseLinks(){const root=document.getElementById('newsPurchaseLinks');if(root)root.innerHTML='';addNewsPurchaseLink()}
+function collectNewsPurchaseLinks(){const rows=[...document.querySelectorAll('#newsPurchaseLinks .news-purchase-row')],out=[];for(let i=0;i<rows.length;i++){const label=rows[i].querySelector('.news-purchase-label')?.value.trim()||'',raw=rows[i].querySelector('.news-purchase-url')?.value.trim()||'',aff=!!rows[i].querySelector('.news-purchase-affiliate')?.checked;if(!raw&&!label)continue;if(!raw)throw new Error('Informe a URL do link de compra '+(i+1)+'.');const url=validNewsUrl(raw);out.push({label:label||'Comprar',url,is_affiliate:aff,sort_order:out.length})}return out}
+async function loadNewsPurchaseLinks(id,legacy){const q=await sbAdmin.from('news_purchase_links').select('label,url,is_affiliate,sort_order').eq('news_id',id).order('sort_order');if(q.error)throw q.error;const root=document.getElementById('newsPurchaseLinks');if(root)root.innerHTML='';const rows=q.data||[];if(rows.length)rows.forEach(addNewsPurchaseLink);else if(legacy?.purchase_url)addNewsPurchaseLink({label:legacy.purchase_label||'Comprar',url:legacy.purchase_url,is_affiliate:!!legacy.purchase_is_affiliate});else addNewsPurchaseLink()}
+async function syncNewsPurchaseLinks(id,links){const del=await sbAdmin.from('news_purchase_links').delete().eq('news_id',id);if(del.error)throw del.error;if(!links.length)return;const ins=await sbAdmin.from('news_purchase_links').insert(links.map(x=>({news_id:id,label:x.label,url:x.url,is_affiliate:x.is_affiliate,sort_order:x.sort_order})));if(ins.error)throw ins.error}
 function previewNewsDraft(){const f=document.getElementById('newsForm'),root=document.getElementById('newsDraftPreview');if(!f||!root)return;const title=f.elements.title.value.trim(),summary=f.elements.summary.value.trim(),body=f.elements.body.value;root.innerHTML=(title?'<h2>'+esc(title)+'</h2>':'')+(summary?'<p class="news-preview-summary">'+esc(summary)+'</p>':'')+(body?'<div class="news-preview-body">'+BB_NEWS.renderBody(body)+'</div>':'<p class="muted">A prévia aparecerá enquanto você escreve.</p>')}
 function insertNewsFormat(kind){const ta=document.querySelector('#newsForm textarea[name="body"]');if(!ta)return;const start=ta.selectionStart,end=ta.selectionEnd,sel=ta.value.slice(start,end);let insert='',a=start,b=start;if(kind==='h2'){insert='\n## '+(sel||'Subtítulo')+'\n';a=start+4;b=a+(sel||'Subtítulo').length}else if(kind==='bold'){insert='**'+(sel||'texto em negrito')+'**';a=start+2;b=a+(sel||'texto em negrito').length}else if(kind==='italic'){insert='*'+(sel||'texto em itálico')+'*';a=start+1;b=a+(sel||'texto em itálico').length}else if(kind==='list'){insert=(sel||'item da lista').split('\n').map(x=>'- '+x).join('\n');a=start+2;b=start+insert.length}else if(kind==='link'){insert='['+(sel||'texto do link')+'](https://)';a=start+insert.lastIndexOf('https://');b=a+8}ta.setRangeText(insert,start,end,'end');ta.focus();ta.setSelectionRange(a,b);previewNewsDraft()}
 async function uniqueNewsSlug(title,typed,id){const base=BB_NEWS.slugify(typed||title)||'noticia';const q=await sbAdmin.from('news').select('id,slug').like('slug',base+'%');if(q.error)throw q.error;const used=new Set((q.data||[]).filter(x=>x.id!==id).map(x=>x.slug).filter(Boolean));if(!used.has(base))return base;let n=2;while(used.has(base+'-'+n))n++;return base+'-'+n}
@@ -17,11 +23,11 @@ async function syncNewsRelations(id){const defs=[['news_books','book_id','books'
 function showNewsView(){adminHideAllViews();const box=document.getElementById('newsManager');box?.classList.remove('hidden');cancelNewsEdit();renderNewsAdmin();box?.scrollIntoView({behavior:'smooth',block:'start'})}
 async function newNews(){
   await ensureNewsCatalog();
-  const f=document.getElementById('newsForm');f.reset();f.elements.news_id.value='';f.elements.published_at.value=localNewsDate();f.elements.is_published.checked=true;f.elements.is_featured.checked=false;resetNewsSelected();previewNewsDraft();f.classList.remove('hidden');document.getElementById('newsSaveButton').textContent='Publicar notícia';f.elements.title.focus();
+  const f=document.getElementById('newsForm');f.reset();f.elements.news_id.value='';f.elements.published_at.value=localNewsDate();f.elements.is_published.checked=true;f.elements.is_featured.checked=false;resetNewsSelected();resetNewsPurchaseLinks();previewNewsDraft();f.classList.remove('hidden');document.getElementById('newsSaveButton').textContent='Publicar notícia';f.elements.title.focus();
 }
 function cancelNewsEdit(){
   const f=document.getElementById('newsForm');f?.classList.add('hidden');f?.reset();
-  ['newsBookResults','newsSeriesResults','newsAuthorResults'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=''});
+  ['newsBookResults','newsSeriesResults','newsAuthorResults'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=''});const pr=document.getElementById('newsPurchaseLinks');if(pr)pr.innerHTML='';
 }
 async function renderNewsAdmin(){
   const box=document.getElementById('newsList');if(!box)return;box.innerHTML='<div class="muted">Carregando notícias…</div>';
@@ -52,23 +58,23 @@ function renderNewsAdminList(){
 async function editNews(id){
   const n=newsRows.find(x=>x.id===id);if(!n)return;await ensureNewsCatalog();
   const f=document.getElementById('newsForm');f.reset();f.elements.news_id.value=n.id;
-  ['title','slug','summary','body','image_alt','source_label','source_url','purchase_label','purchase_url'].forEach(name=>{if(f.elements[name])f.elements[name].value=n[name]||''});
-  f.elements.published_at.value=localNewsDate(n.published_at);f.elements.is_published.checked=!!n.is_published;f.elements.is_featured.checked=!!n.is_featured;f.elements.purchase_is_affiliate.checked=!!n.purchase_is_affiliate;
-  await loadNewsRelations(id);previewNewsDraft();f.classList.remove('hidden');document.getElementById('newsSaveButton').textContent='Salvar alterações';f.scrollIntoView({behavior:'smooth',block:'start'});
+  ['title','slug','summary','body','image_alt','source_label','source_url'].forEach(name=>{if(f.elements[name])f.elements[name].value=n[name]||''});
+  f.elements.published_at.value=localNewsDate(n.published_at);f.elements.is_published.checked=!!n.is_published;f.elements.is_featured.checked=!!n.is_featured;
+  await Promise.all([loadNewsRelations(id),loadNewsPurchaseLinks(id,n)]);previewNewsDraft();f.classList.remove('hidden');document.getElementById('newsSaveButton').textContent='Salvar alterações';f.scrollIntoView({behavior:'smooth',block:'start'});
 }
 async function saveNews(e){
   e.preventDefault();const f=e.target,fd=new FormData(f),id=String(fd.get('news_id')||''),btn=document.getElementById('newsSaveButton');btn.disabled=true;
   try{
     msg(id?'Atualizando notícia…':'Salvando notícia…');
-    const uploaded=await uploadNewsImage(fd.get('image_file')),typedImage=validNewsUrl(fd.get('image_url')),title=String(fd.get('title')||'').trim(),body=String(fd.get('body')||'').trim();
+    const uploaded=await uploadNewsImage(fd.get('image_file')),typedImage=validNewsUrl(fd.get('image_url')),title=String(fd.get('title')||'').trim(),body=String(fd.get('body')||'').trim(),purchaseLinks=collectNewsPurchaseLinks();
     if(!title||!body)throw new Error('Informe título e texto completo.');
-    const slug=await uniqueNewsSlug(title,String(fd.get('slug')||'').trim(),id||null);
-    const payload={title,slug,summary:String(fd.get('summary')||'').trim()||null,body,image_alt:String(fd.get('image_alt')||'').trim()||null,source_label:String(fd.get('source_label')||'').trim()||null,source_url:validNewsUrl(fd.get('source_url')),purchase_label:String(fd.get('purchase_label')||'').trim()||null,purchase_url:validNewsUrl(fd.get('purchase_url')),published_at:fd.get('published_at')?new Date(fd.get('published_at')).toISOString():new Date().toISOString(),is_published:fd.get('is_published')==='on',is_featured:fd.get('is_featured')==='on',purchase_is_affiliate:fd.get('purchase_is_affiliate')==='on'};
+    const slug=await uniqueNewsSlug(title,String(fd.get('slug')||'').trim(),id||null),firstPurchase=purchaseLinks[0]||null;
+    const payload={title,slug,summary:String(fd.get('summary')||'').trim()||null,body,image_alt:String(fd.get('image_alt')||'').trim()||null,source_label:String(fd.get('source_label')||'').trim()||null,source_url:validNewsUrl(fd.get('source_url')),purchase_label:firstPurchase?.label||null,purchase_url:firstPurchase?.url||null,purchase_is_affiliate:!!firstPurchase?.is_affiliate,published_at:fd.get('published_at')?new Date(fd.get('published_at')).toISOString():new Date().toISOString(),is_published:fd.get('is_published')==='on',is_featured:fd.get('is_featured')==='on'};
     if(uploaded||typedImage)payload.image_url=uploaded||typedImage;
     let savedId=id;
     if(id){const q=await sbAdmin.from('news').update(payload).eq('id',id).select('id').single();if(q.error)throw q.error;savedId=q.data.id}
     else{payload.image_url=payload.image_url||null;const q=await sbAdmin.from('news').insert(payload).select('id').single();if(q.error)throw q.error;savedId=q.data.id}
-    await syncNewsRelations(savedId);
+    await Promise.all([syncNewsRelations(savedId),syncNewsPurchaseLinks(savedId,purchaseLinks)]);
     msg(payload.is_published?'Notícia publicada com sucesso.':'Notícia salva como rascunho.','ok');cancelNewsEdit();await renderNewsAdmin();
   }catch(err){console.error(err);msg('Erro ao salvar notícia: '+(err.message||err),'error')}
   finally{btn.disabled=false}
