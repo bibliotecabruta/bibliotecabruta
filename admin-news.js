@@ -30,9 +30,9 @@ async function renderNewsAdmin(){
   newsRows=q.data||[];
   box.innerHTML=newsRows.length?newsRows.map(n=>{
     const image=n.image_url?'<img class="news-admin-thumb" src="'+esc(n.image_url)+'" alt="">':'<div class="news-admin-thumb"></div>';
-    const state=(n.is_published?'Publicada':'Rascunho')+(n.is_featured?' • ⭐ Destaque':'')+' • '+new Date(n.published_at).toLocaleString('pt-BR');
+    const future=n.is_published&&new Date(n.published_at)>new Date(),state=(!n.is_published?'Rascunho':future?'Agendada':'Publicada')+(n.is_featured?' • ⭐ Destaque':'')+' • '+new Date(n.published_at).toLocaleString('pt-BR');
     const slug=n.slug?'<small class="muted">'+esc(n.slug)+'</small>':'';
-    const open=n.is_published?'<a class="secondary" href="'+newsPublicHref(n)+'" target="_blank" rel="noopener">Abrir</a>':'';
+    const open=n.is_published&&!future?'<a class="secondary" href="'+newsPublicHref(n)+'" target="_blank" rel="noopener">Abrir</a>':'';
     return '<article class="news-admin-row">'+image+'<div><h3>'+esc(n.title)+'</h3><p>'+state+'</p>'+slug+'</div><div class="news-admin-actions">'+open+'<button class="secondary" type="button" onclick="editNews(\''+n.id+'\')">Editar</button><button class="secondary" type="button" onclick="deleteNews(\''+n.id+'\')">Excluir</button></div></article>';
   }).join(''):'<div class="note">Nenhuma notícia cadastrada. Clique em “Nova notícia” para começar.</div>';
 }
