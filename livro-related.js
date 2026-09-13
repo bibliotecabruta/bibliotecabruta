@@ -1,5 +1,5 @@
 const sbRelated=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
-function relEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[m]))}
+function relEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function relPublicArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area||'Catálogo'}
 function relCover(b){const ed=(b.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(b.editions||[]).find(e=>e.country==='Brasil');return ed?.cover_url||b.cover_url||''}
 function relAreaHref(area){return `catalogo.html?area=${encodeURIComponent(relPublicArea(area))}`}
@@ -16,7 +16,7 @@ async function injectRelated(){
  const ids=[...scores.entries()].sort((a,z)=>z[1]-a[1]).slice(0,36).map(([bookId])=>bookId);if(!ids.length)return;
  const {data:rows}=await sbRelated.from('books').select('id,title,cover_url,area,author_id,series_id,authors(name),series(name),editions(cover_url,is_primary,country)').in('id',ids);
  const currentArea=relPublicArea(b.area);
- let related=(rows||[]).filter(x=>x.id!==id&&(!b.series_id||x.series_id!==b.series_id)&&(!b.author_id||x.author_id!==b.author_id)).map(x=>({...x,__score:(scores.get(x.id)||0)+(relPublicArea(x.area)===currentArea?2:0),__matches:[...(matches.get(x.id)||[])].filter(Boolean)})).sort((a,z)=>z.__score-a.__score||a.title.localeCompare(z.title,'pt-BR')).slice(0,6);
+ const related=(rows||[]).filter(x=>x.id!==id&&(!b.series_id||x.series_id!==b.series_id)&&(!b.author_id||x.author_id!==b.author_id)).map(x=>({...x,__score:(scores.get(x.id)||0)+(relPublicArea(x.area)===currentArea?2:0),__matches:[...(matches.get(x.id)||[])].filter(Boolean)})).sort((a,z)=>z.__score-a.__score||a.title.localeCompare(z.title,'pt-BR')).slice(0,6);
  if(!related.length)return;
  const html=`<section class="detail-section related-books"><div class="author-more-head"><div><small>CONTINUE GARIMPANDO</small><h2>Livros por caminhos parecidos</h2><p class="muted">Outros autores que compartilham categorias ou temas deste livro.</p></div><a class="series-inline-link" href="${relAreaHref(b.area)}">Explorar ${relEsc(currentArea)} →</a></div><div class="author-more-grid">${related.map(x=>{const cover=relCover(x),why=x.__matches.slice(0,2).join(' • ');return `<a class="author-more-card" href="livro.html?id=${encodeURIComponent(x.id)}">${cover?`<img src="${relEsc(cover)}" alt="Capa de ${relEsc(x.title)}" loading="lazy" onerror="this.remove()">`:'<div class="mini-placeholder">Sem capa</div>'}<strong>${relEsc(x.title)}</strong><span>${relEsc(x.authors?.name||'Autor não informado')}</span>${why?`<small>${relEsc(why)}</small>`:''}</a>`}).join('')}</div></section>`;
  let tries=0;const place=()=>{const main=document.querySelector('.book-content-main');if(main){main.insertAdjacentHTML('beforeend',html);return}if(tries++<40)setTimeout(place,50)};place();
