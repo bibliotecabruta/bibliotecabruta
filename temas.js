@@ -5,6 +5,7 @@ const THEME_AREA_GROUPS={'Policial/Mistério':['Policial/Mistério','Coleção N
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function themeNorm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').trim()}
 function themeAreasForFilter(area){if(!area)return[];return THEME_AREA_GROUPS[area]||[area]}
+function themePublicArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area}
 function themeCountForArea(t,area){if(!area)return t.count;return themeAreasForFilter(area).reduce((sum,a)=>sum+(t.areaCounts[a]||0),0)}
 
 async function initThemes(){
@@ -39,11 +40,11 @@ function clearThemeFilters(){
 function renderThemes(){
   const target=document.getElementById('themeGrid');
   const raw=(document.getElementById('themeSearch')?.value||'').trim(),q=themeNorm(raw),area=document.getElementById('themeArea')?.value||'',sort=document.getElementById('themeSort')?.value||'count';
-  const rows=themeRows.map(t=>({...t,displayCount:themeCountForArea(t,area)})).filter(t=>t.displayCount>0&&(!q||themeNorm(t.name).includes(q)));
+  const rows=themeRows.map(t=>({...t,displayCount:themeCountForArea(t,area),publicAreas:[...new Set(Object.entries(t.areaCounts||{}).filter(([,n])=>n>0).map(([a])=>themePublicArea(a)).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'))})).filter(t=>t.displayCount>0&&(!q||themeNorm(t.name).includes(q)));
   rows.sort(sort==='name'?(a,b)=>a.name.localeCompare(b.name,'pt-BR'):(a,b)=>b.displayCount-a.displayCount||a.name.localeCompare(b.name,'pt-BR'));
   const summary=document.getElementById('themesSummary');
   if(summary)summary.textContent=`${rows.length} ${rows.length===1?'tema encontrado':'temas encontrados'}${area?' em '+area:''}`;
-  target.innerHTML=rows.length?rows.map(t=>`<a class="category-card taxonomy-theme-card" href="tema.html?id=${encodeURIComponent(t.id)}"><div class="eyebrow">TEMA</div><h2>${esc(t.name)}</h2><p>${t.displayCount} ${t.displayCount===1?'livro relacionado':'livros relacionados'}</p></a>`).join(''):'<div class="empty">Nenhum tema encontrado nesse recorte.</div>';
+  target.innerHTML=rows.length?rows.map(t=>`<a class="category-card taxonomy-theme-card" href="tema.html?id=${encodeURIComponent(t.id)}"><div class="eyebrow">TEMA</div><h2>${esc(t.name)}</h2><p>${t.displayCount} ${t.displayCount===1?'livro relacionado':'livros relacionados'}${!area&&t.publicAreas.length?`<span class="theme-area-line">${t.publicAreas.map(esc).join(' • ')}</span>`:''}</p></a>`).join(''):'<div class="empty">Nenhum tema encontrado nesse recorte.</div>';
   const p=new URLSearchParams();if(raw)p.set('q',raw);if(area)p.set('area',area);if(sort!=='count')p.set('sort',sort);
   history.replaceState(null,'',location.pathname+(p.toString()?'?'+p.toString():''));
 }
