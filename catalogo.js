@@ -12,7 +12,7 @@ function cBookCard(b,q=''){const ed=primaryBrEdition(b),br=[ed?.publisher,ed?.pu
 function uniqBy(arr,keyFn){const m=new Map();for(const x of arr){const k=keyFn(x);if(k&&!m.has(k))m.set(k,x)}return[...m.values()]}
 function catalogAreasForFilter(area){if(!area)return[];return CATALOG_AREA_GROUPS[area]||[area]}
 function normalizeCatalogArea(area){if(area==='Ficção Militar')return'Ação / Militar';if(area==='Policial / Mistério')return'Policial/Mistério';return area}
-async function initCatalog(){const [{data:books,error},{data:cats},{data:tags}]=await Promise.all([sbCatalog.from('books').select('id,title,original_title,area,original_year,cover_url,series_volume,created_at,authors(id,name),series(id,name,brazil_status),book_categories(categories(id,name,area)),book_tags(tags(id,name)),editions(publisher,publication_year,is_primary,country)').order('title'),sbCatalog.from('categories').select('id,name,area').order('name'),sbCatalog.from('tags').select('id,name').order('name')]);if(error){document.getElementById('filteredCatalog').innerHTML='<div class="empty">Não foi possível carregar o catálogo.</div>';return}catalogRows=(books||[]).map(b=>({...b,__search:bookSearchText(b)}));catalogCategories=cats||[];catalogTags=tags||[];populateFilterOptions();restoreFiltersFromUrl();onAreaFilterChange(false);applyCatalogFilters()}
+async function initCatalog(){const [{data:books,error},{data:cats},{data:tags}]=await Promise.all([sbCatalog.from('books').select('id,title,original_title,area,original_year,cover_url,series_volume,created_at,authors(id,name),series(id,name,brazil_status),book_categories(categories(id,name,area)),book_tags(tags(id,name)),editions(publisher,publication_year,is_primary,country)').order('title'),sbCatalog.from('categories').select('id,name,area').order('name'),sbCatalog.from('tags').select('id,name').order('name')]);if(error){document.getElementById('filteredCatalog').innerHTML='<div class="empty">Não foi possível carregar o catálogo.</div>';return}catalogRows=(books||[]).map(b=>({...b,__search:bookSearchText(b)}));catalogCategories=cats||[];catalogTags=tags||[];populateFilterOptions();restoreFiltersFromUrl();applyCatalogFilters()}
 function fillSelect(id,rows,labelFn,valueFn){const el=document.getElementById(id);if(!el)return;const first=el.options[0].outerHTML;el.innerHTML=first+rows.map(x=>`<option value="${cEsc(valueFn(x))}">${cEsc(labelFn(x))}</option>`).join('')}
 function populateFilterOptions(){const authors=uniqBy(catalogRows.map(x=>x.authors).filter(Boolean),x=>x.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));fillSelect('filterAuthor',authors,x=>x.name,x=>x.id);const series=uniqBy(catalogRows.map(x=>x.series).filter(Boolean),x=>x.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));fillSelect('filterSeries',series,x=>x.name,x=>x.id)}
 function categoryRowsForArea(area){const areas=catalogAreasForFilter(area),books=area?catalogRows.filter(b=>areas.includes(b.area)):catalogRows,counts=new Map();for(const b of books)for(const x of b.book_categories||[]){const cat=x.categories;if(cat&&(!area||areas.includes(cat.area)))counts.set(cat.id,(counts.get(cat.id)||0)+1)}return catalogCategories.filter(c=>(!area||areas.includes(c.area))&&counts.has(c.id)).map(c=>({...c,count:counts.get(c.id)})).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'))}
@@ -41,5 +41,28 @@ function clearRecentAdded(){catalogAddedDays=0;applyCatalogFilters()}function cl
 function removeFilter(id){const e=document.getElementById(id);if(!e)return;e.value='';if(id==='filterArea')onAreaFilterChange(false);else if(id==='filterCategory')onCategoryFilterChange(false);else if(id==='filterTag')onTagFilterChange(false);catalogVisible=48;applyCatalogFilters()}
 function clearCatalogFilters(){catalogAddedDays=0;catalogStandaloneOnly=false;['filterQ','filterArea','filterCategory','filterTag','filterAuthor','filterSeries','filterStatus'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('filterSort').value='relevance';onAreaFilterChange(false);catalogVisible=48;applyCatalogFilters()}
 function syncFiltersToUrl(f){const p=new URLSearchParams();for(const[k,v]of Object.entries(f)){if(v&&(k!=='sort'||v!=='relevance'))p.set(k,v)}history.replaceState(null,'',`${location.pathname}${p.toString()?'?'+p.toString():''}`)}
-function restoreFiltersFromUrl(){const p=new URLSearchParams(location.search);catalogAddedDays=Math.max(0,Number(p.get('added'))||0);catalogStandaloneOnly=p.get('standalone')==='1';const map={q:'filterQ',area:'filterArea',author:'filterAuthor',series:'filterSeries',status:'filterStatus',sort:'filterSort'};for(const[id,elId]of Object.entries(map)){let v=p.get(id);if(!v)continue;if(id==='area')v=normalizeCatalogArea(v);const e=document.getElementById(elId);if(e)e.value=v}onAreaFilterChange(false);const cat=p.get('category'),catEl=document.getElementById('filterCategory');if(cat&&[...catEl.options].some(o=>o.value===cat))catEl.value=cat;onCategoryFilterChange(false);const tag=p.get('tag'),tagEl=document.getElementById('filterTag');if(tag&&[...tagEl.options].some(o=>o.value===tag))tagEl.value=tag;onTagFilterChange(false);if(!p.get('sort'))document.getElementById('filterSort').value='relevance';const hasRefine=['area','category','tag','author','series','status','added','standalone'].some(k=>p.get(k));if(innerWidth<=680&&!hasRefine)document.getElementById('catalogFilterPanel')?.classList.add('collapsed');updateAdvancedToggleLabel()}
+function restoreFiltersFromUrl(){
+ const p=new URLSearchParams(location.search);
+ catalogAddedDays=Math.max(0,Number(p.get('added'))||0);
+ catalogStandaloneOnly=p.get('standalone')==='1';
+ const q=document.getElementById('filterQ'),areaEl=document.getElementById('filterArea'),statusEl=document.getElementById('filterStatus'),sortEl=document.getElementById('filterSort');
+ if(p.get('q'))q.value=p.get('q');
+ if(p.get('area'))areaEl.value=normalizeCatalogArea(p.get('area'));
+ if(p.get('status'))statusEl.value=p.get('status');
+ sortEl.value=p.get('sort')||'relevance';
+ onAreaFilterChange(false);
+ const cat=p.get('category'),catEl=document.getElementById('filterCategory');
+ if(cat&&[...catEl.options].some(o=>o.value===cat))catEl.value=cat;
+ onCategoryFilterChange(false);
+ const tag=p.get('tag'),tagEl=document.getElementById('filterTag');
+ if(tag&&[...tagEl.options].some(o=>o.value===tag))tagEl.value=tag;
+ onTagFilterChange(false);
+ const author=p.get('author'),authorEl=document.getElementById('filterAuthor');
+ if(author&&[...authorEl.options].some(o=>o.value===author))authorEl.value=author;
+ const series=p.get('series'),seriesEl=document.getElementById('filterSeries');
+ if(series&&[...seriesEl.options].some(o=>o.value===series))seriesEl.value=series;
+ const hasRefine=['area','category','tag','author','series','status','added','standalone'].some(k=>p.get(k));
+ if(innerWidth<=680&&!hasRefine)document.getElementById('catalogFilterPanel')?.classList.add('collapsed');
+ updateAdvancedToggleLabel();
+}
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('filterSummary')?.setAttribute('aria-live','polite');document.getElementById('catalogResultTitle')?.setAttribute('aria-live','polite');initCatalog()});
