@@ -6,6 +6,8 @@ function initPublicNav(){
   const brand=nav.querySelector('.brand');
   const links=[...nav.querySelectorAll(':scope > a:not(.brand)')];
   if(!brand||!links.length)return;
+  const legacyPolice=links.find(a=>a.getAttribute('href')==='colecao-negra.html');
+  if(legacyPolice){legacyPolice.href='policial.html';legacyPolice.textContent='Policial / Mistério';}
 
   const quickSearch=document.createElement('a');
   quickSearch.href='catalogo.html';
