@@ -8,6 +8,11 @@ function initPublicNav(){
   if(!brand||!links.length)return;
   const legacyPolice=links.find(a=>a.getAttribute('href')==='colecao-negra.html');
   if(legacyPolice){legacyPolice.href='policial.html';legacyPolice.textContent='Policial / Mistério';}
+  if(!links.some(a=>a.getAttribute('href')==='noticias.html')){
+    const newsLink=document.createElement('a');newsLink.href='noticias.html';newsLink.textContent='Notícias';
+    const catalogIndex=links.findIndex(a=>a.getAttribute('href')==='catalogo.html');
+    if(catalogIndex>=0)links.splice(catalogIndex,0,newsLink);else links.push(newsLink);
+  }
   const page=location.pathname.split('/').pop()||'index.html';
   const activeByPage={
     'historica.html':'historica.html',
@@ -17,6 +22,7 @@ function initPublicNav(){
     'series.html':'series.html','serie.html':'series.html',
     'categorias.html':'categorias.html','categoria.html':'categorias.html',
     'temas.html':'temas.html','tema.html':'temas.html',
+    'noticias.html':'noticias.html','noticia.html':'noticias.html',
     'catalogo.html':'catalogo.html'
   };
   const activeHref=activeByPage[page];
