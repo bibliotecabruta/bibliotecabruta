@@ -80,3 +80,5 @@
   .taxonomy-book-card{grid-template-columns:64px minmax(0,1fr)}
   .taxonomy-cover-link img,.taxonomy-cover-link .mini-placeholder{width:64px!important;min-width:64px;height:96px!important}
 }
+
+.garimpo-box h3 a{color:inherit;text-decoration:none}.garimpo-box h3 a:hover{text-decoration:underline}
