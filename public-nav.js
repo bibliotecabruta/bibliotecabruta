@@ -58,9 +58,31 @@ function initPublicFooter(){
   const nav=document.createElement('nav');nav.className='footer-nav';nav.setAttribute('aria-label','Atalhos do rodapé');
   const items=[['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Catálogo','catalogo.html'],['Autores','autores.html'],['Séries','series.html'],['Categorias','categorias.html'],['Temas','temas.html']];
   nav.innerHTML=items.map(([label,href])=>`<a href="${href}">${label}</a>`).join('');root.appendChild(nav);
-  if(!document.getElementById('publicFooterNavStyle')){const style=document.createElement('style');style.id='publicFooterNavStyle';style.textContent='.footer-nav{display:flex;gap:10px 18px;flex-wrap:wrap;flex-basis:100%;padding-top:15px;border-top:1px solid #ffffff18}.footer-nav a{font-size:11px;font-weight:800;color:#bfb7ab;text-transform:uppercase;letter-spacing:.03em}.footer-nav a:hover,.footer-nav a:focus-visible{color:#d0a252;outline:none}';document.head.appendChild(style)}
+  if(!document.getElementById('publicFooterNavStyle')){const style=document.createElement('style');style.id='publicFooterNavStyle';style.textContent='.footer-nav{display:flex;gap:10px 18px;flex-wrap:wrap;flex-basis:100%;padding-top:15px;border-top:1px solid #ffffff18}.footer-nav a{font-size:11px;font-weight:800;color:#bfb7ab;text-transform:uppercase;letter-spacing:.03em}.footer-nav a:hover,.footer-nav a:focus-visible{color:#d0a252;outline:none}.public-error-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}.public-error-actions .secondary{text-decoration:none}';document.head.appendChild(style)}
 }
-function initPublicUi(){initPublicNav();initPublicFooter()}
+function initDetailRecovery(){
+  const page=location.pathname.split('/').pop()||'';
+  const destinations={
+    'autor.html':['autores.html','Ver todos os autores'],
+    'serie.html':['series.html','Ver todas as séries'],
+    'tema.html':['temas.html','Ver todos os temas'],
+    'categoria.html':['categorias.html','Ver todas as categorias'],
+    'livro.html':['catalogo.html','Voltar ao catálogo'],
+    'noticia.html':['index.html#noticias','Voltar às notícias']
+  };
+  const target=destinations[page];if(!target)return;
+  const decorate=()=>document.querySelectorAll('.empty').forEach(empty=>{
+    if(empty.dataset.recovery==='1')return;
+    const text=(empty.textContent||'').trim();
+    if(!/(não informad[oa]|não encontrad[oa]|não foi possível)/i.test(text))return;
+    empty.dataset.recovery='1';
+    const actions=document.createElement('div');actions.className='public-error-actions';
+    actions.innerHTML=`<a class="secondary" href="${target[0]}">${target[1]}</a>${target[0]!=='catalogo.html'?'<a class="secondary" href="catalogo.html">Abrir catálogo</a>':''}`;
+    empty.appendChild(actions);
+  });
+  new MutationObserver(decorate).observe(document.body,{childList:true,subtree:true});decorate();
+}
+function initPublicUi(){initPublicNav();initPublicFooter();initDetailRecovery()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initPublicUi);
 else initPublicUi();
 })();
