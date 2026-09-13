@@ -19,7 +19,7 @@ async function loadCategory(){
       <h1>${esc(c.name)}</h1>
       <p class="muted">Prateleira estrutural da Biblioteca Bruta.</p>
       <div class="series-summary"><strong>${books.length} ${books.length===1?'livro relacionado':'livros relacionados'}</strong></div>
-      <div class="taxonomy-detail-actions"><a class="secondary" href="catalogo.html?category=${encodeURIComponent(c.id)}">Abrir no catálogo</a><a class="secondary" href="temas.html">Explorar temas</a></div>
+      <div class="taxonomy-detail-actions"><a class="secondary" href="catalogo.html?area=${encodeURIComponent(c.area)}&category=${encodeURIComponent(c.id)}">Abrir no catálogo</a><a class="secondary" href="temas.html?area=${encodeURIComponent(c.area)}">Explorar temas</a></div>
     </section>
     <section class="detail-section">
       <h2>Livros nesta categoria</h2>
