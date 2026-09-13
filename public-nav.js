@@ -93,7 +93,12 @@ function initAccessibility(){
   const labels={q:'Pesquisar no acervo',filterQ:'Pesquisar no catálogo',filterArea:'Filtrar por área',filterCategory:'Filtrar por categoria',filterTag:'Filtrar por tema',filterAuthor:'Filtrar por autor',filterSeries:'Filtrar por série',filterStatus:'Filtrar por situação no Brasil',filterSort:'Ordenar resultados',themeSearch:'Pesquisar tema',themeArea:'Filtrar temas por área',themeSort:'Ordenar temas',categorySearch:'Pesquisar categoria',areaFilter:'Filtrar categorias por área',categorySort:'Ordenar categorias',authorSearch:'Pesquisar autor ou nacionalidade',authorArea:'Filtrar autores por área',authorSort:'Ordenar autores',qSeries:'Pesquisar série',seriesArea:'Filtrar séries por área',statusFilter:'Filtrar séries por situação',seriesSort:'Ordenar séries'};
   for(const[id,label]of Object.entries(labels)){const el=document.getElementById(id);if(el&&!el.getAttribute('aria-label'))el.setAttribute('aria-label',label)}
 }
-function initPublicUi(){initPublicNav();initPublicFooter();initDetailRecovery();initScrollTop();initAccessibility()}
+function initSmartBack(){
+  let sameOriginRef=false;try{sameOriginRef=!!document.referrer&&new URL(document.referrer).origin===location.origin}catch{}
+  if(!sameOriginRef)return;
+  document.addEventListener('click',e=>{const a=e.target.closest('a.backlink');if(!a||!/voltar/i.test(a.textContent||''))return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button>0)return;e.preventDefault();history.back()});
+}
+function initPublicUi(){initPublicNav();initPublicFooter();initDetailRecovery();initScrollTop();initAccessibility();initSmartBack()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initPublicUi);
 else initPublicUi();
 })();
