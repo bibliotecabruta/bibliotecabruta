@@ -17,3 +17,5 @@
 .book-public .author-more-card span{font-size:10px;color:var(--muted);line-height:1.35;margin-top:5px}
 @media(max-width:900px){.book-public .author-more-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.book-public .series-pager{grid-template-columns:1fr}.book-public .series-pager-item.next{text-align:left}.book-public .author-more-head{align-items:flex-start;flex-direction:column}.book-public .author-more-grid{grid-template-columns:1fr}}
+
+.book-public .book-area-link{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}.book-public .book-area-link:hover,.book-public .book-area-link:focus-visible{color:var(--red);border-bottom-color:var(--red);outline:none}
