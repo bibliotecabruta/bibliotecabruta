@@ -55,3 +55,28 @@
 .context-back-row .secondary-backlink:hover{color:var(--red)}
 
 .taxonomy-public-note{margin-top:16px;max-width:820px;background:#fffaf0;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:6px;padding:13px 15px;font-size:13px;line-height:1.55;color:#4c4339}.taxonomy-public-note a{color:var(--red);font-weight:900;border-bottom:1px dotted #b48b45}.taxonomy-public-note a:hover{border-bottom-color:var(--red)}
+
+/* Taxonomia pública — categorias e temas */
+.taxonomy-toolbar{align-items:center;flex-wrap:wrap}
+.taxonomy-toolbar input{min-width:min(360px,100%);flex:1 1 280px}
+.taxonomy-toolbar select{min-width:170px}
+.results-summary{margin:12px 0 16px;color:var(--muted);font-size:13px;font-weight:800}
+.taxonomy-card{transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.taxonomy-card:hover,.taxonomy-card:focus-visible{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
+.taxonomy-theme-card p{margin-top:8px}
+.taxonomy-detail-hero .series-summary{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.taxonomy-detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.taxonomy-detail-actions .secondary{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.taxonomy-book-card{display:grid!important;grid-template-columns:76px minmax(0,1fr);gap:14px;align-items:start}
+.taxonomy-cover-link{display:block}
+.taxonomy-cover-link img,.taxonomy-cover-link .mini-placeholder{width:76px!important;min-width:76px;height:112px!important;object-fit:cover;border-radius:4px}
+.taxonomy-book-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.taxonomy-book-title{color:inherit;text-decoration:none;line-height:1.25}
+.taxonomy-book-title:hover{text-decoration:underline}
+.taxonomy-series-link{font-size:12px}
+@media(max-width:680px){
+  .taxonomy-toolbar{align-items:stretch}
+  .taxonomy-toolbar input,.taxonomy-toolbar select,.taxonomy-toolbar button{width:100%;min-width:0}
+  .taxonomy-book-card{grid-template-columns:64px minmax(0,1fr)}
+  .taxonomy-cover-link img,.taxonomy-cover-link .mini-placeholder{width:64px!important;min-width:64px;height:96px!important}
+}
