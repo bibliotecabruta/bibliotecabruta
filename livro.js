@@ -5,6 +5,8 @@ function statusClass(v){const s=String(v||'').toLowerCase();if(s==='completa')re
 function updateBookMeta(b,cover){let meta=document.querySelector('meta[name="description"]');if(meta)meta.content=(b.synopsis||`${b.title}, de ${b.authors?.name||'autor não informado'}, no catálogo Biblioteca Bruta`).slice(0,155);const canonical=document.createElement('link');canonical.rel='canonical';canonical.href=location.href.split('#')[0];document.head.appendChild(canonical);if(cover){const og=document.createElement('meta');og.setAttribute('property','og:image');og.content=cover;document.head.appendChild(og)}}
 function bookBackHref(){try{const u=new URL(document.referrer);const page=u.pathname.split('/').pop()||'';const allowed=['catalogo.html','historica.html','colecao-negra.html','militar.html','autor.html','serie.html','series.html','autores.html','categoria.html','tema.html'];if(u.origin===location.origin&&allowed.includes(page))return u.href}catch{}return'catalogo.html'}
 function bookCoverFromRow(x){const ed=(x.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(x.editions||[]).find(e=>e.country==='Brasil');return ed?.cover_url||x.cover_url||''}
+function rememberViewedBook(b,cover){try{const key='bb_recent_books',old=JSON.parse(localStorage.getItem(key)||'[]'),row={id:b.id,title:b.title,author:b.authors?.name||'',cover:cover||'',ts:Date.now()},next=[row,...old.filter(x=>x&&x.id!==b.id)].slice(0,8);localStorage.setItem(key,JSON.stringify(next))}catch{}}
+
 
 async function loadBook(){
  const root=document.getElementById('bookPage'),id=new URLSearchParams(location.search).get('id');
@@ -13,7 +15,7 @@ async function loadBook(){
  if(error||!b){root.innerHTML='<div class="empty">Livro não encontrado.</div>';return}
  document.title=`${b.title} — Biblioteca Bruta`;
  const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.is_primary?1:0)-(a.is_primary?1:0)||(a.publication_year||9999)-(z.publication_year||9999));
- const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean);const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean);const cover=primary?.cover_url||b.cover_url;updateBookMeta(b,cover);
+ const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean);const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean);const cover=primary?.cover_url||b.cover_url;updateBookMeta(b,cover);rememberViewedBook(b,cover);
  let siblings=[];if(b.series_id){const {data}=await sbBook.from('books').select('id,title,cover_url,series_volume,editions(cover_url,is_primary,country)').eq('series_id',b.series_id).order('series_volume',{ascending:true});siblings=data||[]}
  let authorBooks=[];if(b.authors?.id){const {data}=await sbBook.from('books').select('id,title,cover_url,series_volume,series(name),editions(cover_url,is_primary,country)').eq('author_id',b.authors.id).neq('id',b.id).order('title').limit(6);authorBooks=data||[]}
  const currentSeriesIndex=siblings.findIndex(x=>x.id===b.id),prevVolume=currentSeriesIndex>0?siblings[currentSeriesIndex-1]:null,nextVolume=currentSeriesIndex>=0&&currentSeriesIndex<siblings.length-1?siblings[currentSeriesIndex+1]:null,backHref=bookBackHref();
