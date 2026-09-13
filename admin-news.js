@@ -27,14 +27,27 @@ async function renderNewsAdmin(){
   const box=document.getElementById('newsList');if(!box)return;box.innerHTML='<div class="muted">Carregando notícias…</div>';
   const q=await sbAdmin.from('news').select('*').order('published_at',{ascending:false});
   if(q.error){box.innerHTML='<div class="note error">Não foi possível carregar as notícias.</div>';return}
-  newsRows=q.data||[];
-  box.innerHTML=newsRows.length?newsRows.map(n=>{
+  newsRows=q.data||[];renderNewsAdminList();
+}
+function renderNewsAdminList(){
+  const box=document.getElementById('newsList');if(!box)return;
+  const search=newsNorm(document.getElementById('newsAdminSearch')?.value||'').trim(),status=document.getElementById('newsAdminStatus')?.value||'',now=new Date();
+  const classified=newsRows.map(n=>({...n,__future:n.is_published&&new Date(n.published_at)>now,__state:!n.is_published?'draft':new Date(n.published_at)>now?'scheduled':'published'}));
+  let rows=classified.filter(n=>{
+    if(search&&!newsNorm((n.title||'')+' '+(n.summary||'')+' '+(n.slug||'')).includes(search))return false;
+    if(status==='featured')return !!n.is_featured;
+    if(status&&n.__state!==status)return false;
+    return true;
+  });
+  const counts={published:classified.filter(n=>n.__state==='published').length,scheduled:classified.filter(n=>n.__state==='scheduled').length,draft:classified.filter(n=>n.__state==='draft').length,featured:classified.filter(n=>n.is_featured).length};
+  const summary=document.getElementById('newsAdminSummary');if(summary)summary.textContent=rows.length+' de '+classified.length+' • '+counts.published+' publicadas • '+counts.scheduled+' agendadas • '+counts.draft+' rascunhos • '+counts.featured+' destaques';
+  box.innerHTML=rows.length?rows.map(n=>{
     const image=n.image_url?'<img class="news-admin-thumb" src="'+esc(n.image_url)+'" alt="">':'<div class="news-admin-thumb"></div>';
-    const future=n.is_published&&new Date(n.published_at)>new Date(),state=(!n.is_published?'Rascunho':future?'Agendada':'Publicada')+(n.is_featured?' • ⭐ Destaque':'')+' • '+new Date(n.published_at).toLocaleString('pt-BR');
+    const state=(n.__state==='draft'?'Rascunho':n.__state==='scheduled'?'Agendada':'Publicada')+(n.is_featured?' • ⭐ Destaque':'')+' • '+new Date(n.published_at).toLocaleString('pt-BR');
     const slug=n.slug?'<small class="muted">'+esc(n.slug)+'</small>':'';
-    const open=n.is_published&&!future?'<a class="secondary" href="'+newsPublicHref(n)+'" target="_blank" rel="noopener">Abrir</a>':'';
+    const open=n.__state==='published'?'<a class="secondary" href="'+newsPublicHref(n)+'" target="_blank" rel="noopener">Abrir</a>':'';
     return '<article class="news-admin-row">'+image+'<div><h3>'+esc(n.title)+'</h3><p>'+state+'</p>'+slug+'</div><div class="news-admin-actions">'+open+'<button class="secondary" type="button" onclick="editNews(\''+n.id+'\')">Editar</button><button class="secondary" type="button" onclick="deleteNews(\''+n.id+'\')">Excluir</button></div></article>';
-  }).join(''):'<div class="note">Nenhuma notícia cadastrada. Clique em “Nova notícia” para começar.</div>';
+  }).join(''):'<div class="note">Nenhuma notícia encontrada nesse filtro.</div>';
 }
 async function editNews(id){
   const n=newsRows.find(x=>x.id===id);if(!n)return;await ensureNewsCatalog();
