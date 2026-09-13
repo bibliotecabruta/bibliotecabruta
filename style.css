@@ -33,3 +33,18 @@
 .admin-series-row h3{margin:0 0 5px}.admin-series-row p{margin:0;color:var(--muted);line-height:1.45}.admin-series-row .series-description-preview{margin-top:7px;color:var(--ink)}
 @media(max-width:520px){.admin-series-row{grid-template-columns:1fr}}
 .single-volume-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.single-volume-note{color:var(--muted);font-size:13px}.edition-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:15px}.edition-heading h2{margin:0}.edition-count-badge{background:#f1e4cf;color:#6f4b12;border:1px solid #d8bc8b;white-space:nowrap}.edition-card.edition-primary{border-color:var(--gold);box-shadow:inset 0 0 0 1px #b48b4540}.edition-label{display:block;margin-bottom:7px;color:var(--red);font-size:10px;font-weight:900;letter-spacing:.06em}.edition-cover-placeholder{width:105px;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;padding:10px;background:#29231c;color:#d9c19a;text-align:center;font-size:11px;border-radius:3px}.edition-mini-badge{color:#8a5a12!important;font-weight:800}.book-meta .status-volume-unico{margin-top:2px}@media(max-width:520px){.edition-heading{align-items:flex-start;flex-direction:column}.edition-count-badge{white-space:normal}}
+
+/* Navegação pública responsiva */
+.nav .nav-links{display:flex;align-items:center;gap:25px}
+.nav .nav-search,.nav .nav-toggle{display:none}
+@media(max-width:850px){
+  .topbar{position:sticky}
+  .nav{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 14px;overflow:visible}
+  .nav .brand{margin:0;font-size:21px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .nav .nav-search{display:inline-flex;align-items:center;justify-content:center;padding:8px 10px;border:1px solid #4b433b;border-radius:4px;font-size:11px}
+  .nav .nav-toggle{display:inline-flex;align-items:center;gap:6px;border:1px solid #4b433b;background:#191714;color:#fff;border-radius:4px;padding:8px 10px;font-size:11px;font-weight:900;text-transform:uppercase;cursor:pointer}
+  .nav .nav-links{display:none;grid-column:1/-1;flex-direction:column;align-items:stretch;gap:0;padding:8px 0 4px;border-top:1px solid #302b25}
+  .nav.nav-open .nav-links{display:flex}
+  .nav .nav-links a{padding:10px 4px;border-bottom:1px solid #26221d;font-size:12px}
+  .nav .nav-links a:last-child{border-bottom:0}
+}
