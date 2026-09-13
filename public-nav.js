@@ -53,6 +53,14 @@ function initPublicNav(){
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
   document.addEventListener('click',e=>{if(innerWidth<=850&&!nav.contains(e.target))close()});
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initPublicNav);
-else initPublicNav();
+function initPublicFooter(){
+  const root=document.querySelector('.footer .footer-inner');if(!root||root.dataset.enhanced==='1')return;root.dataset.enhanced='1';
+  const nav=document.createElement('nav');nav.className='footer-nav';nav.setAttribute('aria-label','Atalhos do rodapé');
+  const items=[['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Catálogo','catalogo.html'],['Autores','autores.html'],['Séries','series.html'],['Categorias','categorias.html'],['Temas','temas.html']];
+  nav.innerHTML=items.map(([label,href])=>`<a href="${href}">${label}</a>`).join('');root.appendChild(nav);
+  if(!document.getElementById('publicFooterNavStyle')){const style=document.createElement('style');style.id='publicFooterNavStyle';style.textContent='.footer-nav{display:flex;gap:10px 18px;flex-wrap:wrap;flex-basis:100%;padding-top:15px;border-top:1px solid #ffffff18}.footer-nav a{font-size:11px;font-weight:800;color:#bfb7ab;text-transform:uppercase;letter-spacing:.03em}.footer-nav a:hover,.footer-nav a:focus-visible{color:#d0a252;outline:none}';document.head.appendChild(style)}
+}
+function initPublicUi(){initPublicNav();initPublicFooter()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initPublicUi);
+else initPublicUi();
 })();
