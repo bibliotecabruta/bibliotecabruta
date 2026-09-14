@@ -1,65 +1,206 @@
 [
   {
-    "edition_id": "c94a995e-e662-4943-ae81-719ee73140b3",
-    "book_id": "402dd91e-4f0c-476f-8cba-498c66d4ac1e",
-    "title": "A Caixa-preta",
-    "url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788556510037/a-caixa-preta.jpg",
-    "allow_exception": true
+    "edition_id": "33dd7c1a-6559-465f-acc2-dc0fec4871f8",
+    "book_id": "27925170-d98e-4e06-9ecc-2b362a4b79f6",
+    "title": "A Caça ao Tesouro",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501095095.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "be82edcb-9903-4c19-8cd5-07571e4bb80c",
-    "book_id": "7f0c4974-1739-4504-83f0-2780399cdf3e",
-    "title": "A Queda",
-    "url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788581052090/a-queda.jpg",
-    "allow_exception": true
+    "edition_id": "6766bc36-ef7e-4ac3-bb3c-50a26905781b",
+    "book_id": "8e270c3c-354f-423f-a830-b04a924ec2bb",
+    "title": "A Estrela do Diabo",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/850110986X.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "f7f6818b-8c7b-413a-9a21-e6f2a849cec1",
-    "book_id": "80171677-0fd9-4fd8-8f34-9d0fb1f767ec",
-    "title": "Naquele Dia",
-    "url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535915365/naquele-dia.jpg",
-    "allow_exception": true
+    "edition_id": "fca1f13e-0658-4257-96e8-783dbcda0394",
+    "book_id": "a89a061c-c5da-44e9-8938-2873e066b76f",
+    "title": "A Fronteira",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8595086745.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "44f47dab-939a-43f4-a7b8-8fa1fa1d7b3c",
-    "book_id": "c2d08005-96ea-44a7-8079-f2859118dcbf",
-    "title": "O Segredo do Lago",
-    "url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535922073/o-segredo-do-lago.jpg",
-    "allow_exception": true
+    "edition_id": "238c125d-cca6-429d-9165-ad7a5272e862",
+    "book_id": "c2c26c1b-1902-484c-85da-df60231a05e8",
+    "title": "A Janela Quebrada",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501094625.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "2ebf72f5-8fcf-4016-856d-8e3c60df069e",
-    "book_id": "3f61ab78-289b-4d8d-b21a-56c50dd95364",
-    "title": "O Silêncio do Túmulo",
-    "url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535919110/o-silencio-do-tumulo.jpg",
-    "allow_exception": true
+    "edition_id": "bb867368-a902-4181-95be-ea4108a26a82",
+    "book_id": "97242471-5f92-42e8-8dcc-83c62f36ea97",
+    "title": "A Pirâmide de Lama",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501924237.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "3584d73d-cbea-44f5-b5df-9cfea7b5d6e8",
-    "book_id": "c6ee4c1b-2325-4bfd-9b14-810b9d6c8a3d",
-    "title": "Vozes",
-    "url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535920581/vozes.jpg",
-    "allow_exception": true
+    "edition_id": "b5610bc4-0817-4d52-a3fc-6c12ed8b0902",
+    "book_id": "8037fe14-0e23-4d6a-b328-dea345d1cf79",
+    "title": "A Sede",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501109711.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "cf353f7a-a088-475d-82ca-e95435f5f0d2",
-    "book_id": "285ff671-19a4-4633-a057-fad8f470c081",
-    "title": "O Quarto em Chamas",
-    "url": "https://cdn.awsli.com.br/800x800/765/765972/produto/399575840/whatsapp-image-2026-03-17-at-11-30-11-2-7gjis4icdg.jpeg",
-    "allow_exception": true
+    "edition_id": "5a4123a7-9bb6-4cea-a517-2fa40b26760b",
+    "book_id": "38a23858-a8ab-4fb5-9c12-fe7f3bd973cf",
+    "title": "Água na boca",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8528617068.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "8a3018fb-0f37-4dba-a704-89b0e25cd08b",
-    "book_id": "9508c722-4b5d-4419-84fb-3b25e795e2cd",
-    "title": "O Último Detetive",
-    "url": "https://cdn.awsli.com.br/800x800/765/765972/produto/60258987/5599f9a108.jpg",
-    "allow_exception": true
+    "edition_id": "1625c812-e86b-4d6c-b92a-e9123795f55f",
+    "book_id": "b772e889-aa99-4f45-8e32-36d4563bbea7",
+    "title": "Baratas",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501108073.01.LZZZZZZZ.jpg"
   },
   {
-    "edition_id": "9f42936e-623f-4720-9512-28aef472baf0",
-    "book_id": "2a621e3a-59d5-4397-a687-85ce0016c988",
-    "title": "Os Escolhidos",
-    "url": "https://cdn.awsli.com.br/800x800/765/765972/produto/399586222/whatsapp-image-2026-03-17-at-15-16-08-1-b60vmxd621.jpeg",
-    "allow_exception": true
+    "edition_id": "6db6d3c6-e13f-4599-a018-432385677ac7",
+    "book_id": "dd16488e-08c0-458b-9fc2-af925fbe9591",
+    "title": "Boneco de Neve",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501094803.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "0a59b4c2-20a7-4871-b2bb-74add4bd00c3",
+    "book_id": "7530e2ab-a957-4e61-83cb-11ff6edaaac7",
+    "title": "Caçada Mortal",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501401218.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "381899fa-a037-4fb7-a416-ad1bf0aee6e3",
+    "book_id": "4c8860d6-fb25-4ccc-bfec-65cba47aba81",
+    "title": "Centelha Mortal",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/850109465X.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "a0a63ae1-4277-4873-80da-8dae593b8bdf",
+    "book_id": "32bb6ac1-04a3-44ac-9466-0269665e0171",
+    "title": "Echo Park",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8560280200.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "0ad9c68b-01a3-4428-87f1-8f1fcc2e5253",
+    "book_id": "7366f3ec-615e-44b0-acec-e65393993e60",
+    "title": "Faca",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501119334.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "b0ea65e4-cf3d-4d95-87f3-709f4723be1f",
+    "book_id": "6a18edce-f942-48ed-98f0-07f4a6128b10",
+    "title": "Lua de Sangue",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/850192069X.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "f50f7e82-0afc-47fc-bb96-766098079847",
+    "book_id": "8dd45762-2aec-4ae7-a956-577185a56976",
+    "title": "Nada como ter amigos influentes",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8535929150.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "feb2884d-7e4e-422f-93a3-0248f496ab25",
+    "book_id": "544c3146-5777-4eed-8c04-a84408fc10db",
+    "title": "Necrotério",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/856553068X.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "8dd81afc-a786-40e5-a135-ed9cb460b27d",
+    "book_id": "4e015db4-e977-4429-84f6-72101ef36647",
+    "title": "Nove Dragões",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8581050107.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "c1f4f2d9-134e-47a8-9a26-1fee526465d4",
+    "book_id": "5f3d1834-91c2-4c0d-96bf-e5c204d39cfd",
+    "title": "O 4º Assassino",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501087440.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "c9fa4765-bcc2-4466-86db-a9106bfe9f48",
+    "book_id": "cd1d60a6-3f18-4177-a73a-5b4d905ada98",
+    "title": "O Colecionador de Peles",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501106100.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "a215ebe8-5ede-475f-9341-575076d2e352",
+    "book_id": "40a59bf3-1bb6-4620-b19b-535230c8bd51",
+    "title": "O Espantalho",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8560280820.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "df4534f4-9f73-43e4-b0aa-acb500b2a755",
+    "book_id": "04815603-c107-414f-a843-5c89d2351412",
+    "title": "O Fantasma",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501105287.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "7a45b965-42f8-43ae-b3fa-e68d8e140b28",
+    "book_id": "be4b7474-ed73-480f-89fe-744c56ded164",
+    "title": "O Fator Scarpetta",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8565530329.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "c38e31d5-3c64-422d-bf83-1ace1a1415a8",
+    "book_id": "59b84e4a-a7c1-419f-9362-38412a1a7752",
+    "title": "O Leopardo",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501052787.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "b7900e38-6106-4ce0-968c-43ddf4785fe4",
+    "book_id": "a43c96f8-b027-43ff-a70f-31cfbd0c9b84",
+    "title": "O Mirante",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8560280316.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "dcc1fefb-321f-4aca-afe6-27fb25436dff",
+    "book_id": "0e1162b7-741a-4a6d-8c60-420c1c6ce313",
+    "title": "O Morcego",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501076112.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "883cca94-86b1-4f28-a478-c19889231c58",
+    "book_id": "be41fea3-475c-4100-9e59-51489376d205",
+    "title": "O Redentor",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501109886.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "80593d60-cca7-43ab-9896-f10d512d1639",
+    "book_id": "7ba5dec0-f312-40b9-91d0-44299578af59",
+    "title": "O Sorriso de Angelica",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501109800.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "357667dd-77b1-445b-a8f4-d28ecb9f3e3f",
+    "book_id": "0b47179e-2339-4cd7-b464-6475d9272bf0",
+    "title": "Polícia",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501109584.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "c013a55b-5504-4a40-926b-a5d342e03638",
+    "book_id": "f0495f62-5c54-4318-bafc-f85c6b73b049",
+    "title": "Prazo Final",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501093513.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "22a79917-4804-47d0-ba06-4dbee6219284",
+    "book_id": "a600f791-8b1a-4cc4-9029-94671cff0b28",
+    "title": "Scarpetta",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8565530019.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "17c47f30-02e3-4f22-b0df-8782ebc1466b",
+    "book_id": "73e036d5-3f7d-41bd-813e-3593f0186e8d",
+    "title": "Sequestrados",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8504019195.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "6c7137a3-683f-4ea0-b528-5f0ff9b8b2c0",
+    "book_id": "b20f1209-1ba0-4a16-bbb3-4fa7f09c8cfd",
+    "title": "Todas as Cores da Escuridão",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501093432.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "39eb8092-0b46-4ab0-8ed1-cd12b1f3cb0b",
+    "book_id": "1c2abac3-e5bb-4d0c-b93e-f076a754e5cc",
+    "title": "Um Ninho de Cobras",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501924229.01.LZZZZZZZ.jpg"
+  },
+  {
+    "edition_id": "69c8b644-9ce5-4d37-8ee0-532cf625b011",
+    "book_id": "c64aafcc-9136-4454-8054-f62c18f80285",
+    "title": "Uma Voz na Noite",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8501115096.01.LZZZZZZZ.jpg"
   }
 ]
