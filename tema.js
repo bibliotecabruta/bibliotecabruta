@@ -21,12 +21,10 @@ function showMoreThemeBooks(){themeVisible+=48;renderThemeBooks()}
 async function loadTheme(){
   const root=document.getElementById('themePage'),id=new URLSearchParams(location.search).get('id');
   if(!id){root.innerHTML='<div class="empty">Tema não informado.</div>';return}
-  const {data:t,error}=await sbTheme.from('tags').select('id,name').eq('id',id).single();
+  const {data:t,error}=await sbTheme.from('tags').select('id,name,book_tags(books(id,title,cover_url,area,series_volume,authors(id,name),series(id,name),editions(cover_url,publisher,publication_year,is_primary,country)))').eq('id',id).single();
   if(error||!t){root.innerHTML='<div class="empty">Tema não encontrado.</div>';return}
   document.title=`${t.name} — Biblioteca Bruta`;
-  const {data:links,error:le}=await sbTheme.from('book_tags').select('books(id,title,cover_url,area,series_volume,authors(id,name),series(id,name),editions(cover_url,publisher,publication_year,is_primary,country))').eq('tag_id',id);
-  if(le){root.innerHTML='<div class="empty">Não foi possível carregar os livros deste tema.</div>';return}
-  themeBooks=(links||[]).map(x=>x.books).filter(Boolean).sort((a,b)=>a.title.localeCompare(b.title,'pt-BR'));themeVisible=48;updateThemeMeta(t,themeBooks);
+  themeBooks=(t.book_tags||[]).map(x=>x.books).filter(Boolean).sort((a,b)=>a.title.localeCompare(b.title,'pt-BR'));themeVisible=48;updateThemeMeta(t,themeBooks);
   const areaCounts=new Map();for(const b of themeBooks){const a=publicThemeArea(b.area);areaCounts.set(a,(areaCounts.get(a)||0)+1)}
   const areas=[...areaCounts.entries()].sort((a,b)=>a[0].localeCompare(b[0],'pt-BR'));
   const onlyArea=areas.length===1?areas[0][0]:'';
