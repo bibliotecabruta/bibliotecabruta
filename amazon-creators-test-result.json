@@ -1,6 +1,25 @@
 {
-  "status": "ok",
-  "test_isbn": "9788556510037",
-  "fulfilled_by_amazon_required": true,
-  "items": []
+  "status": "authenticated",
+  "credential_version_present": true,
+  "simple_search": {
+    "http_status": 403,
+    "total": 0,
+    "errors": [],
+    "items": []
+  },
+  "isbn_search": {
+    "test_isbn": "9788556510037",
+    "http_status": 403,
+    "total": 0,
+    "errors": [],
+    "items": []
+  },
+  "fba_search": {
+    "test_isbn": "9788556510037",
+    "fulfilled_by_amazon_required": true,
+    "http_status": 403,
+    "total": 0,
+    "errors": [],
+    "items": []
+  }
 }
