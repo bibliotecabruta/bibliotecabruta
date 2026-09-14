@@ -10,3 +10,8 @@
   .active-filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
   .active-filter{flex:0 0 auto}
 }
+
+.catalog-no-results{grid-column:1/-1}
+.catalog-no-results p{margin:8px 0 0;line-height:1.5}
+.catalog-no-results-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.catalog-no-results-actions .secondary{padding:9px 12px}
