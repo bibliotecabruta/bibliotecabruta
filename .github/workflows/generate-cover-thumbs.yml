@@ -1,0 +1,40 @@
+name: Gerar thumbnails de capas
+
+on:
+  push:
+    paths:
+      - 'assets/capas-edicoes/**'
+      - 'scripts/generate-cover-thumbs.mjs'
+      - '.github/workflows/generate-cover-thumbs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  thumbnails:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar Sharp
+        run: npm install --no-save --no-package-lock sharp
+      - name: Gerar thumbnails
+        run: node scripts/generate-cover-thumbs.mjs
+      - name: Commitar thumbnails
+        shell: bash
+        run: |
+          if git diff --quiet -- assets/capas-thumb && [ -z "$(git ls-files --others --exclude-standard assets/capas-thumb)" ]; then
+            echo "Thumbnails já estão atualizados."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/capas-thumb
+          git commit -m "Atualiza thumbnails de capas"
+          git pull --rebase origin main
+          git push origin main
