@@ -46,11 +46,12 @@ function auditSeriesIssueCount(){return auditDashState.series.filter(x=>(x.issue
 function auditSeriesIncompleteCount(){return auditDashState.series.filter(x=>['Interrompida','Em andamento'].includes(x.brazil_status)).length}
 function auditAuthorPendingCount(){return auditDashState.authors.filter(x=>(x.issues||[]).length).length}
 function auditCoverProblemCount(){const current=new Map(auditDashState.books.map(b=>[b.id,b.cover_url]));return auditDashState.covers.filter(x=>current.get(x.book_id)===x.cover_url&&x.status!=='ok').length}
+function auditCoverCoverage(){const cache=currentCoverCacheMap(),books=auditDashState.books.filter(b=>b.cover_url),checked=books.filter(b=>isCoverCacheCurrent(b,cache.get(b.id))).length;return{checked,total:books.length,unknown:Math.max(0,books.length-checked)}}
 function auditIntegrityCount(){return auditDashState.integrity.length+auditDashState.similar.length}
 
 function renderAuditDashboard(){
   const root=document.getElementById('auditDashboardBody');if(!root)return;
-  const bp=auditBookPendingCount(),sp=auditSeriesIssueCount(),si=auditSeriesIncompleteCount(),ap=auditAuthorPendingCount(),cp=auditCoverProblemCount(),ip=auditIntegrityCount(),lp=auditDashState.links.length;
+  const bp=auditBookPendingCount(),sp=auditSeriesIssueCount(),si=auditSeriesIncompleteCount(),ap=auditAuthorPendingCount(),cp=auditCoverProblemCount(),cc=auditCoverCoverage(),ip=auditIntegrityCount(),lp=auditDashState.links.length;
   root.innerHTML=`
     <div class="audit-dash-head">
       <div><h2>Auditoria automática</h2><p class="muted">Pendências de metadados, estrutura, capas e links em um único lugar.</p></div>
@@ -61,7 +62,7 @@ function renderAuditDashboard(){
       <button class="audit-kpi ${sp?'warn':'ok'}" onclick="setAuditTab('series','__issues__')"><strong>${sp}</strong><span>Séries inconsistentes</span></button>
       <button class="audit-kpi" onclick="setAuditTab('series','__incomplete__')"><strong>${si}</strong><span>Séries incompletas</span></button>
       <button class="audit-kpi ${ap?'warn':'ok'}" onclick="setAuditTab('autores','__pending__')"><strong>${ap}</strong><span>Autores pendentes</span></button>
-      <button class="audit-kpi ${cp?'warn':'ok'}" onclick="setAuditTab('capas','__problems__')"><strong>${cp}</strong><span>Capas problemáticas</span></button>
+      <button class="audit-kpi ${cp?'warn':cc.unknown?'':'ok'}" onclick="setAuditTab('capas','${cc.checked?'__problems__':'__unknown__'}')"><strong>${cp}</strong><span>Capas problemáticas · ${cc.checked}/${cc.total} verificadas</span></button>
       <button class="audit-kpi ${ip?'warn':'ok'}" onclick="setAuditTab('integridade','')"><strong>${ip}</strong><span>Integridade / similares</span></button>
       <button class="audit-kpi ${lp?'warn':'ok'}" onclick="setAuditTab('links','')"><strong>${lp}</strong><span>Links inválidos</span></button>
     </div>
@@ -80,7 +81,7 @@ function renderAuditDashboard(){
 }
 
 function auditTabButton(id,label,count){return `<button class="audit-tab ${auditDashState.tab===id?'active':''}" onclick="setAuditTab('${id}')">${esc(label)}${count?` · ${count}`:''}</button>`}
-function setAuditTab(tab,filter){auditDashState.tab=tab;auditDashState.query='';auditDashState.filter=filter!==undefined?filter:(tab==='livros'?'__priority__':tab==='series'?'__issues__':tab==='autores'?'__pending__':tab==='capas'?'__problems__':'');renderAuditDashboard()}
+function setAuditTab(tab,filter){auditDashState.tab=tab;auditDashState.query='';const coverDefault=tab==='capas'?(auditCoverCoverage().checked?'__problems__':'__unknown__'):'';auditDashState.filter=filter!==undefined?filter:(tab==='livros'?'__priority__':tab==='series'?'__issues__':tab==='autores'?'__pending__':coverDefault);renderAuditDashboard()}
 function setAuditFilter(v){auditDashState.filter=v;renderAuditDashTab()}
 function setAuditQuery(v){auditDashState.query=(v||'').trim().toLocaleLowerCase('pt-BR');renderAuditDashTab()}
 function auditTextMatch(...vals){if(!auditDashState.query)return true;const q=auditDashState.query;return vals.some(v=>String(v||'').toLocaleLowerCase('pt-BR').includes(q))}
