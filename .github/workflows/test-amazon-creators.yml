@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Testar Creators API Brasil
         env:
@@ -20,9 +20,14 @@ jobs:
           CREDENTIAL_VERSION: ${{ secrets.AMAZON_CREATORS_CREDENTIAL_VERSION }}
         shell: bash
         run: |
+          set -euo pipefail
           set +x
 
           TOKEN_ENDPOINT="https://api.amazon.com/auth/o2/token"
+          API_ENDPOINT="https://creatorsapi.amazon/catalog/v1/searchItems"
+          MARKETPLACE="www.amazon.com.br"
+          PARTNER_TAG="diegobiblio07-20"
+          TEST_ISBN="9788556510037"
 
           TOKEN_RESPONSE=$(curl -sS -X POST "$TOKEN_ENDPOINT" \
             -H "Content-Type: application/json" \
@@ -39,58 +44,146 @@ jobs:
           TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token // empty')
 
           if [ -z "$TOKEN" ]; then
-            echo "$TOKEN_RESPONSE" |
-              jq '{status:"authentication_error",
-                   error:(.error // null),
-                   description:(.error_description // null)}' \
-              > amazon-creators-test-result.json
-          else
-            curl -sS -X POST \
-              "https://creatorsapi.amazon/catalog/v1/searchItems" \
+            echo "$TOKEN_RESPONSE" | jq '{
+              status:"authentication_error",
+              error:(.error // null),
+              description:(.error_description // null)
+            }' > amazon-creators-test-result.json
+            exit 0
+          fi
+
+          call_search () {
+            local payload="$1"
+            local body_file="$2"
+            local code_file="$3"
+
+            curl -sS -o "$body_file" -w "%{http_code}" -X POST "$API_ENDPOINT" \
               -H "Authorization: Bearer $TOKEN" \
               -H "Content-Type: application/json" \
-              -H "x-marketplace: www.amazon.com.br" \
-              -d '{
-                "partnerTag":"diegobiblio07-20",
-                "marketplace":"www.amazon.com.br",
-                "searchIndex":"Books",
-                "keywords":"9788556510037",
-                "itemCount":10,
-                "condition":"New",
-                "availability":"Available",
-                "deliveryFlags":["FulfilledByAmazon"],
-                "languagesOfPreference":["pt_BR"],
-                "resources":[
-                  "itemInfo.title",
-                  "itemInfo.byLineInfo",
-                  "itemInfo.externalIds",
-                  "offersV2.listings.availability",
-                  "offersV2.listings.condition",
-                  "offersV2.listings.isBuyBoxWinner",
-                  "offersV2.listings.merchantInfo",
-                  "offersV2.listings.price"
-                ]
-              }' |
-              jq '{
-                status:"ok",
-                test_isbn:"9788556510037",
-                fulfilled_by_amazon_required:true,
+              -H "x-marketplace: $MARKETPLACE" \
+              -d "$payload" > "$code_file"
+          }
+
+          SIMPLE_PAYLOAD=$(jq -n \
+            --arg tag "$PARTNER_TAG" \
+            --arg marketplace "$MARKETPLACE" \
+            '{
+              partnerTag:$tag,
+              marketplace:$marketplace,
+              searchIndex:"Books",
+              keywords:"Michael Connelly",
+              itemCount:3,
+              resources:[
+                "itemInfo.title",
+                "itemInfo.byLineInfo",
+                "itemInfo.externalIds",
+                "offersV2.listings.availability",
+                "offersV2.listings.condition",
+                "offersV2.listings.isBuyBoxWinner",
+                "offersV2.listings.merchantInfo",
+                "offersV2.listings.price"
+              ]
+            }')
+
+          ISBN_PAYLOAD=$(jq -n \
+            --arg tag "$PARTNER_TAG" \
+            --arg marketplace "$MARKETPLACE" \
+            --arg isbn "$TEST_ISBN" \
+            '{
+              partnerTag:$tag,
+              marketplace:$marketplace,
+              searchIndex:"Books",
+              keywords:$isbn,
+              itemCount:10,
+              condition:"New",
+              availability:"Available",
+              resources:[
+                "itemInfo.title",
+                "itemInfo.byLineInfo",
+                "itemInfo.externalIds",
+                "offersV2.listings.availability",
+                "offersV2.listings.condition",
+                "offersV2.listings.isBuyBoxWinner",
+                "offersV2.listings.merchantInfo",
+                "offersV2.listings.price"
+              ]
+            }')
+
+          FBA_PAYLOAD=$(echo "$ISBN_PAYLOAD" | jq '. + {deliveryFlags:["FulfilledByAmazon"]}')
+
+          call_search "$SIMPLE_PAYLOAD" simple.json simple.code
+          call_search "$ISBN_PAYLOAD" isbn.json isbn.code
+          call_search "$FBA_PAYLOAD" fba.json fba.code
+
+          SIMPLE_HTTP=$(cat simple.code)
+          ISBN_HTTP=$(cat isbn.code)
+          FBA_HTTP=$(cat fba.code)
+
+          jq -n \
+            --arg simple_http "$SIMPLE_HTTP" \
+            --arg isbn_http "$ISBN_HTTP" \
+            --arg fba_http "$FBA_HTTP" \
+            --arg test_isbn "$TEST_ISBN" \
+            --slurpfile simple simple.json \
+            --slurpfile isbn isbn.json \
+            --slurpfile fba fba.json \
+            '{
+              status:"authenticated",
+              credential_version_present:(env.CREDENTIAL_VERSION | length > 0),
+              simple_search:{
+                http_status:($simple_http|tonumber),
+                total:(($simple[0].searchResult.totalResultCount // 0)),
+                errors:($simple[0].errors // []),
                 items:[
-                  (.searchResult.items[]? |
-                    {
-                      asin,
-                      url:.detailPageURL,
-                      title:.itemInfo.title.displayValue,
-                      eans:(.itemInfo.externalIds.eans.displayValues // []),
-                      isbns:(.itemInfo.externalIds.isbns.displayValues // []),
-                      seller:(.offersV2.listings[0].merchantInfo.name // null),
-                      availability:(.offersV2.listings[0].availability.type // null),
-                      condition:(.offersV2.listings[0].condition.value // null),
-                      price:(.offersV2.listings[0].price.money.displayAmount // null)
-                    })
+                  ($simple[0].searchResult.items[]? | {
+                    asin,
+                    url:.detailPageURL,
+                    title:(.itemInfo.title.displayValue // null),
+                    seller:(.offersV2.listings[0].merchantInfo.name // null),
+                    price:(.offersV2.listings[0].price.money.displayAmount // null)
+                  })
                 ]
-              }' > amazon-creators-test-result.json
-          fi
+              },
+              isbn_search:{
+                test_isbn:$test_isbn,
+                http_status:($isbn_http|tonumber),
+                total:(($isbn[0].searchResult.totalResultCount // 0)),
+                errors:($isbn[0].errors // []),
+                items:[
+                  ($isbn[0].searchResult.items[]? | {
+                    asin,
+                    url:.detailPageURL,
+                    title:(.itemInfo.title.displayValue // null),
+                    eans:(.itemInfo.externalIds.eans.displayValues // []),
+                    isbns:(.itemInfo.externalIds.isbns.displayValues // []),
+                    seller:(.offersV2.listings[0].merchantInfo.name // null),
+                    availability:(.offersV2.listings[0].availability.type // null),
+                    condition:(.offersV2.listings[0].condition.value // null),
+                    price:(.offersV2.listings[0].price.money.displayAmount // null)
+                  })
+                ]
+              },
+              fba_search:{
+                test_isbn:$test_isbn,
+                fulfilled_by_amazon_required:true,
+                http_status:($fba_http|tonumber),
+                total:(($fba[0].searchResult.totalResultCount // 0)),
+                errors:($fba[0].errors // []),
+                items:[
+                  ($fba[0].searchResult.items[]? | {
+                    asin,
+                    url:.detailPageURL,
+                    title:(.itemInfo.title.displayValue // null),
+                    seller:(.offersV2.listings[0].merchantInfo.name // null),
+                    availability:(.offersV2.listings[0].availability.type // null),
+                    condition:(.offersV2.listings[0].condition.value // null),
+                    price:(.offersV2.listings[0].price.money.displayAmount // null)
+                  })
+                ]
+              }
+            }' > amazon-creators-test-result.json
+
+          rm -f simple.json simple.code isbn.json isbn.code fba.json fba.code
 
       - name: Registrar resultado sanitizado
         shell: bash
@@ -98,5 +191,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add amazon-creators-test-result.json
-          git commit -m "Registra teste da Amazon Creators API" || exit 0
+          git commit -m "Registra diagnóstico da Amazon Creators API" || exit 0
           git push
