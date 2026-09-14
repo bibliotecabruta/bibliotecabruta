@@ -139,3 +139,42 @@ function renderAuditCovers(box){
  else if(auditDashState.filter==='quebrada')rows=rows.filter(x=>x.cache?.cover_url===x.book.cover_url&&x.cache.status==='quebrada');
  else if(auditDashState.filter==='baixa_resolucao')rows=rows.filter(x=>x.cache?.cover_url===x.book.cover_url&&x.cache.status==='baixa_resolucao');
  const valid=auditDashState.covers.filter(x=>auditDashState.books.some(b=>b.id===x.book_id&&b.cover_url===x.cover_url)),ok=valid.filter(x=>x.status==='ok').length,low=valid.filter(x=>x.status==='baixa_resolucao').length,broken=valid.filter(x=>x.status==='quebrada').length,unknown=auditDashState.books.filter(b=>b.cover_url&&!isCoverCacheCurrent(b,cache.get(b.id))).length;
+ box.innerHTML=`<div class="audit-cover-stats"><span class="audit-tag ok">OK · ${ok}</span><span class="audit-tag">Baixa resolução · ${low}</span><span class="audit-tag">Quebradas · ${broken}</span><span class="audit-tag neutral">Não verificadas / antigas · ${unknown}</span></div><div class="audit-toolbar"><input type="search" placeholder="Pesquisar título ou autor…" oninput="setAuditQuery(this.value)"><select onchange="setAuditFilter(this.value)"><option value="__problems__" ${auditDashState.filter==='__problems__'?'selected':''}>Problemáticas</option><option value="__unknown__" ${auditDashState.filter==='__unknown__'?'selected':''}>Não verificadas / antigas</option><option value="baixa_resolucao" ${auditDashState.filter==='baixa_resolucao'?'selected':''}>Baixa resolução</option><option value="quebrada" ${auditDashState.filter==='quebrada'?'selected':''}>Quebradas</option><option value="" ${auditDashState.filter===''?'selected':''}>Todas com capa</option></select><button class="secondary" onclick="scanAuditCovers(false,50,false)">Verificar próximas 50</button></div><p class="audit-section-note">A auditoria carrega a imagem real. Consideramos baixa resolução quando a capa tem menos de 600 px de largura ou 900 px de altura. Resultados ficam em cache por 30 dias e são invalidados se a URL mudar.</p><div class="audit-list">${rows.length?rows.map(coverAuditRow).join(''):'<div class="audit-empty">Nenhuma capa neste filtro.</div>'}</div>`;
+}
+function coverAuditRow(x){const b=x.book,c=x.cache,current=c&&c.cover_url===b.cover_url;let label='<span class="audit-tag neutral">Não verificada</span>',meta='';if(current){if(c.status==='ok')label='<span class="audit-tag ok">OK</span>';if(c.status==='baixa_resolucao')label='<span class="audit-tag">Baixa resolução</span>';if(c.status==='quebrada')label='<span class="audit-tag">Quebrada</span>';meta=c.width&&c.height?`${c.width}×${c.height}px`:''}return `<div class="audit-row"><div class="audit-row-main"><strong><img class="audit-cover-thumb" src="${esc(b.cover_url)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">${esc(b.title)}</strong><small>${esc(b.author||'—')}</small><div class="audit-tags">${label}</div></div><div class="audit-row-meta">${esc(meta||b.cover_url)}</div><div class="audit-row-actions"><button class="secondary" onclick="scanSingleAuditCover('${b.id}')">Verificar</button><button class="secondary" onclick="editBook('${b.id}')">Editar livro</button></div></div>`}
+
+async function inspectAuditCover(book){
+ return new Promise(resolve=>{
+  let done=false;const img=new Image();const finish=(status,w=null,h=null)=>{if(done)return;done=true;clearTimeout(timer);resolve({book_id:book.id,cover_url:book.cover_url,width:w,height:h,status,checked_at:new Date().toISOString()})};
+  const timer=setTimeout(()=>finish('quebrada'),12000);
+  img.onload=()=>{const w=img.naturalWidth||0,h=img.naturalHeight||0;finish((w<600||h<900)?'baixa_resolucao':'ok',w,h)};
+  img.onerror=()=>finish('quebrada');
+  try{img.src=new URL(book.cover_url,location.href).href}catch{finish('quebrada')}
+ });
+}
+async function scanSingleAuditCover(id){const b=auditDashState.books.find(x=>x.id===id);if(!b?.cover_url)return;const rec=await inspectAuditCover(b);const {error}=await sbAdmin.from('admin_cover_audit_cache').upsert(rec);if(error){msg('Erro ao registrar auditoria da capa: '+error.message,'error');return}auditDashState.covers=auditDashState.covers.filter(x=>x.book_id!==id);auditDashState.covers.push(rec);renderAuditDashboard()}
+async function scanAuditCovers(all=false,limit=null,silent=false){
+ if(auditDashState.coverScanning)return;
+ const cache=currentCoverCacheMap();
+ let queue=auditDashState.books.filter(b=>b.cover_url&&(all||!isCoverCacheCurrent(b,cache.get(b.id))));
+ if(limit)queue=queue.slice(0,limit);
+ if(!queue.length){if(!silent)msg('Não há capas pendentes para verificar.','ok');return}
+ auditDashState.coverScanning=true;
+ const progress=document.getElementById('auditCoverProgress');let done=0;
+ const paint=()=>{if(progress&&!silent)progress.innerHTML=`<div class="note">Verificando capas: ${done} de ${queue.length}</div><div class="audit-progress"><span style="width:${Math.round(done/queue.length*100)}%"></span></div>`};
+ paint();
+ let cursor=0;
+ async function worker(){while(cursor<queue.length){const book=queue[cursor++];const rec=await inspectAuditCover(book);const {error}=await sbAdmin.from('admin_cover_audit_cache').upsert(rec);if(!error){auditDashState.covers=auditDashState.covers.filter(x=>x.book_id!==book.id);auditDashState.covers.push(rec)}done++;paint()}}
+ await Promise.all(Array.from({length:Math.min(5,queue.length)},()=>worker()));
+ auditDashState.coverScanning=false;
+ if(progress)progress.innerHTML='';
+ if(!silent)msg(`Auditoria de capas concluída: ${done} verificadas.`,'ok');
+ renderAuditDashboard();
+}
+
+function renderAuditLinks(box){
+ let rows=auditDashState.links.filter(r=>auditTextMatch(r.title,r.label,r.url,r.link_type));
+ box.innerHTML=`<div class="audit-toolbar"><input type="search" placeholder="Pesquisar livro, loja ou URL…" oninput="setAuditQuery(this.value)"><select disabled><option>URLs sintaticamente inválidas</option></select><span class="muted">${rows.length} problema${rows.length===1?'':'s'}</span></div><p class="audit-section-note">Este bloco detecta URLs vazias ou malformadas. Respostas 403/404 de lojas não são classificadas automaticamente para evitar falsos positivos causados por bloqueio de robôs.</p><div class="audit-list">${rows.length?rows.map(r=>`<div class="audit-row"><div class="audit-row-main"><strong>${esc(r.title)}</strong><small>${esc(r.label||r.link_type||'Link')}</small><div class="audit-tags"><span class="audit-tag">${esc(LINK_AUDIT_LABELS[r.issue_type]||r.issue_type)}</span></div></div><div class="audit-row-meta">${esc(r.url||'URL vazia')}</div><div class="audit-row-actions"><button class="secondary" onclick="editBook('${r.book_id}')">Editar livro</button></div></div>`).join(''):'<div class="audit-empty">Nenhuma URL inválida encontrada.</div>'}</div>`;
+}
+
+window.showAuditDashboard=showAuditDashboard;
