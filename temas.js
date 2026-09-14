@@ -11,18 +11,16 @@ function themeCountForArea(t,area){if(!area)return t.count;return themeAreasForF
 async function initThemes(){
   const target=document.getElementById('themeGrid');
   target.innerHTML='<div class="empty">Carregando temas…</div>';
-  const [{data:tags,error:tagError},{data:books,error:bookError}]=await Promise.all([
-    sbThemes.from('tags').select('id,name').order('name'),
-    sbThemes.from('books').select('area,book_tags(tag_id)')
-  ]);
-  if(tagError||bookError){target.innerHTML='<div class="empty">Não foi possível carregar os temas.</div>';return}
-  const usage=new Map();
+  const {data:books,error}=await sbThemes.from('books').select('area,book_tags(tag_id,tags(id,name))');
+  if(error){target.innerHTML='<div class="empty">Não foi possível carregar os temas.</div>';return}
+  const usage=new Map(),tags=new Map();
   for(const b of books||[])for(const bt of b.book_tags||[]){
-    if(!bt.tag_id)continue;
-    if(!usage.has(bt.tag_id))usage.set(bt.tag_id,{total:0,areas:{}});
-    const u=usage.get(bt.tag_id);u.total++;u.areas[b.area]=(u.areas[b.area]||0)+1;
+    const tag=bt.tags,id=bt.tag_id||tag?.id;if(!id)continue;
+    if(tag&&!tags.has(id))tags.set(id,tag);
+    if(!usage.has(id))usage.set(id,{total:0,areas:{}});
+    const u=usage.get(id);u.total++;u.areas[b.area]=(u.areas[b.area]||0)+1;
   }
-  themeRows=(tags||[]).map(t=>{const u=usage.get(t.id)||{total:0,areas:{}};return{...t,count:u.total,areaCounts:u.areas}}).filter(t=>t.count>0);
+  themeRows=[...tags.values()].map(t=>{const u=usage.get(t.id)||{total:0,areas:{}};return{...t,count:u.total,areaCounts:u.areas}}).filter(t=>t.count>0);
   const p=new URLSearchParams(location.search);
   if(p.get('q'))document.getElementById('themeSearch').value=p.get('q');
   if(p.get('area'))document.getElementById('themeArea').value=p.get('area');
