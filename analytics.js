@@ -7,7 +7,7 @@ const CONSENT_KEY='bb_analytics_consent';
 let loaded=false,consentPrepared=false,searchTimer=null,lastSearch='',lastFilterSig='';
 function pageType(){
  const p=(location.pathname.split('/').pop()||'index.html').toLowerCase();
- const map={'index.html':'home','catalogo.html':'catalog','livro.html':'book','serie.html':'series_detail','series.html':'series','autor.html':'author_detail','autores.html':'authors','historica.html':'historical','policial.html':'crime','noticias.html':'news','noticia.html':'article','categoria.html':'category_detail','categorias.html':'categories','tema.html':'theme_detail','temas.html':'themes','sobre.html':'about','privacidade.html':'privacy'};
+ const map={'index.html':'home','catalogo.html':'catalog','livro.html':'book','serie.html':'series_detail','series.html':'series','autor.html':'author_detail','autores.html':'authors','historica.html':'historical','policial.html':'crime','colecao-negra.html':'crime_collection_black','colecao-policial.html':'crime_collection_police','militar.html':'military','noticias.html':'news','noticia.html':'article','categoria.html':'category_detail','categorias.html':'categories','tema.html':'theme_detail','temas.html':'themes','sobre.html':'about','privacidade.html':'privacy','404.html':'not_found'};
  return map[p]||p.replace('.html','')||'home';
 }
 function clean(v,max=100){
@@ -118,7 +118,7 @@ function initClickTracking(){
   const u=hrefInfo(a);if(!u)return;
   const path=(u.pathname.split('/').pop()||'').toLowerCase(),id=u.searchParams.get('id')||'';
   if(a.classList.contains('purchase-button')){
-   track('purchase_click',{store:linkLabel(a),item_id:id||new URLSearchParams(location.search).get('id')||'',affiliate:(a.rel||'').includes('sponsored')?'yes':'no'});return;
+   track('purchase_click',{store:linkLabel(a),item_id:new URLSearchParams(location.search).get('id')||'',affiliate:(a.rel||'').includes('sponsored')?'yes':'no'});return;
   }
   if(a.classList.contains('youtube-button')||/youtube\.com|youtu\.be/i.test(u.hostname)){
    track('video_click',{provider:'youtube',link_text:linkLabel(a),item_id:new URLSearchParams(location.search).get('id')||''});return;

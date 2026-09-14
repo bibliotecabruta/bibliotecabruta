@@ -1,5 +1,5 @@
 (function(){
-function initAnalyticsLoader(){if(document.querySelector('script[data-bb-analytics]'))return;const s=document.createElement('script');s.src='analytics.js?v=20260914-2';s.defer=true;s.dataset.bbAnalytics='1';document.head.appendChild(s)}
+function initAnalyticsLoader(){if(document.querySelector('script[data-bb-analytics]'))return;const s=document.createElement('script');s.src='analytics.js?v=20260914-3';s.defer=true;s.dataset.bbAnalytics='1';document.head.appendChild(s)}
 function initPublicNav(){
   const nav=document.querySelector('.topbar .nav');
   if(!nav||nav.dataset.enhanced==='1')return;
