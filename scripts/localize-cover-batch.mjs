@@ -52,9 +52,13 @@ for(const item of batch){
   if(buf.length<5000)throw new Error('arquivo pequeno demais: '+buf.length+' bytes');
   if(!looksLikeImage(buf,type))throw new Error('resposta não parece imagem: '+type);
   const ext=extFrom(type,item.url),file=path.join(outDir,item.edition_id+ext),dims=imageDimensions(buf,type);
-  await writeFile(file,buf);
   const quality=dims.width&&dims.height&&(dims.width<600||dims.height<900)?'low_resolution':'ok';
-  result={...result,status:'ok',quality,width:dims.width,height:dims.height,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
+  if(quality==='low_resolution'){
+    result={...result,status:'rejected_low_resolution',quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
+  }else{
+    await writeFile(file,buf);
+    result={...result,status:'ok',quality,width:dims.width,height:dims.height,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
+  }
  }catch(err){
   result={...result,error:String(err?.message||err)};
  }
@@ -62,4 +66,4 @@ for(const item of batch){
  console.log(result.status.toUpperCase(),item.title,result.local_path||result.error);
 }
 await writeFile('cover-migration-results.json',JSON.stringify({generated_at:new Date().toISOString(),results},null,2)+'\n','utf8');
-if(!results.some(x=>x.status==='ok'))process.exitCode=2;
+if(!results.length)process.exitCode=2;
