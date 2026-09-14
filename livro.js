@@ -5,13 +5,13 @@ function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&l
 function val(v,f='—'){return v!==null&&v!==undefined&&v!==''?esc(v):f}
 function statusClass(v){const s=String(v||'').toLowerCase();if(s==='completa')return'status-completa';if(s==='interrompida')return'status-interrompida';if(s==='em andamento')return'status-andamento';if(s==='volume único')return'status-volume-unico';return''}
 function setBookMeta(attr,key,value){if(!value)return;let m=document.head.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement('meta');m.setAttribute(attr,key);document.head.appendChild(m)}m.content=value}
-function updateBookMeta(b,cover){const title=`${b.title} — Biblioteca Bruta`,desc=(b.synopsis||`${b.title}, de ${b.authors?.name||'autor não informado'}, no catálogo Biblioteca Bruta`).slice(0,155),url=location.href.split('#')[0];let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setBookMeta('property','og:title',title);setBookMeta('property','og:description',desc);setBookMeta('property','og:url',url);setBookMeta('property','og:type','book');if(cover)setBookMeta('property','og:image',cover);setBookMeta('name','twitter:card',cover?'summary_large_image':'summary');setBookMeta('name','twitter:title',title);setBookMeta('name','twitter:description',desc);if(cover)setBookMeta('name','twitter:image',cover)}
+function updateBookMeta(b,cover){const title=`${b.title} — Biblioteca Bruta`,desc=(b.synopsis||`${b.title}, de ${b.authors?.name||'autor não informado'}, no catálogo Biblioteca Bruta`).slice(0,155),url=location.origin+location.pathname+'?id='+encodeURIComponent(b.id);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setBookMeta('property','og:title',title);setBookMeta('property','og:description',desc);setBookMeta('property','og:url',url);setBookMeta('property','og:type','book');if(cover)setBookMeta('property','og:image',cover);setBookMeta('name','twitter:card',cover?'summary_large_image':'summary');setBookMeta('name','twitter:title',title);setBookMeta('name','twitter:description',desc);if(cover)setBookMeta('name','twitter:image',cover)}
 function updateBookStructuredData(b,primary,cover){
  const data={
   '@context':'https://schema.org',
   '@type':'Book',
   name:b.title,
-  url:location.href.split('#')[0],
+  url:location.origin+location.pathname+'?id='+encodeURIComponent(b.id),
   inLanguage:'pt-BR'
  };
  if(b.original_title)data.alternateName=b.original_title;
@@ -39,7 +39,7 @@ function rememberViewedBook(b,cover){try{const key='bb_recent_books',old=JSON.pa
 
 
 async function shareBook(){
- const btn=document.getElementById('bookShareButton'),url=location.href,title=document.title;
+ const btn=document.getElementById('bookShareButton'),url=document.querySelector('link[rel="canonical"]')?.href||location.href,title=document.title;
  try{
   if(navigator.share){await navigator.share({title,url});window.bbTrack?.('share',{method:'native',content_type:'book'});return}
   if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(url);
