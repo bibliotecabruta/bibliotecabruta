@@ -1,4 +1,5 @@
 (function(){
+function initAnalyticsLoader(){if(document.querySelector('script[data-bb-analytics]'))return;const s=document.createElement('script');s.src='analytics.js?v=20260914-1';s.defer=true;s.dataset.bbAnalytics='1';document.head.appendChild(s)}
 function initPublicNav(){
   const nav=document.querySelector('.topbar .nav');
   if(!nav||nav.dataset.enhanced==='1')return;
@@ -104,7 +105,7 @@ function initSmartBack(){
   if(!sameOriginRef)return;
   document.addEventListener('click',e=>{const a=e.target.closest('a.backlink');if(!a||!/voltar/i.test(a.textContent||''))return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button>0)return;e.preventDefault();history.back()});
 }
-function initPublicUi(){initPublicNav();initPublicFooter();initDetailRecovery();initScrollTop();initAccessibility();initSmartBack()}
+function initPublicUi(){initAnalyticsLoader();initPublicNav();initPublicFooter();initDetailRecovery();initScrollTop();initAccessibility();initSmartBack()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initPublicUi);
 else initPublicUi();
 })();
