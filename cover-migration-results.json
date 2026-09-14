@@ -1,137 +1,37 @@
 {
-  "generated_at": "2026-09-14T15:34:21.756Z",
+  "generated_at": "2026-09-14T15:35:58.046Z",
   "results": [
-    {
-      "edition_id": "79d77b22-a242-4a8a-adbd-072ba4855590",
-      "book_id": "085aab76-5c67-4a6c-9045-ee2e98aef8fc",
-      "title": "A Herança de um Crime",
-      "original_url": "https://imagedelivery.net/8_mRjFmPxY_brewboTCwFg/3932c30e-2702-45a7-7d85-f2fc11402200/public",
-      "status": "rejected_low_resolution",
-      "quality": "low_resolution",
-      "width": 551,
-      "height": 768,
-      "bytes": 45820,
-      "content_type": "image/webp"
-    },
     {
       "edition_id": "2d9618b7-78fd-494f-8ec9-b15bf3bcf186",
       "book_id": "48daf303-12cc-441e-bcf9-656e732487ed",
       "title": "A Loira de Concreto",
-      "original_url": "https://down-br.img.susercontent.com/file/br-11134207-7r98o-ls8rd90u4p4r86",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 800,
-      "height": 800,
-      "bytes": 453764,
-      "content_type": "image/jpeg"
-    },
-    {
-      "edition_id": "cca6f731-6ca6-4a90-b7bb-b643fede8887",
-      "book_id": "69f84bc9-ae8b-4602-ab9d-c1bb56c5206b",
-      "title": "A Morte do Turista",
-      "original_url": "https://imagedelivery.net/8_mRjFmPxY_brewboTCwFg/7a9cb424-f61a-4098-e851-806f9e642900/public",
-      "status": "rejected_low_resolution",
-      "quality": "low_resolution",
-      "width": 550,
-      "height": 768,
-      "bytes": 60434,
-      "content_type": "image/webp"
+      "original_url": "https://covers.openlibrary.org/b/isbn/8571235775-L.jpg",
+      "status": "failed",
+      "error": "arquivo pequeno demais: 43 bytes"
     },
     {
       "edition_id": "e488d37b-99cc-434e-8a1f-65577e44291e",
       "book_id": "5fe5816a-06eb-4e1c-b488-970a15da7a7a",
       "title": "Amor Fatal",
-      "original_url": "https://down-br.img.susercontent.com/file/2be5e07e4beb3d9a2bb9841763893520",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 1024,
-      "height": 1024,
-      "bytes": 138461,
-      "content_type": "image/jpeg"
-    },
-    {
-      "edition_id": "8fb7b4d3-baa3-4859-ba18-63f1a1e0e82e",
-      "book_id": "ebb94182-0511-480c-ae4e-a2e2a96c4d0b",
-      "title": "As Horas Vazias",
-      "original_url": "https://down-br.img.susercontent.com/file/br-11134207-7r98o-lovb65nmszf945",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 1024,
-      "height": 1024,
-      "bytes": 148817,
-      "content_type": "image/jpeg"
-    },
-    {
-      "edition_id": "ec7b35de-657f-4fd7-af87-57035b4d71f7",
-      "book_id": "8cb8bafa-7a97-4f1b-815e-ccb2f0388ca1",
-      "title": "Calipso",
-      "original_url": "https://boxloja-std-cdn-r2.minhaboxloja.com/lojas/a4ve/produtos/bd9b2a44-1d3c-4d2e-adc0-eeedd2ef9f6c.png",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 960,
-      "height": 960,
-      "bytes": 663722,
-      "content_type": "image/png"
-    },
-    {
-      "edition_id": "9ee98ac9-61b4-4df1-baa5-93ec4c27bd65",
-      "book_id": "86e9fbba-10e2-4a24-b931-9d17eabb2ead",
-      "title": "Dez + Um",
-      "original_url": "https://down-br.img.susercontent.com/file/br-11134207-820lu-mm9fdig5k0eff4",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 800,
-      "height": 800,
-      "bytes": 277032,
-      "content_type": "image/jpeg"
+      "original_url": "https://covers.openlibrary.org/b/isbn/8535400591-L.jpg",
+      "status": "failed",
+      "error": "arquivo pequeno demais: 43 bytes"
     },
     {
       "edition_id": "526c587c-9b92-484d-978d-5b91f9aa23da",
       "book_id": "8dd74f10-fbdf-4a53-86bc-cfdce3b3ef0b",
       "title": "Doutor Morte",
-      "original_url": "https://down-br.img.susercontent.com/file/sg-11134201-7rfid-m4cbphtskdx621",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 853,
-      "height": 853,
-      "bytes": 81043,
-      "content_type": "image/jpeg"
-    },
-    {
-      "edition_id": "cd861903-d942-4309-943f-9e97c08fe036",
-      "book_id": "525679d6-2892-4008-a873-d1585b05b468",
-      "title": "O Assaltante Educado",
-      "original_url": "https://skoob.s3.amazonaws.com/livros/312931/O_ASSALTANTE_EDUCADO_1364568136B.jpg",
-      "status": "rejected_low_resolution",
-      "quality": "low_resolution",
-      "width": 300,
-      "height": 418,
-      "bytes": 32405,
-      "content_type": "image/jpeg"
-    },
-    {
-      "edition_id": "111b6258-ff8c-4a3c-94a4-23d8329435b2",
-      "book_id": "3d1eb6d1-885e-4106-82bf-140320dcc9e6",
-      "title": "O Traficante do Vício",
-      "original_url": "https://down-br.img.susercontent.com/file/sg-11134201-7ratq-mb4kdb2yn33q1b",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 400,
-      "height": 400,
-      "bytes": 44644,
-      "content_type": "image/jpeg"
+      "original_url": "https://covers.openlibrary.org/b/isbn/9788535402414-L.jpg",
+      "status": "failed",
+      "error": "arquivo pequeno demais: 43 bytes"
     },
     {
       "edition_id": "81906848-92bb-48c8-9a72-37ef920bcb09",
       "book_id": "0f4763e2-6ae2-43f3-8c16-683cc9a8b9fa",
       "title": "O Último Blefe",
-      "original_url": "https://cdn.awsli.com.br/800x800/1832/1832888/produto/2340035436c1a74468d.jpg",
-      "status": "rejected_aspect_ratio",
-      "quality": "not_portrait",
-      "width": 294,
-      "height": 171,
-      "bytes": 6874,
-      "content_type": "image/webp"
+      "original_url": "https://covers.openlibrary.org/b/isbn/9788571236400-L.jpg",
+      "status": "failed",
+      "error": "arquivo pequeno demais: 43 bytes"
     }
   ]
 }
