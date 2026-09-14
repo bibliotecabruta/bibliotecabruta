@@ -5,7 +5,7 @@ function relCover(b){const ed=(b.editions||[]).find(e=>e.country==='Brasil'&&e.i
 function relAreaHref(area){return `catalogo.html?area=${encodeURIComponent(relPublicArea(area))}`}
 async function injectRelated(){
  const id=new URLSearchParams(location.search).get('id');if(!id)return;
- const {data:b,error}=await sbRelated.from('books').select('id,area,author_id,series_id,book_categories(category_id,categories(name)),book_tags(tag_id,tags(name))').eq('id',id).single();
+ const {data:b,error}=window.BB_BOOK_PROMISE?await window.BB_BOOK_PROMISE:await sbRelated.from('books').select('id,area,author_id,series_id,book_categories(category_id,categories(name)),book_tags(tag_id,tags(name))').eq('id',id).single();
  if(error||!b)return;
  const cats=(b.book_categories||[]).filter(x=>x.category_id),tags=(b.book_tags||[]).filter(x=>x.tag_id),catIds=cats.map(x=>x.category_id),tagIds=tags.map(x=>x.tag_id);
  if(!catIds.length&&!tagIds.length)return;

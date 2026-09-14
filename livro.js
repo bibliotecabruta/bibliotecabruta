@@ -1,4 +1,6 @@
 const sbBook=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
+const bbBookId=new URLSearchParams(location.search).get('id');
+window.BB_BOOK_PROMISE=window.BB_BOOK_PROMISE||(bbBookId?sbBook.from('books').select('*,authors(id,name,nationality,bio),series(*),book_categories(category_id,categories(id,name)),book_tags(tag_id,tags(id,name)),book_collections(collection_number,collections(id,name,publisher)),editions(*)').eq('id',bbBookId).single():Promise.resolve({data:null,error:null}));
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function val(v,f='—'){return v!==null&&v!==undefined&&v!==''?esc(v):f}
 function statusClass(v){const s=String(v||'').toLowerCase();if(s==='completa')return'status-completa';if(s==='interrompida')return'status-interrompida';if(s==='em andamento')return'status-andamento';if(s==='volume único')return'status-volume-unico';return''}
@@ -49,7 +51,7 @@ async function shareBook(){
 async function loadBook(){
  const root=document.getElementById('bookPage'),id=new URLSearchParams(location.search).get('id');
  if(!id){root.innerHTML='<div class="empty">Livro não informado.</div>';return}
- const {data:b,error}=await sbBook.from('books').select('*,authors(id,name,nationality,bio),series(*),book_categories(categories(id,name)),book_tags(tags(id,name)),book_collections(collection_number,collections(id,name,publisher)),editions(*)').eq('id',id).single();
+ const {data:b,error}=await window.BB_BOOK_PROMISE;
  if(error||!b){root.innerHTML='<div class="empty">Livro não encontrado.</div>';return}
  document.title=`${b.title} — Biblioteca Bruta`;
  const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.is_primary?1:0)-(a.is_primary?1:0)||(a.publication_year||9999)-(z.publication_year||9999));
