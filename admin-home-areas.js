@@ -10,7 +10,7 @@ function injectHomeAreaAdminStyle(){
 }
 
 async function showHomeAreaManager(){
- adminHideAllViews();injectHomeAreaAdminStyle();
+ adminHideAllViews();injectHomeAreaAdminStyle();populateHomeAreaQuickLinks();
  document.getElementById('homeAreaManager')?.classList.remove('hidden');
  await loadHomeAreaCards();
  document.getElementById('homeAreaManager')?.scrollIntoView({behavior:'smooth',block:'start'});
@@ -23,6 +23,18 @@ async function loadHomeAreaCards(){
  if(res.error){root.innerHTML='<div class="note error">Não foi possível carregar os cards: '+homeAreaEsc(res.error.message)+'</div>';return}
  adminHomeAreaCards=res.data||[];renderHomeAreaCardsAdmin();
 }
+
+function populateHomeAreaQuickLinks(){
+ const select=document.getElementById('homeAreaQuickLink');if(!select)return;
+ const areas=[
+  ['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Fantasia','catalogo.html?area=Fantasia'],['Ficção Científica','catalogo.html?area='+encodeURIComponent('Ficção Científica')],['Ação / Militar','catalogo.html?area='+encodeURIComponent('Ação / Militar')],['Horror / Suspense','catalogo.html?area='+encodeURIComponent('Horror / Suspense')]
+ ];
+ let out='<option value="">Escolher área, categoria ou tema…</option><optgroup label="Áreas">'+areas.map(x=>'<option value="'+homeAreaEsc(x[1])+'">Área · '+homeAreaEsc(x[0])+'</option>').join('')+'</optgroup>';
+ if(Array.isArray(allCategories)&&allCategories.length)out+='<optgroup label="Categorias">'+allCategories.map(x=>'<option value="catalogo.html?area='+encodeURIComponent(x.area||'')+'&category='+encodeURIComponent(x.id)+'">Categoria · '+homeAreaEsc(x.name)+(x.area?' · '+homeAreaEsc(x.area):'')+'</option>').join('')+'</optgroup>';
+ if(Array.isArray(allTags)&&allTags.length)out+='<optgroup label="Temas">'+allTags.map(x=>'<option value="catalogo.html?tag='+encodeURIComponent(x.id)+'">Tema · '+homeAreaEsc(x.name)+'</option>').join('')+'</optgroup>';
+ select.innerHTML=out;
+}
+function applyHomeAreaQuickLink(value){const f=document.getElementById('homeAreaForm');if(!f||!value)return;f.elements.href.value=value;}
 
 function homeAreaBadgeLabel(c){
  if(c.badge_mode==='none')return 'Sem selo';
