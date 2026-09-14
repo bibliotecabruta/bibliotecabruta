@@ -5,6 +5,11 @@
     "http_status": 403,
     "total": 0,
     "errors": [],
+    "error": {
+      "type": "AccessDeniedException",
+      "message": "Your account does not currently meet the eligibility requirements.",
+      "reason": "AssociateNotEligible"
+    },
     "items": []
   },
   "isbn_search": {
@@ -12,6 +17,11 @@
     "http_status": 403,
     "total": 0,
     "errors": [],
+    "error": {
+      "type": "AccessDeniedException",
+      "message": "Your account does not currently meet the eligibility requirements.",
+      "reason": "AssociateNotEligible"
+    },
     "items": []
   },
   "fba_search": {
@@ -20,6 +30,11 @@
     "http_status": 403,
     "total": 0,
     "errors": [],
+    "error": {
+      "type": "AccessDeniedException",
+      "message": "Your account does not currently meet the eligibility requirements.",
+      "reason": "AssociateNotEligible"
+    },
     "items": []
   }
 }
