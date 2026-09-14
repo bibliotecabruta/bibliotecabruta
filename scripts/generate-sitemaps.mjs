@@ -7,9 +7,14 @@ const key=config.match(/supabasePublishableKey:\s*["']([^"']+)["']/)?.[1];
 if(!url||!key)throw new Error('Supabase config not found');
 
 const endpoint=url.replace(/\/$/,'')+'/rest/v1/public_sitemap_entries?select=entry_type,id,slug,lastmod&order=entry_type.asc,id.asc';
-const res=await fetch(endpoint,{headers:{apikey:key}});
-if(!res.ok)throw new Error('Sitemap source failed: '+res.status+' '+await res.text());
-const rows=await res.json();
+const rows=[];
+for(let start=0;;start+=1000){
+ const res=await fetch(endpoint,{headers:{apikey:key,Range:start+'-'+(start+999)}});
+ if(!res.ok)throw new Error('Sitemap source failed: '+res.status+' '+await res.text());
+ const batch=await res.json();
+ rows.push(...batch);
+ if(batch.length<1000)break;
+}
 
 const specs={
  book:['sitemap-books.xml',r=>'livro.html?id='+encodeURIComponent(r.id)],
