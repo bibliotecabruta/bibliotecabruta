@@ -24,6 +24,7 @@ function initPublicNav(){
     'categorias.html':'categorias.html','categoria.html':'categorias.html',
     'temas.html':'temas.html','tema.html':'temas.html',
     'noticias.html':'noticias.html','noticia.html':'noticias.html',
+    'contato.html':'contato.html',
     'catalogo.html':'catalogo.html'
   };
   const activeHref=activeByPage[page];
@@ -63,7 +64,7 @@ function initPublicNav(){
 function initPublicFooter(){
   const root=document.querySelector('.footer .footer-inner');if(!root||root.dataset.enhanced==='1')return;root.dataset.enhanced='1';
   const nav=document.createElement('nav');nav.className='footer-nav';nav.setAttribute('aria-label','Atalhos do rodapé');
-  const items=[['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Notícias','noticias.html'],['Catálogo','catalogo.html'],['Autores','autores.html'],['Séries','series.html'],['Categorias','categorias.html'],['Temas','temas.html'],['Sobre','sobre.html'],['Privacidade','privacidade.html']];
+  const items=[['Ficção Histórica','historica.html'],['Policial / Mistério','policial.html'],['Notícias','noticias.html'],['Catálogo','catalogo.html'],['Autores','autores.html'],['Séries','series.html'],['Categorias','categorias.html'],['Temas','temas.html'],['Sobre','sobre.html'],['Contato','contato.html'],['Privacidade','privacidade.html']];
   nav.innerHTML=items.map(([label,href])=>`<a href="${href}">${label}</a>`).join('');root.appendChild(nav);
   if(!document.getElementById('publicFooterNavStyle')){const style=document.createElement('style');style.id='publicFooterNavStyle';style.textContent='.footer-nav{display:flex;gap:10px 18px;flex-wrap:wrap;flex-basis:100%;padding-top:15px;border-top:1px solid #ffffff18}.footer-nav a{font-size:11px;font-weight:800;color:#bfb7ab;text-transform:uppercase;letter-spacing:.03em}.footer-nav a:hover,.footer-nav a:focus-visible{color:#d0a252;outline:none}.public-error-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}.public-error-actions .secondary{text-decoration:none}.public-to-top{position:fixed;right:18px;bottom:18px;z-index:50;width:42px;height:42px;border:1px solid #ffffff35;border-radius:50%;background:#181510e8;color:#fff;font-size:20px;font-weight:900;box-shadow:0 6px 20px #0003;cursor:pointer;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .18s ease,transform .18s ease,background .18s ease}.public-to-top.visible{opacity:1;transform:none;pointer-events:auto}.public-to-top:hover,.public-to-top:focus-visible{background:#8e1712;outline:2px solid #d0a252;outline-offset:2px}.skip-link{position:fixed;left:12px;top:8px;z-index:1000;transform:translateY(-180%);background:#fff;color:#181510;border:2px solid #d0a252;border-radius:4px;padding:9px 12px;font-size:12px;font-weight:900;transition:transform .15s ease}.skip-link:focus{transform:none;outline:none}@media(max-width:680px){.public-to-top{right:12px;bottom:12px;width:40px;height:40px}}';document.head.appendChild(style)}
 }
@@ -97,7 +98,7 @@ function initScrollTop(){
 function initAccessibility(){
   const main=document.querySelector('main');if(main&&!main.id)main.id='main-content';
   if(main&&!document.querySelector('.skip-link')){const skip=document.createElement('a');skip.className='skip-link';skip.href='#'+main.id;skip.textContent='Pular para o conteúdo';document.body.insertBefore(skip,document.body.firstChild)}
-  const labels={q:'Pesquisar no acervo',filterQ:'Pesquisar no catálogo',filterArea:'Filtrar por área',filterCategory:'Filtrar por categoria',filterTag:'Filtrar por tema',filterAuthor:'Filtrar por autor',filterSeries:'Filtrar por série',filterStatus:'Filtrar por situação no Brasil',filterSort:'Ordenar resultados',themeSearch:'Pesquisar tema',themeArea:'Filtrar temas por área',themeSort:'Ordenar temas',categorySearch:'Pesquisar categoria',areaFilter:'Filtrar categorias por área',categorySort:'Ordenar categorias',authorSearch:'Pesquisar autor ou nacionalidade',authorArea:'Filtrar autores por área',authorSort:'Ordenar autores',qSeries:'Pesquisar série',seriesArea:'Filtrar séries por área',statusFilter:'Filtrar séries por situação',seriesSort:'Ordenar séries'};
+  const labels={q:'Pesquisar no acervo',filterQ:'Pesquisar no catálogo',filterArea:'Filtrar por área',filterCategory:'Filtrar por categoria',filterTag:'Filtrar por tema',filterAuthor:'Filtrar por autor',filterSeries:'Filtrar por série',filterStatus:'Filtrar por situação no Brasil',filterYearFrom:'Ano inicial da edição brasileira',filterYearTo:'Ano final da edição brasileira',filterSort:'Ordenar resultados',themeSearch:'Pesquisar tema',themeArea:'Filtrar temas por área',themeSort:'Ordenar temas',categorySearch:'Pesquisar categoria',areaFilter:'Filtrar categorias por área',categorySort:'Ordenar categorias',authorSearch:'Pesquisar autor ou nacionalidade',authorArea:'Filtrar autores por área',authorSort:'Ordenar autores',qSeries:'Pesquisar série',seriesArea:'Filtrar séries por área',statusFilter:'Filtrar séries por situação',seriesSort:'Ordenar séries'};
   for(const[id,label]of Object.entries(labels)){const el=document.getElementById(id);if(el&&!el.getAttribute('aria-label'))el.setAttribute('aria-label',label)}
 }
 function initSmartBack(){
@@ -105,7 +106,8 @@ function initSmartBack(){
   if(!sameOriginRef)return;
   document.addEventListener('click',e=>{const a=e.target.closest('a.backlink');if(!a||!/voltar/i.test(a.textContent||''))return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button>0)return;e.preventDefault();history.back()});
 }
-function initPublicUi(){initAnalyticsLoader();initPublicNav();initPublicFooter();initDetailRecovery();initScrollTop();initAccessibility();initSmartBack()}
+function initHeadAssets(){if(!document.querySelector('link[rel="apple-touch-icon"]')){const l=document.createElement('link');l.rel='apple-touch-icon';l.href='favicon.svg';document.head.appendChild(l)}}
+function initPublicUi(){initHeadAssets();initAnalyticsLoader();initPublicNav();initPublicFooter();initDetailRecovery();initScrollTop();initAccessibility();initSmartBack()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initPublicUi);
 else initPublicUi();
 })();
