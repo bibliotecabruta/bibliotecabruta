@@ -17,6 +17,7 @@ function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&l
 function slug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'item'}
 function bookPath(b){return 'livros/'+slug(b.title)+'-'+b.id+'.html'}
 function seriesPath(s){return 'series/'+slug(s.name)+'-'+s.id+'.html'}
+function authorPath(a){return 'autores/'+slug(a.name)+'-'+a.id+'.html'}
 function primaryBrEdition(b){return (b.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(b.editions||[]).find(e=>e.country==='Brasil')||(b.editions||[])[0]}
 function abs(path){return new URL(path,base).href}
 function safeText(v,max=155){return String(v||'').replace(/\s+/g,' ').trim().slice(0,max)}
@@ -24,17 +25,21 @@ function xml(v){return esc(v).replace(/&#039;/g,'&apos;')}
 
 const bookSelect='id,title,original_title,original_year,synopsis,area,series_volume,cover_url,authors(id,name),series(id,name),editions(country,publisher,publication_year,isbn,pages,is_primary,cover_url),book_categories(categories(id,name)),book_tags(tags(id,name))';
 const seriesSelect='id,name,original_name,description,brazil_status,brazil_published_volumes,original_total_volumes,books(id,title,original_title,series_volume,item_type,cover_url,authors(id,name),editions(country,publisher,publication_year,is_primary,cover_url))';
-const [books,seriesRows,sitemapRows]=await Promise.all([
+const authorSelect='id,name,nationality,bio,photo_url,photo_credit,books(id,title,area,cover_url,series_volume,item_type,series(id,name),editions(country,publisher,publication_year,is_primary,cover_url))';
+const [books,seriesRows,authorRows,sitemapRows]=await Promise.all([
  get('books?select='+encodeURIComponent(bookSelect)+'&order=title.asc'),
  get('series?select='+encodeURIComponent(seriesSelect)+'&order=name.asc'),
- get('public_sitemap_entries?select=entry_type,id,lastmod&entry_type=in.(book,series)')
+ get('authors?select='+encodeURIComponent(authorSelect)+'&order=name.asc'),
+ get('public_sitemap_entries?select=entry_type,id,lastmod&entry_type=in.(book,series,author)')
 ]);
 const lastmod=new Map(sitemapRows.map(r=>[r.entry_type+':'+r.id,r.lastmod]));
 
 await rm('livros',{recursive:true,force:true});
 await rm('series',{recursive:true,force:true});
+await rm('autores',{recursive:true,force:true});
 await mkdir('livros',{recursive:true});
 await mkdir('series',{recursive:true});
+await mkdir('autores',{recursive:true});
 
 function nav(){
  return '<header class="topbar"><nav class="nav"><a class="brand" href="index.html">BIBLIOTECA <b>BRUTA</b></a><a href="historica.html">Ficção Histórica</a><a href="policial.html">Policial / Mistério</a><a href="militar.html">Ficção Militar</a><a href="autores.html">Autores</a><a href="series.html">Séries</a><a href="categorias.html">Categorias</a><a href="temas.html">Temas</a><a href="catalogo.html">Catálogo</a></nav></header>';
@@ -86,10 +91,27 @@ for(const s of seriesRows){
  await writeFile(seriesPath(s),html,'utf8');
 }
 
+
+for(const a of authorRows){
+ const authorBooks=(a.books||[]).sort((x,y)=>String(x.series?.name||'').localeCompare(String(y.series?.name||''),'pt-BR')||(Number(x.series_volume)||9999)-(Number(y.series_volume)||9999)||x.title.localeCompare(y.title,'pt-BR'));
+ const canonical=abs(authorPath(a));
+ const desc=safeText(a.bio||`${a.name}: ${authorBooks.length} ${authorBooks.length===1?'livro':'livros'} cadastrados na Biblioteca Bruta`);
+ const schema={'@context':'https://schema.org','@type':'Person',name:a.name,url:canonical,mainEntityOfPage:canonical};
+ if(a.bio)schema.description=a.bio;
+ if(a.photo_url)schema.image=a.photo_url;
+ if(authorBooks.length)schema.subjectOf=authorBooks.slice(0,20).map(b=>({'@type':'Book',name:b.title,url:abs(bookPath(b))}));
+ const cards=authorBooks.map(b=>{const ed=primaryBrEdition(b),cover=ed?.cover_url||b.cover_url||'',meta=[ed?.publisher,ed?.publication_year].filter(Boolean).join(' • '),series=b.series?.name?'<span>'+esc(b.series.name)+(b.series_volume?' · vol. '+esc(b.series_volume):'')+'</span>':'';return '<a class="volume-card" href="'+esc(bookPath(b))+'">'+(cover?'<img src="'+esc(cover)+'" alt="'+esc(b.title)+'" loading="lazy">':'<div class="mini-placeholder">Sem capa</div>')+'<div><strong>'+esc(b.title)+'</strong>'+series+(meta?'<span>'+esc(meta)+'</span>':'')+'</div></a>'}).join('');
+ const photo=a.photo_url?'<div class="author-photo"><img src="'+esc(a.photo_url)+'" alt="Foto de '+esc(a.name)+'"></div>':'';
+ const fallback=`<nav class="author-breadcrumb" aria-label="Navegação estrutural"><a href="autores.html">Autores</a><span aria-hidden="true">›</span><span aria-current="page">${esc(a.name)}</span></nav><section class="author-hero">${photo}<div><div class="eyebrow">AUTOR</div><h1>${esc(a.name)}</h1>${a.nationality?'<div class="author-nationality">'+esc(a.nationality)+'</div>':''}${a.bio?'<p class="author-bio">'+esc(a.bio)+'</p>':''}<div class="author-stats"><div class="author-stat"><small>Livros no catálogo</small><strong>${authorBooks.length}</strong></div></div></div></section><section class="author-section"><div class="author-section-head"><div><h2>Livros no catálogo</h2></div><span class="badge">${authorBooks.length}</span></div><div class="series-volume-grid">${cards||'<div class="empty">Nenhum livro cadastrado.</div>'}</div></section>`;
+ const html=`<!doctype html><html lang="pt-BR"><head><base href="/"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="favicon.svg"><link rel="manifest" href="site.webmanifest"><meta name="theme-color" content="#0c0b09"><title>${esc(a.name)} — Biblioteca Bruta</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${esc(canonical)}"><meta property="og:title" content="${esc(a.name)} — Biblioteca Bruta"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:type" content="profile">${a.photo_url?'<meta property="og:image" content="'+esc(a.photo_url)+'">':''}<meta property="og:site_name" content="Biblioteca Bruta"><script type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script><link rel="stylesheet" href="style.css?v=20260913-3"><link rel="stylesheet" href="autor-public-ui.css?v=20260914-1"></head><body data-author-id="${esc(a.id)}">${nav()}<main><div id="authorPage" class="author-public">${fallback}</div></main>${footer()}<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="cover-utils.js?v=20260914-2"></script><script src="autor.js?v=20260914-3"></script><script src="public-nav.js?v=20260914-4"></script></body></html>`;
+ await writeFile(authorPath(a),html,'utf8');
+}
+
 function sitemap(type,items,pathFor){
  const body=items.map(x=>{const lm=lastmod.get(type+':'+x.id);return '  <url><loc>'+xml(abs(pathFor(x)))+'</loc>'+(lm?'<lastmod>'+new Date(lm).toISOString().slice(0,10)+'</lastmod>':'')+'</url>'}).join('\n');
  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+body+(body?'\n':'')+'</urlset>\n';
 }
 await writeFile('sitemap-books.xml',sitemap('book',books,bookPath),'utf8');
 await writeFile('sitemap-series.xml',sitemap('series',seriesRows,seriesPath),'utf8');
-console.log('SEO books:',books.length,'series:',seriesRows.length);
+await writeFile('sitemap-authors.xml',sitemap('author',authorRows,authorPath),'utf8');
+console.log('SEO books:',books.length,'series:',seriesRows.length,'authors:',authorRows.length);
