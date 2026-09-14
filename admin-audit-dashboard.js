@@ -40,7 +40,8 @@ async function loadAuditDashboard(){
   setTimeout(()=>scanAuditCovers(false,20,true),450);
 }
 
-function auditBookPendingCount(){return auditDashState.books.filter(x=>(x.issues||[]).length).length}
+const BOOK_LOW_PRIORITY_ISSUES=new Set(['sem_isbn','menos_de_5_tags']);
+function auditBookPendingCount(){return auditDashState.books.filter(x=>(x.issues||[]).some(i=>!BOOK_LOW_PRIORITY_ISSUES.has(i))).length}
 function auditSeriesIssueCount(){return auditDashState.series.filter(x=>(x.issues||[]).length).length}
 function auditSeriesIncompleteCount(){return auditDashState.series.filter(x=>['Interrompida','Em andamento'].includes(x.brazil_status)).length}
 function auditAuthorPendingCount(){return auditDashState.authors.filter(x=>(x.issues||[]).length).length}
@@ -56,7 +57,7 @@ function renderAuditDashboard(){
       <div class="audit-dash-actions"><button class="secondary" type="button" onclick="loadAuditDashboard()">↻ Atualizar dados</button><button class="primary" type="button" onclick="scanAuditCovers(true,null,false)">Verificar todas as capas</button></div>
     </div>
     <div class="audit-kpis">
-      <button class="audit-kpi warn" onclick="setAuditTab('livros','__pending__')"><strong>${bp}</strong><span>Livros com pendências</span></button>
+      <button class="audit-kpi warn" onclick="setAuditTab('livros','__priority__')"><strong>${bp}</strong><span>Pendências prioritárias</span></button>
       <button class="audit-kpi ${sp?'warn':'ok'}" onclick="setAuditTab('series','__issues__')"><strong>${sp}</strong><span>Séries inconsistentes</span></button>
       <button class="audit-kpi" onclick="setAuditTab('series','__incomplete__')"><strong>${si}</strong><span>Séries incompletas</span></button>
       <button class="audit-kpi ${ap?'warn':'ok'}" onclick="setAuditTab('autores','__pending__')"><strong>${ap}</strong><span>Autores pendentes</span></button>
@@ -79,7 +80,7 @@ function renderAuditDashboard(){
 }
 
 function auditTabButton(id,label,count){return `<button class="audit-tab ${auditDashState.tab===id?'active':''}" onclick="setAuditTab('${id}')">${esc(label)}${count?` · ${count}`:''}</button>`}
-function setAuditTab(tab,filter){auditDashState.tab=tab;auditDashState.query='';auditDashState.filter=filter!==undefined?filter:(tab==='livros'?'__pending__':tab==='series'?'__issues__':tab==='autores'?'__pending__':tab==='capas'?'__problems__':'');renderAuditDashboard()}
+function setAuditTab(tab,filter){auditDashState.tab=tab;auditDashState.query='';auditDashState.filter=filter!==undefined?filter:(tab==='livros'?'__priority__':tab==='series'?'__issues__':tab==='autores'?'__pending__':tab==='capas'?'__problems__':'');renderAuditDashboard()}
 function setAuditFilter(v){auditDashState.filter=v;renderAuditDashTab()}
 function setAuditQuery(v){auditDashState.query=(v||'').trim().toLocaleLowerCase('pt-BR');renderAuditDashTab()}
 function auditTextMatch(...vals){if(!auditDashState.query)return true;const q=auditDashState.query;return vals.some(v=>String(v||'').toLocaleLowerCase('pt-BR').includes(q))}
@@ -97,10 +98,11 @@ function renderAuditDashTab(){
 function renderAuditBooks(box){
  const issueCounts={};auditDashState.books.forEach(b=>(b.issues||[]).forEach(i=>issueCounts[i]=(issueCounts[i]||0)+1));
  let rows=auditDashState.books.filter(b=>auditTextMatch(b.title,b.original_title,b.author,b.series,b.isbn,b.publisher));
- if(auditDashState.filter==='__pending__')rows=rows.filter(b=>(b.issues||[]).length);
+ if(auditDashState.filter==='__priority__')rows=rows.filter(b=>(b.issues||[]).some(i=>!BOOK_LOW_PRIORITY_ISSUES.has(i)));
+ else if(auditDashState.filter==='__pending__')rows=rows.filter(b=>(b.issues||[]).length);
  else if(auditDashState.filter==='__ok__')rows=rows.filter(b=>!(b.issues||[]).length);
  else if(auditDashState.filter)rows=rows.filter(b=>(b.issues||[]).includes(auditDashState.filter));
- box.innerHTML=`<div class="audit-toolbar"><input type="search" placeholder="Título, autor, série, ISBN ou editora…" oninput="setAuditQuery(this.value)"><select onchange="setAuditFilter(this.value)"><option value="__pending__" ${auditDashState.filter==='__pending__'?'selected':''}>Com pendências</option><option value="__ok__" ${auditDashState.filter==='__ok__'?'selected':''}>Sem pendências</option><option value="" ${auditDashState.filter===''?'selected':''}>Todos os livros</option>${Object.entries(ADMIN_ISSUE_LABELS).filter(([k])=>issueCounts[k]).map(([k,l])=>`<option value="${esc(k)}" ${auditDashState.filter===k?'selected':''}>${esc(l)} · ${issueCounts[k]}</option>`).join('')}</select><span class="muted">${rows.length} resultado${rows.length===1?'':'s'}</span></div><p class="audit-section-note">Prioridade editorial: capa → páginas → anos BR/original → editora → sinopse → série → título original → ISBN. Tradutor não entra como pendência obrigatória.</p><div class="audit-list">${rows.length?rows.map(bookAuditRow).join(''):'<div class="audit-empty">Nenhum livro neste filtro.</div>'}</div>`;
+ box.innerHTML=`<div class="audit-toolbar"><input type="search" placeholder="Título, autor, série, ISBN ou editora…" oninput="setAuditQuery(this.value)"><select onchange="setAuditFilter(this.value)"><option value="__priority__" ${auditDashState.filter==='__priority__'?'selected':''}>Pendências prioritárias</option><option value="__pending__" ${auditDashState.filter==='__pending__'?'selected':''}>Todas as pendências</option><option value="__ok__" ${auditDashState.filter==='__ok__'?'selected':''}>Sem pendências</option><option value="" ${auditDashState.filter===''?'selected':''}>Todos os livros</option>${Object.entries(ADMIN_ISSUE_LABELS).filter(([k])=>issueCounts[k]).map(([k,l])=>`<option value="${esc(k)}" ${auditDashState.filter===k?'selected':''}>${esc(l)} · ${issueCounts[k]}</option>`).join('')}</select><span class="muted">${rows.length} resultado${rows.length===1?'':'s'}</span></div><p class="audit-section-note">Prioridade editorial: capa → páginas → anos BR/original → editora → sinopse → série → título original → ISBN. Tradutor não entra como pendência obrigatória.</p><div class="audit-list">${rows.length?rows.map(bookAuditRow).join(''):'<div class="audit-empty">Nenhum livro neste filtro.</div>'}</div>`;
 }
 function bookAuditRow(b){const tags=(b.issues||[]).map(i=>`<span class="audit-tag">${esc(ADMIN_ISSUE_LABELS[i]||i)}</span>`).join('');return `<div class="audit-row"><div class="audit-row-main"><strong>${esc(b.title)}</strong><small>${esc(b.author||'Autor não informado')}${b.original_title?' · '+esc(b.original_title):''}</small><div class="audit-tags">${tags||'<span class="audit-tag ok">Sem pendências</span>'}</div></div><div class="audit-row-meta">${esc(b.area||'—')}<br>${esc([b.publisher,b.brazil_year,b.isbn].filter(Boolean).join(' · ')||'Edição principal incompleta')}</div><div class="audit-row-actions"><button class="secondary" type="button" onclick="editBook('${b.id}')">Editar livro</button><a class="secondary" href="livro.html?id=${encodeURIComponent(b.id)}" target="_blank" rel="noopener">Ver ficha</a></div></div>`}
 
