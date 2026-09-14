@@ -1,5 +1,7 @@
 const sbSeries=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);let seriesCache=null;const SERIES_AREA_GROUPS={'Policial/Mistério':['Policial/Mistério','Coleção Negra','Coleção Policial'],'Ação / Militar':['Ficção Militar','Ação / Militar'],'Horror / Suspense':['Horror / Suspense']};
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function seriesSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'serie'}
+function seriesSeoUrl(s){return location.origin+'/series/'+seriesSlug(s.name)+'-'+s.id+'.html'}
 function brEdition(book){return (book.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(book.editions||[]).find(e=>e.country==='Brasil')}
 function statusClass(v){const s=String(v||'').toLowerCase();if(s==='completa')return'status-completa';if(s==='interrompida')return'status-interrompida';if(s==='em andamento')return'status-andamento';if(s==='volume único')return'status-volume-unico';return''}
 function statusSummary(s,catalogued,includeStatus=true){const br=s.brazil_published_volumes;const total=s.original_total_volumes??s.total_volumes;let main='';if(br!=null&&total)main=`${br} de ${total} volumes publicados no Brasil`;else if(br!=null)main=`${br} volumes publicados no Brasil`;else main=`${catalogued} livro${catalogued===1?'':'s'} cadastrado${catalogued===1?'':'s'}`;return `${main}${includeStatus&&s.brazil_status?' — '+s.brazil_status:''}`}
@@ -7,10 +9,10 @@ function splitSeriesItems(items){return{volumes:(items||[]).filter(b=>b.item_typ
 function itemCard(b,label){const ed=brEdition(b),cover=ed?.cover_url||b.cover_url,br=[ed?.publisher,ed?.publication_year].filter(Boolean).join(' • '),ca=cover&&window.bbCoverAttrs?window.bbCoverAttrs(cover,{width:320,srcsetWidths:[180,260,360],sizes:'(max-width: 700px) 45vw, 220px'}):{src:cover,srcset:'',sizes:''};return `<a class="volume-card" href="livro.html?id=${encodeURIComponent(b.id)}">${cover?`<img src="${esc(ca.src||cover)}"${ca.srcset?` srcset="${esc(ca.srcset)}" sizes="${esc(ca.sizes)}"`:''} alt="${esc(b.title)}" loading="lazy" decoding="async">`:'<div class="mini-placeholder">Sem capa</div>'}<div><small>${esc(label)}</small><strong>${esc(b.title)}</strong><span>${esc(b.authors?.name||'')}</span>${br?`<span>${esc(br)}</span>`:''}</div></a>`}
 function seriesBackHref(){try{const u=new URL(document.referrer);const page=u.pathname.split('/').pop()||'';if(u.origin===location.origin&&page&&page!=='serie.html')return u.href}catch{}return'series.html'}
 function setSeriesMeta(attr,key,value){if(!value)return;let m=document.head.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement('meta');m.setAttribute(attr,key);document.head.appendChild(m)}m.content=value}
-function updateSeriesMeta(s,volumes){const first=volumes[0],cover=first?(brEdition(first)?.cover_url||first.cover_url):null,title=`${s.name} — Biblioteca Bruta`,desc=(s.description||`${s.name}: ${statusSummary(s,volumes.length,false)} no catálogo Biblioteca Bruta`).slice(0,155),url=location.origin+location.pathname+'?id='+encodeURIComponent(s.id);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setSeriesMeta('property','og:title',title);setSeriesMeta('property','og:description',desc);setSeriesMeta('property','og:url',url);setSeriesMeta('property','og:type','website');if(cover)setSeriesMeta('property','og:image',cover);setSeriesMeta('name','twitter:card',cover?'summary_large_image':'summary');setSeriesMeta('name','twitter:title',title);setSeriesMeta('name','twitter:description',desc);if(cover)setSeriesMeta('name','twitter:image',cover)}
+function updateSeriesMeta(s,volumes){const first=volumes[0],cover=first?(brEdition(first)?.cover_url||first.cover_url):null,title=`${s.name} — Biblioteca Bruta`,desc=(s.description||`${s.name}: ${statusSummary(s,volumes.length,false)} no catálogo Biblioteca Bruta`).slice(0,155),url=seriesSeoUrl(s);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setSeriesMeta('property','og:title',title);setSeriesMeta('property','og:description',desc);setSeriesMeta('property','og:url',url);setSeriesMeta('property','og:type','website');if(cover)setSeriesMeta('property','og:image',cover);setSeriesMeta('name','twitter:card',cover?'summary_large_image':'summary');setSeriesMeta('name','twitter:title',title);setSeriesMeta('name','twitter:description',desc);if(cover)setSeriesMeta('name','twitter:image',cover)}
 function renderSeriesBreadcrumb(s){return `<nav class="series-breadcrumb" aria-label="Navegação estrutural"><a href="series.html">Séries</a><span aria-hidden="true">›</span><span aria-current="page">${esc(s.name)}</span></nav>`}
 function updateSeriesBreadcrumbData(s){
- const current=location.origin+location.pathname+'?id='+encodeURIComponent(s.id);
+ const current=seriesSeoUrl(s);
  const data={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[
   {'@type':'ListItem',position:1,name:'Séries',item:new URL('series.html',location.href).href},
   {'@type':'ListItem',position:2,name:s.name,item:current}
@@ -36,7 +38,7 @@ function updateSeriesStructuredData(s,volumes){
   '@context':'https://schema.org',
   '@type':'BookSeries',
   name:s.name,
-  url:location.origin+location.pathname+'?id='+encodeURIComponent(s.id),
+  url:seriesSeoUrl(s),
   inLanguage:'pt-BR',
   numberOfItems:volumes.length
  };
@@ -80,7 +82,7 @@ async function renderSeries(){
  syncSeriesUrl();
 }
 async function renderSeriesPage(){
- const root=document.getElementById('seriesPage');if(!root)return;const id=new URLSearchParams(location.search).get('id');if(!id){root.innerHTML='<div class="empty">Série não informada.</div>';return}
+ const root=document.getElementById('seriesPage');if(!root)return;const id=new URLSearchParams(location.search).get('id')||document.body?.dataset.seriesId||'';if(!id){root.innerHTML='<div class="empty">Série não informada.</div>';return}
  const {data:s,error}=await sbSeries.from('series').select('*,books(id,title,original_title,cover_url,area,series_volume,item_type,authors(id,name),editions(cover_url,publisher,publication_year,is_primary,country))').eq('id',id).single();if(error||!s){root.innerHTML='<div class="empty">Série não encontrada.</div>';return}
  const {volumes,boxes}=splitSeriesItems(s.books);document.title=`${s.name} — Biblioteca Bruta`;updateSeriesMeta(s,volumes);updateSeriesStructuredData(s,volumes);updateSeriesBreadcrumbData(s);
  const areaCounts=new Map();for(const b of [...volumes,...boxes]){const area=publicSeriesArea(b.area);if(area)areaCounts.set(area,(areaCounts.get(area)||0)+1)}const areaLinks=[...areaCounts.entries()].sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).map(([area,count])=>`<a href="catalogo.html?area=${encodeURIComponent(area)}&series=${encodeURIComponent(s.id)}">${esc(area)} <b>${count}</b></a>`).join('');
