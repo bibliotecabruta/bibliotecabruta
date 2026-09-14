@@ -1,15 +1,19 @@
 const sbAuthor=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function seoSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'item'}
+function authorSeoUrl(a){return location.origin+'/autores/'+seoSlug(a.name)+'-'+a.id+'.html'}
+function bookSeoHref(b){return 'livros/'+seoSlug(b.title)+'-'+b.id+'.html'}
+function seriesSeoHref(s){return 'series/'+seoSlug(s.name)+'-'+s.id+'.html'}
 function primaryBrEdition(b){return (b.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(b.editions||[]).find(e=>e.country==='Brasil')}
 function initials(name){return String(name||'').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'A'}
 function publicAuthorDetailArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area||'Outros'}
-function bookCard(b,label=''){const ed=primaryBrEdition(b),cover=ed?.cover_url||b.cover_url,pub=[ed?.publisher,ed?.publication_year].filter(Boolean).join(' • ');return `<a class="volume-card" href="livro.html?id=${encodeURIComponent(b.id)}">${cover?`<img src="${esc(cover)}" alt="${esc(b.title)}" loading="lazy">`:'<div class="mini-placeholder">Sem capa</div>'}<div>${label?`<small>${esc(label)}</small>`:''}<strong>${esc(b.title)}</strong>${pub?`<span>${esc(pub)}</span>`:''}</div></a>`}
+function bookCard(b,label=''){const ed=primaryBrEdition(b),cover=ed?.cover_url||b.cover_url,pub=[ed?.publisher,ed?.publication_year].filter(Boolean).join(' • '),src=cover?(window.bbCoverUrl?window.bbCoverUrl(cover,320):cover):'';return `<a class="volume-card" href="${esc(bookSeoHref(b))}">${cover?`<img src="${esc(src)}" alt="${esc(b.title)}" loading="lazy" decoding="async">`:'<div class="mini-placeholder">Sem capa</div>'}<div>${label?`<small>${esc(label)}</small>`:''}<strong>${esc(b.title)}</strong>${pub?`<span>${esc(pub)}</span>`:''}</div></a>`}
 function authorBackHref(){try{const u=new URL(document.referrer);const page=u.pathname.split('/').pop()||'';if(u.origin===location.origin&&page&&page!=='autor.html')return u.href}catch{}return'autores.html'}
 function setAuthorMeta(attr,key,value){if(!value)return;let m=document.head.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement('meta');m.setAttribute(attr,key);document.head.appendChild(m)}m.content=value}
-function updateAuthorMeta(a,books){const title=`${a.name} — Biblioteca Bruta`,desc=(a.bio||`${a.name}: ${books.length} ${books.length===1?'livro':'livros'} cadastrados na Biblioteca Bruta`).slice(0,155),url=location.origin+location.pathname+'?id='+encodeURIComponent(a.id);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setAuthorMeta('property','og:title',title);setAuthorMeta('property','og:description',desc);setAuthorMeta('property','og:url',url);setAuthorMeta('property','og:type','profile');if(a.photo_url)setAuthorMeta('property','og:image',a.photo_url);setAuthorMeta('name','twitter:card',a.photo_url?'summary_large_image':'summary');setAuthorMeta('name','twitter:title',title);setAuthorMeta('name','twitter:description',desc);if(a.photo_url)setAuthorMeta('name','twitter:image',a.photo_url)}
+function updateAuthorMeta(a,books){const title=`${a.name} — Biblioteca Bruta`,desc=(a.bio||`${a.name}: ${books.length} ${books.length===1?'livro':'livros'} cadastrados na Biblioteca Bruta`).slice(0,155),url=authorSeoUrl(a);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setAuthorMeta('property','og:title',title);setAuthorMeta('property','og:description',desc);setAuthorMeta('property','og:url',url);setAuthorMeta('property','og:type','profile');if(a.photo_url)setAuthorMeta('property','og:image',a.photo_url);setAuthorMeta('name','twitter:card',a.photo_url?'summary_large_image':'summary');setAuthorMeta('name','twitter:title',title);setAuthorMeta('name','twitter:description',desc);if(a.photo_url)setAuthorMeta('name','twitter:image',a.photo_url)}
 function renderAuthorBreadcrumb(a){return `<nav class="author-breadcrumb" aria-label="Navegação estrutural"><a href="autores.html">Autores</a><span aria-hidden="true">›</span><span aria-current="page">${esc(a.name)}</span></nav>`}
 function updateAuthorBreadcrumbData(a){
- const current=location.origin+location.pathname+'?id='+encodeURIComponent(a.id);
+ const current=authorSeoUrl(a);
  const data={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[
   {'@type':'ListItem',position:1,name:'Autores',item:new URL('autores.html',location.href).href},
   {'@type':'ListItem',position:2,name:a.name,item:current}
@@ -23,15 +27,15 @@ function updateAuthorStructuredData(a,books){
   '@context':'https://schema.org',
   '@type':'Person',
   name:a.name,
-  url:location.origin+location.pathname+'?id='+encodeURIComponent(a.id),
-  mainEntityOfPage:location.origin+location.pathname+'?id='+encodeURIComponent(a.id)
+  url:authorSeoUrl(a),
+  mainEntityOfPage:authorSeoUrl(a)
  };
  if(a.bio)data.description=a.bio;
  if(a.photo_url)data.image=a.photo_url;
  if(books.length)data.subjectOf=books.slice(0,12).map(b=>({
   '@type':'Book',
   name:b.title,
-  url:new URL('livro.html?id='+encodeURIComponent(b.id),location.href).href
+  url:new URL(bookSeoHref(b),location.href).href
  }));
  const id='bbAuthorStructuredData';
  let script=document.getElementById(id);
@@ -39,7 +43,7 @@ function updateAuthorStructuredData(a,books){
  script.textContent=JSON.stringify(data);
 }
 async function loadAuthor(){
- const root=document.getElementById('authorPage'),id=new URLSearchParams(location.search).get('id');if(!id){root.innerHTML='<div class="empty">Autor não informado.</div>';return}
+ const root=document.getElementById('authorPage'),id=new URLSearchParams(location.search).get('id')||document.body?.dataset.authorId||'';if(!id){root.innerHTML='<div class="empty">Autor não informado.</div>';return}
  const {data:a,error}=await sbAuthor.from('authors').select('id,name,nationality,bio,photo_url,photo_credit,books(id,title,area,cover_url,series_volume,item_type,series(id,name),editions(cover_url,is_primary,country,publisher,publication_year))').eq('id',id).single();if(error||!a){root.innerHTML='<div class="empty">Autor não encontrado.</div>';return}
  document.title=`${a.name} — Biblioteca Bruta`;
  const books=(a.books||[]).sort((x,y)=>String(x.series?.name||'').localeCompare(String(y.series?.name||''),'pt-BR')||(Number(x.series_volume)||9999)-(Number(y.series_volume)||9999)||x.title.localeCompare(y.title,'pt-BR'));
@@ -51,7 +55,7 @@ async function loadAuthor(){
  const seriesGroups=[...grouped.values()].sort((x,y)=>x.series.name.localeCompare(y.series.name,'pt-BR'));
  const seriesCount=seriesGroups.length;
  const heroPhoto=a.photo_url?`<div class="author-photo"><img src="${esc(a.photo_url)}" alt="Foto de ${esc(a.name)}" onerror="this.outerHTML='<div class=&quot;author-photo-placeholder&quot;>${esc(initials(a.name))}</div>'">${a.photo_credit?`<small class="author-photo-credit">${esc(a.photo_credit)}</small>`:''}</div>`:`<div class="author-photo"><div class="author-photo-placeholder">${esc(initials(a.name))}</div></div>`;
- const seriesHtml=seriesGroups.length?seriesGroups.map(g=>`<div class="author-series-block" id="serie-${esc(g.series.id)}"><div class="author-series-head"><div><h3>${esc(g.series.name)}</h3><span class="muted">${g.books.length} ${g.books.length===1?'livro cadastrado':'livros cadastrados'}</span></div><a href="serie.html?id=${encodeURIComponent(g.series.id)}">Ver página da série →</a></div><div class="series-volume-grid">${g.books.map(b=>bookCard(b,b.item_type==='box'?'BOX / EDIÇÃO ESPECIAL':b.series_volume?`VOLUME ${b.series_volume}`:'VOLUME SEM NUMERAÇÃO')).join('')}</div></div>`).join(''):'';
+ const seriesHtml=seriesGroups.length?seriesGroups.map(g=>`<div class="author-series-block" id="serie-${esc(g.series.id)}"><div class="author-series-head"><div><h3>${esc(g.series.name)}</h3><span class="muted">${g.books.length} ${g.books.length===1?'livro cadastrado':'livros cadastrados'}</span></div><a href="${esc(seriesSeoHref(g.series))}">Ver página da série →</a></div><div class="series-volume-grid">${g.books.map(b=>bookCard(b,b.item_type==='box'?'BOX / EDIÇÃO ESPECIAL':b.series_volume?`VOLUME ${b.series_volume}`:'VOLUME SEM NUMERAÇÃO')).join('')}</div></div>`).join(''):'';
  const standaloneHtml=standalone.length?`<section class="author-section standalone-block" id="volumes-unicos"><div class="author-section-head"><div><h2>Volumes únicos</h2><p>Livros do autor que não fazem parte de uma série cadastrada.</p></div><span class="badge">${standalone.length} ${standalone.length===1?'livro':'livros'}</span></div><div class="series-volume-grid">${standalone.map(b=>bookCard(b,'VOLUME ÚNICO')).join('')}</div></section>`:'';
  const showJumpNav=books.length>=8||seriesGroups.length>1;
  const jumpNav=showJumpNav?`<nav class="author-jump-nav" aria-label="Atalhos do autor"><small>IR PARA</small><div class="author-jump-links">${seriesGroups.map(g=>`<a href="#serie-${esc(g.series.id)}">${esc(g.series.name)} <b>${g.books.length}</b></a>`).join('')}${standalone.length?`<a href="#volumes-unicos">Volumes únicos <b>${standalone.length}</b></a>`:''}</div></nav>`:'';
