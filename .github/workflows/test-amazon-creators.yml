@@ -134,6 +134,11 @@ jobs:
                 http_status:($simple_http|tonumber),
                 total:(($simple[0].searchResult.totalResultCount // 0)),
                 errors:($simple[0].errors // []),
+                error:{
+                  type:($simple[0].type // null),
+                  message:($simple[0].message // null),
+                  reason:($simple[0].reason // null)
+                },
                 items:[
                   ($simple[0].searchResult.items[]? | {
                     asin,
@@ -149,6 +154,11 @@ jobs:
                 http_status:($isbn_http|tonumber),
                 total:(($isbn[0].searchResult.totalResultCount // 0)),
                 errors:($isbn[0].errors // []),
+                error:{
+                  type:($isbn[0].type // null),
+                  message:($isbn[0].message // null),
+                  reason:($isbn[0].reason // null)
+                },
                 items:[
                   ($isbn[0].searchResult.items[]? | {
                     asin,
@@ -169,6 +179,11 @@ jobs:
                 http_status:($fba_http|tonumber),
                 total:(($fba[0].searchResult.totalResultCount // 0)),
                 errors:($fba[0].errors // []),
+                error:{
+                  type:($fba[0].type // null),
+                  message:($fba[0].message // null),
+                  reason:($fba[0].reason // null)
+                },
                 items:[
                   ($fba[0].searchResult.items[]? | {
                     asin,
