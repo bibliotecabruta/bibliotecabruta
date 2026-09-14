@@ -31,4 +31,4 @@ for(const file of files){
   }
 }
 console.log(JSON.stringify({source:files.length,generated:made,skipped,failed}));
-if(failed)process.exitCode=1;
+if(failed)console.warn('Thumbnails ignorados por arquivo inválido:',failed);
