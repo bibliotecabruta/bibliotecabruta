@@ -1,12 +1,14 @@
 const sbBook=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
-const bbBookId=new URLSearchParams(location.search).get('id');
+const bbBookId=new URLSearchParams(location.search).get('id')||document.body?.dataset.bookId||'';
+function bbSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'livro'}
+function bbBookSeoUrl(b){return location.origin+'/livros/'+bbSlug(b.title)+'-'+b.id+'.html'}
 window.BB_BOOK_PROMISE=window.BB_BOOK_PROMISE||(bbBookId?sbBook.from('books').select('*,authors(id,name,nationality,bio),series(*),book_categories(category_id,categories(id,name)),book_tags(tag_id,tags(id,name)),book_collections(collection_number,collections(id,name,publisher)),editions(*)').eq('id',bbBookId).single():Promise.resolve({data:null,error:null}));
 window.BB_BOOK_ENGAGEMENT_PROMISE=window.BB_BOOK_ENGAGEMENT_PROMISE||(bbBookId?sbBook.rpc('book_engagement_context',{p_book_id:bbBookId}):Promise.resolve({data:null,error:null}));
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function val(v,f='—'){return v!==null&&v!==undefined&&v!==''?esc(v):f}
 function statusClass(v){const s=String(v||'').toLowerCase();if(s==='completa')return'status-completa';if(s==='interrompida')return'status-interrompida';if(s==='em andamento')return'status-andamento';if(s==='volume único')return'status-volume-unico';return''}
 function setBookMeta(attr,key,value){if(!value)return;let m=document.head.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement('meta');m.setAttribute(attr,key);document.head.appendChild(m)}m.content=value}
-function updateBookMeta(b,cover){const title=`${b.title} — Biblioteca Bruta`,desc=(b.synopsis||`${b.title}, de ${b.authors?.name||'autor não informado'}, no catálogo Biblioteca Bruta`).slice(0,155),url=location.origin+location.pathname+'?id='+encodeURIComponent(b.id);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setBookMeta('property','og:title',title);setBookMeta('property','og:description',desc);setBookMeta('property','og:url',url);setBookMeta('property','og:type','book');if(cover)setBookMeta('property','og:image',cover);setBookMeta('name','twitter:card',cover?'summary_large_image':'summary');setBookMeta('name','twitter:title',title);setBookMeta('name','twitter:description',desc);if(cover)setBookMeta('name','twitter:image',cover)}
+function updateBookMeta(b,cover){const title=`${b.title} — Biblioteca Bruta`,desc=(b.synopsis||`${b.title}, de ${b.authors?.name||'autor não informado'}, no catálogo Biblioteca Bruta`).slice(0,155),url=bbBookSeoUrl(b);let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setBookMeta('property','og:title',title);setBookMeta('property','og:description',desc);setBookMeta('property','og:url',url);setBookMeta('property','og:type','book');if(cover)setBookMeta('property','og:image',cover);setBookMeta('name','twitter:card',cover?'summary_large_image':'summary');setBookMeta('name','twitter:title',title);setBookMeta('name','twitter:description',desc);if(cover)setBookMeta('name','twitter:image',cover)}
 function bookBreadcrumbItems(b,areaLabel,areaHref){
  const items=[{name:'Catálogo',href:'catalogo.html'},{name:areaLabel,href:areaHref}];
  if(b.series?.id&&b.series?.name)items.push({name:b.series.name,href:'serie.html?id='+encodeURIComponent(b.series.id)});
@@ -23,7 +25,7 @@ function updateBookBreadcrumbData(b,areaLabel,areaHref){
   '@type':'ListItem',
   position:i+1,
   name:x.name,
-  item:x.href?new URL(x.href,location.href).href:(location.origin+location.pathname+'?id='+encodeURIComponent(b.id))
+  item:x.href?new URL(x.href,location.href).href:bbBookSeoUrl(b)
  }));
  let script=document.getElementById('bbBookBreadcrumbData');
  if(!script){script=document.createElement('script');script.type='application/ld+json';script.id='bbBookBreadcrumbData';document.head.appendChild(script)}
@@ -34,7 +36,7 @@ function updateBookStructuredData(b,primary,cover){
   '@context':'https://schema.org',
   '@type':'Book',
   name:b.title,
-  url:location.origin+location.pathname+'?id='+encodeURIComponent(b.id),
+  url:bbBookSeoUrl(b),
   inLanguage:'pt-BR'
  };
  if(b.original_title)data.alternateName=b.original_title;
