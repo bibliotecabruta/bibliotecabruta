@@ -55,7 +55,7 @@ function renderAuditDashboard(){
   root.innerHTML=`
     <div class="audit-dash-head">
       <div><h2>Auditoria automática</h2><p class="muted">Pendências de metadados, estrutura, capas e links em um único lugar.</p></div>
-      <div class="audit-dash-actions"><button class="secondary" type="button" onclick="loadAuditDashboard()">↻ Atualizar dados</button><button class="primary" type="button" onclick="scanAuditCovers(true,null,false)">Verificar todas as capas</button></div>
+      <div class="audit-dash-actions"><button class="secondary" type="button" onclick="loadAuditDashboard()">↻ Atualizar dados</button><button class="primary" type="button" onclick="scanAuditCovers(false,50,false)">Verificar próximas 50</button><button class="secondary" type="button" onclick="scanAuditCovers(true,null,false)">Reverificar todas</button></div>
     </div>
     <div class="audit-kpis">
       <button class="audit-kpi warn" onclick="setAuditTab('livros','__priority__')"><strong>${bp}</strong><span>Pendências prioritárias</span></button>
@@ -161,7 +161,7 @@ async function scanAuditCovers(all=false,limit=null,silent=false){
  const cache=currentCoverCacheMap();
  let queue=auditDashState.books.filter(b=>b.cover_url&&(all||!isCoverCacheCurrent(b,cache.get(b.id))));
  if(limit)queue=queue.slice(0,limit);
- if(!queue.length){if(!silent)msg('Não há capas pendentes para verificar.','ok');return}
+ if(!queue.length){if(!silent)msg(all?'Não há capas cadastradas para reverificar.':'Não há capas pendentes para verificar.','ok');return}
  auditDashState.coverScanning=true;
  const progress=document.getElementById('auditCoverProgress');let done=0;
  const paint=()=>{if(progress&&!silent)progress.innerHTML=`<div class="note">Verificando capas: ${done} de ${queue.length}</div><div class="audit-progress"><span style="width:${Math.round(done/queue.length*100)}%"></span></div>`};
@@ -171,7 +171,7 @@ async function scanAuditCovers(all=false,limit=null,silent=false){
  await Promise.all(Array.from({length:Math.min(5,queue.length)},()=>worker()));
  auditDashState.coverScanning=false;
  if(progress)progress.innerHTML='';
- if(!silent)msg(`Auditoria de capas concluída: ${done} verificadas.`,'ok');
+ if(!silent){const cc=auditCoverCoverage();msg(`Auditoria de capas concluída: ${done} verificadas nesta rodada · ${cc.checked}/${cc.total} cobertas.`,'ok')}
  renderAuditDashboard();
 }
 
