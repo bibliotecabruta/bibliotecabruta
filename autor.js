@@ -7,12 +7,32 @@ function bookCard(b,label=''){const ed=primaryBrEdition(b),cover=ed?.cover_url||
 function authorBackHref(){try{const u=new URL(document.referrer);const page=u.pathname.split('/').pop()||'';if(u.origin===location.origin&&page&&page!=='autor.html')return u.href}catch{}return'autores.html'}
 function setAuthorMeta(attr,key,value){if(!value)return;let m=document.head.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement('meta');m.setAttribute(attr,key);document.head.appendChild(m)}m.content=value}
 function updateAuthorMeta(a,books){const title=`${a.name} — Biblioteca Bruta`,desc=(a.bio||`${a.name}: ${books.length} ${books.length===1?'livro':'livros'} cadastrados na Biblioteca Bruta`).slice(0,155),url=location.href.split('#')[0];let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setAuthorMeta('property','og:title',title);setAuthorMeta('property','og:description',desc);setAuthorMeta('property','og:url',url);setAuthorMeta('property','og:type','profile');if(a.photo_url)setAuthorMeta('property','og:image',a.photo_url);setAuthorMeta('name','twitter:card',a.photo_url?'summary_large_image':'summary');setAuthorMeta('name','twitter:title',title);setAuthorMeta('name','twitter:description',desc);if(a.photo_url)setAuthorMeta('name','twitter:image',a.photo_url)}
+function updateAuthorStructuredData(a,books){
+ const data={
+  '@context':'https://schema.org',
+  '@type':'Person',
+  name:a.name,
+  url:location.href.split('#')[0],
+  mainEntityOfPage:location.href.split('#')[0]
+ };
+ if(a.bio)data.description=a.bio;
+ if(a.photo_url)data.image=a.photo_url;
+ if(books.length)data.subjectOf=books.slice(0,12).map(b=>({
+  '@type':'Book',
+  name:b.title,
+  url:new URL('livro.html?id='+encodeURIComponent(b.id),location.href).href
+ }));
+ const id='bbAuthorStructuredData';
+ let script=document.getElementById(id);
+ if(!script){script=document.createElement('script');script.type='application/ld+json';script.id=id;document.head.appendChild(script)}
+ script.textContent=JSON.stringify(data);
+}
 async function loadAuthor(){
  const root=document.getElementById('authorPage'),id=new URLSearchParams(location.search).get('id');if(!id){root.innerHTML='<div class="empty">Autor não informado.</div>';return}
  const {data:a,error}=await sbAuthor.from('authors').select('id,name,nationality,bio,photo_url,photo_credit,books(id,title,area,cover_url,series_volume,item_type,series(id,name),editions(cover_url,is_primary,country,publisher,publication_year))').eq('id',id).single();if(error||!a){root.innerHTML='<div class="empty">Autor não encontrado.</div>';return}
  document.title=`${a.name} — Biblioteca Bruta`;
  const books=(a.books||[]).sort((x,y)=>String(x.series?.name||'').localeCompare(String(y.series?.name||''),'pt-BR')||(Number(x.series_volume)||9999)-(Number(y.series_volume)||9999)||x.title.localeCompare(y.title,'pt-BR'));
- updateAuthorMeta(a,books);
+ updateAuthorMeta(a,books);updateAuthorStructuredData(a,books);
  const areaCounts=new Map();for(const b of books){const area=publicAuthorDetailArea(b.area);areaCounts.set(area,(areaCounts.get(area)||0)+1)}
  const areaLinks=[...areaCounts.entries()].sort((x,y)=>x[0].localeCompare(y[0],'pt-BR')).map(([area,count])=>`<a href="catalogo.html?area=${encodeURIComponent(area)}&author=${encodeURIComponent(a.id)}">${esc(area)} <b>${count}</b></a>`).join('');
  const grouped=new Map(),standalone=[];
