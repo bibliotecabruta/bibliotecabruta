@@ -59,7 +59,7 @@ function imageDimensions(buf,type){
 for(const item of batch){
  let result={edition_id:item.edition_id,book_id:item.book_id,title:item.title,original_url:item.url,status:'failed'};
  try{
-  const res=await fetch(item.url,{redirect:'follow',headers:{'user-agent':'Mozilla/5.0 (compatible; BibliotecaBruta/1.0; +https://bibliotecabruta.com.br/)','accept':'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'}});
+  const res=await fetch(item.url,{redirect:'follow',headers:{'user-agent':'Mozilla/5.0 (compatible; BibliotecaBruta/1.0; +https://bibliotecabruta.com.br/)','accept':'image/webp,image/jpeg,image/png,image/*;q=0.8,*/*;q=0.5'}});
   if(!res.ok)throw new Error('HTTP '+res.status);
   const type=res.headers.get('content-type')||'';
   const buf=Buffer.from(await res.arrayBuffer());
