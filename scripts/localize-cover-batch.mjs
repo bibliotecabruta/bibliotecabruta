@@ -69,12 +69,13 @@ for(const item of batch){
   let status='ok',quality='ok';
   const ratio=dims.width&&dims.height?dims.height/dims.width:0;
   if(!dims.width||!dims.height){status='rejected_unknown_dimensions';quality='unknown_dimensions'}
+  else if(item.preserve_existing){status='ok_preserve';quality='existing_cover_exception'}
   else if(ratio<1.2){status='rejected_aspect_ratio';quality='not_portrait'}
   else if(dims.width<600||dims.height<900){
     if(item.allow_exception&&dims.width>=300&&dims.height>=450){status='ok_exception';quality='low_resolution_exception'}
     else{status='rejected_low_resolution';quality='low_resolution'}
   }
-  if(!['ok','ok_exception'].includes(status)){
+  if(!['ok','ok_exception','ok_preserve'].includes(status)){
     result={...result,status,quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
   }else{
     await writeFile(file,buf);
