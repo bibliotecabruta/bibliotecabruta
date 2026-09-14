@@ -1,0 +1,11 @@
+{
+  "name": "Biblioteca Bruta",
+  "short_name": "Biblioteca Bruta",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5efe3",
+  "theme_color": "#0c0b09",
+  "icons": [
+    {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
