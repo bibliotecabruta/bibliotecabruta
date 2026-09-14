@@ -15,8 +15,9 @@ function extFrom(type,url){
  return m?'.'+m[1].toLowerCase().replace('jpeg','jpg'):'.jpg';
 }
 function looksLikeImage(buf,type){
- if(String(type||'').toLowerCase().startsWith('image/'))return true;
- return (buf[0]===0xff&&buf[1]===0xd8&&buf[2]===0xff) ||
+ const t=String(type||'').toLowerCase();
+ return t.includes('jpeg')||t.includes('jpg')||t.includes('png')||t.includes('webp')||
+        (buf[0]===0xff&&buf[1]===0xd8&&buf[2]===0xff) ||
         (buf[0]===0x89&&buf[1]===0x50&&buf[2]===0x4e&&buf[3]===0x47) ||
         (buf.subarray(0,4).toString()==='RIFF'&&buf.subarray(8,12).toString()==='WEBP');
 }
@@ -40,6 +41,19 @@ function imageDimensions(buf,type){
  if((t.includes('png')||(buf[0]===0x89&&buf[1]===0x50&&buf[2]===0x4e&&buf[3]===0x47))&&buf.length>=24){
   return{width:buf.readUInt32BE(16),height:buf.readUInt32BE(20)};
  }
+ if((t.includes('webp')||(buf.subarray(0,4).toString()==='RIFF'&&buf.subarray(8,12).toString()==='WEBP'))&&buf.length>=30){
+  const chunk=buf.subarray(12,16).toString();
+  if(chunk==='VP8X'){
+   return{width:1+buf[24]+(buf[25]<<8)+(buf[26]<<16),height:1+buf[27]+(buf[28]<<8)+(buf[29]<<16)};
+  }
+  if(chunk==='VP8 '&&buf.length>=30&&buf[23]===0x9d&&buf[24]===0x01&&buf[25]===0x2a){
+   return{width:buf.readUInt16LE(26)&0x3fff,height:buf.readUInt16LE(28)&0x3fff};
+  }
+  if(chunk==='VP8L'&&buf.length>=25&&buf[20]===0x2f){
+   const b0=buf[21],b1=buf[22],b2=buf[23],b3=buf[24];
+   return{width:1+(((b1&0x3f)<<8)|b0),height:1+(((b3&0x0f)<<10)|(b2<<2)|((b1&0xc0)>>6))};
+  }
+ }
  return{width:null,height:null};
 }
 for(const item of batch){
@@ -52,9 +66,12 @@ for(const item of batch){
   if(buf.length<5000)throw new Error('arquivo pequeno demais: '+buf.length+' bytes');
   if(!looksLikeImage(buf,type))throw new Error('resposta não parece imagem: '+type);
   const ext=extFrom(type,item.url),file=path.join(outDir,item.edition_id+ext),dims=imageDimensions(buf,type);
-  const quality=dims.width&&dims.height&&(dims.width<600||dims.height<900)?'low_resolution':'ok';
-  if(quality==='low_resolution'){
-    result={...result,status:'rejected_low_resolution',quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
+  let status='ok',quality='ok';
+  if(!dims.width||!dims.height){status='rejected_unknown_dimensions';quality='unknown_dimensions'}
+  else if(dims.width<600||dims.height<900){status='rejected_low_resolution';quality='low_resolution'}
+  else if(dims.height/dims.width<1.2){status='rejected_aspect_ratio';quality='not_portrait'}
+  if(status!=='ok'){
+    result={...result,status,quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
   }else{
     await writeFile(file,buf);
     result={...result,status:'ok',quality,width:dims.width,height:dims.height,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
