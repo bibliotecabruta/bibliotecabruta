@@ -17,9 +17,7 @@ for(let start=0;;start+=1000){
 }
 
 const specs={
- book:['sitemap-books.xml',r=>'livro.html?id='+encodeURIComponent(r.id)],
  author:['sitemap-authors.xml',r=>'autor.html?id='+encodeURIComponent(r.id)],
- series:['sitemap-series.xml',r=>'serie.html?id='+encodeURIComponent(r.id)],
  category:['sitemap-categories.xml',r=>'categoria.html?id='+encodeURIComponent(r.id)],
  theme:['sitemap-themes.xml',r=>'tema.html?id='+encodeURIComponent(r.id)],
  news:['sitemap-news.xml',r=>r.slug?'noticia.html?slug='+encodeURIComponent(r.slug):'noticia.html?id='+encodeURIComponent(r.id)]
