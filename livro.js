@@ -57,8 +57,19 @@ async function loadBook(){
  const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.is_primary?1:0)-(a.is_primary?1:0)||(a.publication_year||9999)-(z.publication_year||9999));
  const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);markBookAreaNav(b.area);
  const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const cover=primary?.cover_url||b.cover_url;updateBookMeta(b,cover);updateBookStructuredData(b,primary,cover);rememberViewedBook(b,cover);
- let siblings=[];if(b.series_id){const {data}=await sbBook.from('books').select('id,title,cover_url,series_volume,editions(cover_url,is_primary,country)').eq('series_id',b.series_id).order('series_volume',{ascending:true});siblings=data||[]}
- let authorBooks=[];if(b.authors?.id){const {data}=await sbBook.from('books').select('id,title,cover_url,series_volume,series(name),editions(cover_url,is_primary,country)').eq('author_id',b.authors.id).neq('id',b.id).order('title').limit(6);authorBooks=data||[]}
+ let siblings=[],authorBooks=[];
+ const {data:navCtx,error:navError}=await sbBook.rpc('book_navigation_context',{p_book_id:b.id});
+ if(!navError&&navCtx){
+  siblings=Array.isArray(navCtx.siblings)?navCtx.siblings:[];
+  authorBooks=Array.isArray(navCtx.author_books)?navCtx.author_books:[];
+ }else{
+  const [seriesResp,authorResp]=await Promise.all([
+   b.series_id?sbBook.from('books').select('id,title,cover_url,series_volume,editions(cover_url,is_primary,country)').eq('series_id',b.series_id).order('series_volume',{ascending:true}):Promise.resolve({data:[]}),
+   b.authors?.id?sbBook.from('books').select('id,title,cover_url,series_volume,series(name),editions(cover_url,is_primary,country)').eq('author_id',b.authors.id).neq('id',b.id).order('title').limit(6):Promise.resolve({data:[]})
+  ]);
+  siblings=seriesResp.data||[];
+  authorBooks=authorResp.data||[];
+ }
  const currentSeriesIndex=siblings.findIndex(x=>x.id===b.id),prevVolume=currentSeriesIndex>0?siblings[currentSeriesIndex-1]:null,nextVolume=currentSeriesIndex>=0&&currentSeriesIndex<siblings.length-1?siblings[currentSeriesIndex+1]:null,backHref=bookBackHref();
  const s=b.series,brCount=s?.brazil_published_volumes??siblings.length,origCount=s?.original_total_volumes??s?.total_volumes,status=s?.brazil_status;
  const statusText=brCount!==null&&brCount!==undefined&&origCount?`${brCount} de ${origCount} volumes publicados no Brasil`:brCount?`${brCount} volumes publicados no Brasil`:'';
