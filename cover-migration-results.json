@@ -1,0 +1,115 @@
+{
+  "generated_at": "2026-09-14T14:54:53.919Z",
+  "results": [
+    {
+      "edition_id": "33dd7c1a-6559-465f-acc2-dc0fec4871f8",
+      "book_id": "27925170-d98e-4e06-9ecc-2b362a4b79f6",
+      "title": "A Caça ao Tesouro",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8501095095.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/33dd7c1a-6559-465f-acc2-dc0fec4871f8.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/33dd7c1a-6559-465f-acc2-dc0fec4871f8.jpg",
+      "bytes": 49787,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "6766bc36-ef7e-4ac3-bb3c-50a26905781b",
+      "book_id": "8e270c3c-354f-423f-a830-b04a924ec2bb",
+      "title": "A Estrela do Diabo",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/850110986X.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/6766bc36-ef7e-4ac3-bb3c-50a26905781b.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/6766bc36-ef7e-4ac3-bb3c-50a26905781b.jpg",
+      "bytes": 22182,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "fca1f13e-0658-4257-96e8-783dbcda0394",
+      "book_id": "a89a061c-c5da-44e9-8938-2873e066b76f",
+      "title": "A Fronteira",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8595086745.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/fca1f13e-0658-4257-96e8-783dbcda0394.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/fca1f13e-0658-4257-96e8-783dbcda0394.jpg",
+      "bytes": 43483,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "238c125d-cca6-429d-9165-ad7a5272e862",
+      "book_id": "c2c26c1b-1902-484c-85da-df60231a05e8",
+      "title": "A Janela Quebrada",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8501094625.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/238c125d-cca6-429d-9165-ad7a5272e862.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/238c125d-cca6-429d-9165-ad7a5272e862.jpg",
+      "bytes": 56486,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "bb867368-a902-4181-95be-ea4108a26a82",
+      "book_id": "97242471-5f92-42e8-8dcc-83c62f36ea97",
+      "title": "A Pirâmide de Lama",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8501924237.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/bb867368-a902-4181-95be-ea4108a26a82.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/bb867368-a902-4181-95be-ea4108a26a82.jpg",
+      "bytes": 44631,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "b5610bc4-0817-4d52-a3fc-6c12ed8b0902",
+      "book_id": "8037fe14-0e23-4d6a-b328-dea345d1cf79",
+      "title": "A Sede",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8501109711.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/b5610bc4-0817-4d52-a3fc-6c12ed8b0902.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/b5610bc4-0817-4d52-a3fc-6c12ed8b0902.jpg",
+      "bytes": 23542,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "5a4123a7-9bb6-4cea-a517-2fa40b26760b",
+      "book_id": "38a23858-a8ab-4fb5-9c12-fe7f3bd973cf",
+      "title": "Água na boca",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8528617068.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/5a4123a7-9bb6-4cea-a517-2fa40b26760b.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/5a4123a7-9bb6-4cea-a517-2fa40b26760b.jpg",
+      "bytes": 40782,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "821ca8f5-acd8-4a87-98db-27d03623a5e3",
+      "book_id": "212c7add-e34a-4e75-9f0b-c1e68d5230ce",
+      "title": "Amigos, Amantes, Chocolate",
+      "original_url": "https://m.media-amazon.com/images/I/41WcAOuX9PL._SL1500_.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/821ca8f5-acd8-4a87-98db-27d03623a5e3.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/821ca8f5-acd8-4a87-98db-27d03623a5e3.jpg",
+      "bytes": 21244,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "46a03c71-ab0f-4feb-b1f9-19cc41a02ff0",
+      "book_id": "e223eb99-cd7c-4d54-915e-6121dc5597c4",
+      "title": "As Lágrimas da Girafa",
+      "original_url": "https://m.media-amazon.com/images/I/91SzxuEeSQL._SL1500_.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/46a03c71-ab0f-4feb-b1f9-19cc41a02ff0.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/46a03c71-ab0f-4feb-b1f9-19cc41a02ff0.jpg",
+      "bytes": 233138,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "1625c812-e86b-4d6c-b92a-e9123795f55f",
+      "book_id": "b772e889-aa99-4f45-8e32-36d4563bbea7",
+      "title": "Baratas",
+      "original_url": "https://images-na.ssl-images-amazon.com/images/P/8501108073.01.LZZZZZZZ.jpg",
+      "status": "ok",
+      "local_path": "assets/capas-edicoes/1625c812-e86b-4d6c-b92a-e9123795f55f.jpg",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/1625c812-e86b-4d6c-b92a-e9123795f55f.jpg",
+      "bytes": 24733,
+      "content_type": "image/jpeg"
+    }
+  ]
+}
