@@ -1,0 +1,102 @@
+name: Testar Amazon Creators API
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Testar Creators API Brasil
+        env:
+          CREDENTIAL_ID: ${{ secrets.AMAZON_CREATORS_CREDENTIAL_ID }}
+          CREDENTIAL_SECRET: ${{ secrets.AMAZON_CREATORS_CREDENTIAL_SECRET }}
+          CREDENTIAL_VERSION: ${{ secrets.AMAZON_CREATORS_CREDENTIAL_VERSION }}
+        shell: bash
+        run: |
+          set +x
+
+          TOKEN_ENDPOINT="https://api.amazon.com/auth/o2/token"
+
+          TOKEN_RESPONSE=$(curl -sS -X POST "$TOKEN_ENDPOINT" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg id "$CREDENTIAL_ID" \
+              --arg secret "$CREDENTIAL_SECRET" \
+              '{
+                grant_type:"client_credentials",
+                client_id:$id,
+                client_secret:$secret,
+                scope:"creatorsapi::default"
+              }')")
+
+          TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.access_token // empty')
+
+          if [ -z "$TOKEN" ]; then
+            echo "$TOKEN_RESPONSE" |
+              jq '{status:"authentication_error",
+                   error:(.error // null),
+                   description:(.error_description // null)}' \
+              > amazon-creators-test-result.json
+          else
+            curl -sS -X POST \
+              "https://creatorsapi.amazon/catalog/v1/searchItems" \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "x-marketplace: www.amazon.com.br" \
+              -d '{
+                "partnerTag":"diegobiblio07-20",
+                "marketplace":"www.amazon.com.br",
+                "searchIndex":"Books",
+                "keywords":"9788556510037",
+                "itemCount":10,
+                "condition":"New",
+                "availability":"Available",
+                "deliveryFlags":["FulfilledByAmazon"],
+                "languagesOfPreference":["pt_BR"],
+                "resources":[
+                  "itemInfo.title",
+                  "itemInfo.byLineInfo",
+                  "itemInfo.externalIds",
+                  "offersV2.listings.availability",
+                  "offersV2.listings.condition",
+                  "offersV2.listings.isBuyBoxWinner",
+                  "offersV2.listings.merchantInfo",
+                  "offersV2.listings.price"
+                ]
+              }' |
+              jq '{
+                status:"ok",
+                test_isbn:"9788556510037",
+                fulfilled_by_amazon_required:true,
+                items:[
+                  (.searchResult.items[]? |
+                    {
+                      asin,
+                      url:.detailPageURL,
+                      title:.itemInfo.title.displayValue,
+                      eans:(.itemInfo.externalIds.eans.displayValues // []),
+                      isbns:(.itemInfo.externalIds.isbns.displayValues // []),
+                      seller:(.offersV2.listings[0].merchantInfo.name // null),
+                      availability:(.offersV2.listings[0].availability.type // null),
+                      condition:(.offersV2.listings[0].condition.value // null),
+                      price:(.offersV2.listings[0].price.money.displayAmount // null)
+                    })
+                ]
+              }' > amazon-creators-test-result.json
+          fi
+
+      - name: Registrar resultado sanitizado
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add amazon-creators-test-result.json
+          git commit -m "Registra teste da Amazon Creators API" || exit 0
+          git push
