@@ -8,6 +8,45 @@ function itemCard(b,label){const ed=brEdition(b),cover=ed?.cover_url||b.cover_ur
 function seriesBackHref(){try{const u=new URL(document.referrer);const page=u.pathname.split('/').pop()||'';if(u.origin===location.origin&&page&&page!=='serie.html')return u.href}catch{}return'series.html'}
 function setSeriesMeta(attr,key,value){if(!value)return;let m=document.head.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement('meta');m.setAttribute(attr,key);document.head.appendChild(m)}m.content=value}
 function updateSeriesMeta(s,volumes){const first=volumes[0],cover=first?(brEdition(first)?.cover_url||first.cover_url):null,title=`${s.name} — Biblioteca Bruta`,desc=(s.description||`${s.name}: ${statusSummary(s,volumes.length,false)} no catálogo Biblioteca Bruta`).slice(0,155),url=location.href.split('#')[0];let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement('meta');meta.name='description';document.head.appendChild(meta)}meta.content=desc;let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical)}canonical.href=url;setSeriesMeta('property','og:title',title);setSeriesMeta('property','og:description',desc);setSeriesMeta('property','og:url',url);setSeriesMeta('property','og:type','website');if(cover)setSeriesMeta('property','og:image',cover);setSeriesMeta('name','twitter:card',cover?'summary_large_image':'summary');setSeriesMeta('name','twitter:title',title);setSeriesMeta('name','twitter:description',desc);if(cover)setSeriesMeta('name','twitter:image',cover)}
+function updateSeriesStructuredData(s,volumes){
+ const authors=[];
+ const seen=new Set();
+ for(const b of volumes){
+  if(b.authors?.id&&!seen.has(b.authors.id)){
+   seen.add(b.authors.id);
+   authors.push({
+    '@type':'Person',
+    name:b.authors.name,
+    url:new URL('autor.html?id='+encodeURIComponent(b.authors.id),location.href).href
+   });
+  }
+ }
+ const data={
+  '@context':'https://schema.org',
+  '@type':'BookSeries',
+  name:s.name,
+  url:location.href.split('#')[0],
+  inLanguage:'pt-BR',
+  numberOfItems:volumes.length
+ };
+ if(s.original_name)data.alternateName=s.original_name;
+ if(s.description)data.description=s.description;
+ if(authors.length)data.author=authors.length===1?authors[0]:authors;
+ if(volumes.length)data.hasPart=volumes.map(b=>{
+  const part={
+   '@type':'Book',
+   name:b.title,
+   url:new URL('livro.html?id='+encodeURIComponent(b.id),location.href).href
+  };
+  if(b.series_volume!=null&&b.series_volume!=='')part.position=Number(b.series_volume)||b.series_volume;
+  if(b.original_title)part.alternateName=b.original_title;
+  return part;
+ });
+ const id='bbSeriesStructuredData';
+ let script=document.getElementById(id);
+ if(!script){script=document.createElement('script');script.type='application/ld+json';script.id=id;document.head.appendChild(script)}
+ script.textContent=JSON.stringify(data);
+}
 async function getSeries(){if(seriesCache)return seriesCache;const {data,error}=await sbSeries.from('series').select('*,books(id,title,cover_url,area,series_volume,item_type,authors(id,name),editions(cover_url,publisher,publication_year,is_primary,country))').order('name');if(error){console.error(error);return []}seriesCache=data||[];return seriesCache}
 function seriesNorm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').trim()}
 function seriesAreasForFilter(area){if(!area)return[];return SERIES_AREA_GROUPS[area]||[area]}
@@ -32,7 +71,7 @@ async function renderSeries(){
 async function renderSeriesPage(){
  const root=document.getElementById('seriesPage');if(!root)return;const id=new URLSearchParams(location.search).get('id');if(!id){root.innerHTML='<div class="empty">Série não informada.</div>';return}
  const {data:s,error}=await sbSeries.from('series').select('*,books(id,title,original_title,cover_url,area,series_volume,item_type,authors(id,name),editions(cover_url,publisher,publication_year,is_primary,country))').eq('id',id).single();if(error||!s){root.innerHTML='<div class="empty">Série não encontrada.</div>';return}
- const {volumes,boxes}=splitSeriesItems(s.books);document.title=`${s.name} — Biblioteca Bruta`;updateSeriesMeta(s,volumes);
+ const {volumes,boxes}=splitSeriesItems(s.books);document.title=`${s.name} — Biblioteca Bruta`;updateSeriesMeta(s,volumes);updateSeriesStructuredData(s,volumes);
  const areaCounts=new Map();for(const b of [...volumes,...boxes]){const area=publicSeriesArea(b.area);if(area)areaCounts.set(area,(areaCounts.get(area)||0)+1)}const areaLinks=[...areaCounts.entries()].sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).map(([area,count])=>`<a href="catalogo.html?area=${encodeURIComponent(area)}&series=${encodeURIComponent(s.id)}">${esc(area)} <b>${count}</b></a>`).join('');
  const br=s.brazil_published_volumes,total=s.original_total_volumes??s.total_volumes,catalogued=volumes.length;const progress=(br!=null&&total)?Math.max(0,Math.min(100,(br/total)*100)):null;const unpublished=(br!=null&&total&&total>br)?total-br:null;
  const authorMap=new Map();for(const v of volumes){if(v.authors?.id&&!authorMap.has(v.authors.id))authorMap.set(v.authors.id,v.authors)}const authors=[...authorMap.values()];
