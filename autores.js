@@ -7,15 +7,18 @@ function aNorm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]
 function firstLetter(name){const c=aNorm(name).charAt(0).toUpperCase();return/[A-Z]/.test(c)?c:'#'}
 function authorAreasForFilter(area){if(!area)return[];return AUTHOR_AREA_GROUPS[area]||[area]}
 function publicAuthorArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area}
-function authorBooksForArea(a,area){if(!area)return a.books||[];const areas=authorAreasForFilter(area);return(a.books||[]).filter(b=>areas.includes(b.area))}
-function authorsForCurrentArea(){const area=document.getElementById('authorArea')?.value||'';return authorRows.filter(a=>authorBooksForArea(a,area).length)}
+function authorBookCountForArea(a,area){if(!area)return Number(a.book_count)||0;const areas=authorAreasForFilter(area);return areas.reduce((sum,x)=>sum+Number(a.area_counts?.[x]||0),0)}
+function authorVisiblePublicAreas(a,area){const source=area?authorAreasForFilter(area):Object.keys(a.area_counts||{});return[...new Set(source.filter(x=>Number(a.area_counts?.[x]||0)>0).map(publicAuthorArea))].sort((x,y)=>x.localeCompare(y,'pt-BR'))}
+function normalizeAuthorRows(rows){return(rows||[]).map(a=>{if(a.book_count!=null&&a.area_counts)return a;const counts={};for(const b of a.books||[]){if(b.area)counts[b.area]=(counts[b.area]||0)+1}return{id:a.id,name:a.name,nationality:a.nationality,book_count:(a.books||[]).length,area_counts:counts}}).filter(a=>Number(a.book_count)>0)}
+function authorsForCurrentArea(){const area=document.getElementById('authorArea')?.value||'';return authorRows.filter(a=>authorBookCountForArea(a,area)>0)}
 
 async function initAuthors(){
  const root=document.getElementById('authorsList');
  root.innerHTML='<div class="empty">Carregando autores…</div>';
- const {data,error}=await sbAuthors.from('authors').select('id,name,nationality,books(id,title,area,series_id)').order('name');
+ let {data,error}=await sbAuthors.from('public_author_cards').select('*').order('name');
+ if(error){({data,error}=await sbAuthors.from('authors').select('id,name,nationality,books(id,title,area,series_id)').order('name'))}
  if(error){root.innerHTML='<div class="empty">Não foi possível carregar os autores.</div>';return}
- authorRows=(data||[]).filter(a=>(a.books||[]).length);
+ authorRows=normalizeAuthorRows(data);
  restoreAuthorFilters();
  renderAuthorAlphabet();
  renderAuthors();
@@ -58,12 +61,12 @@ function syncAuthorUrl(){
 
 function renderAuthors(){
  const root=document.getElementById('authorsList'),q=aNorm(document.getElementById('authorSearch')?.value||''),area=document.getElementById('authorArea')?.value||'',sort=document.getElementById('authorSort')?.value||'name';
- let rows=authorRows.map(a=>({...a,visibleBooks:authorBooksForArea(a,area)})).filter(a=>a.visibleBooks.length&&(!q||aNorm(a.name).includes(q)||aNorm(a.nationality).includes(q))&&(!authorLetter||firstLetter(a.name)===authorLetter));
- if(sort==='books_desc')rows.sort((a,b)=>b.visibleBooks.length-a.visibleBooks.length||a.name.localeCompare(b.name,'pt-BR'));
+ let rows=authorRows.map(a=>({...a,visibleBookCount:authorBookCountForArea(a,area)})).filter(a=>a.visibleBookCount&&(!q||aNorm(a.name).includes(q)||aNorm(a.nationality).includes(q))&&(!authorLetter||firstLetter(a.name)===authorLetter));
+ if(sort==='books_desc')rows.sort((a,b)=>b.visibleBookCount-a.visibleBookCount||a.name.localeCompare(b.name,'pt-BR'));
  else if(sort==='nationality')rows.sort((a,b)=>(a.nationality||'').localeCompare(b.nationality||'','pt-BR')||a.name.localeCompare(b.name,'pt-BR'));
  else rows.sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
  const summary=document.getElementById('authorsSummary');if(summary)summary.textContent=`${rows.length} ${rows.length===1?'autor encontrado':'autores encontrados'}${area?' em '+area:''}`;
- root.innerHTML=rows.length?rows.map(a=>{const areas=[...new Set(a.visibleBooks.map(b=>publicAuthorArea(b.area)).filter(Boolean))].sort((x,y)=>x.localeCompare(y,'pt-BR'));return `<a class="entity-card author-list-card" href="autor.html?id=${encodeURIComponent(a.id)}"><div><div class="eyebrow">AUTOR</div><h2>${esc(a.name)}</h2>${a.nationality?`<p>${esc(a.nationality)}</p>`:''}</div><div class="entity-meta"><strong>${a.visibleBooks.length} ${a.visibleBooks.length===1?'livro':'livros'}${area?' neste recorte':''}</strong><span>${areas.map(esc).join(' • ')}</span></div></a>`}).join(''):'<div class="empty">Nenhum autor encontrado. Tente remover a letra selecionada ou usar menos termos.</div>';
+ root.innerHTML=rows.length?rows.map(a=>{const areas=authorVisiblePublicAreas(a,area);return `<a class="entity-card author-list-card" href="autor.html?id=${encodeURIComponent(a.id)}"><div><div class="eyebrow">AUTOR</div><h2>${esc(a.name)}</h2>${a.nationality?`<p>${esc(a.nationality)}</p>`:''}</div><div class="entity-meta"><strong>${a.visibleBookCount} ${a.visibleBookCount===1?'livro':'livros'}${area?' neste recorte':''}</strong><span>${areas.map(esc).join(' • ')}</span></div></a>`}).join(''):'<div class="empty">Nenhum autor encontrado. Tente remover a letra selecionada ou usar menos termos.</div>';
  syncAuthorUrl();
 }
 
