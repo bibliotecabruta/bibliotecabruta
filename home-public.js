@@ -9,7 +9,37 @@ function handleHomeSearchKey(e){if(e.key==='Enter'){e.preventDefault();goHomeSea
 function hpPublicArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area||'Outros'}
 function hpBalanced(rowsByArea,limit){const order=['Ficção Histórica','Policial/Mistério','Fantasia','Ficção Científica','Ação / Militar','Horror / Suspense'].filter(a=>rowsByArea.has(a)),out=[],used=new Set();for(let rank=0;out.length<limit;rank++){let added=false;for(const area of order){const row=rowsByArea.get(area)?.[rank];if(!row||used.has(row.id))continue;used.add(row.id);out.push({...row,displayArea:area});added=true;if(out.length>=limit)break}if(!added)break}return out}
 function updateHomeAreaCards(rows){const counts=new Map((rows||[]).filter(x=>x.item_type==='area').map(x=>[x.area,Number(x.item_count)||0])),configs=[['.area-historica','Ficção Histórica'],['.area-policial','Policial/Mistério'],['.area-fantasia','Fantasia'],['.area-fc','Ficção Científica'],['.area-militar','Ação / Militar'],['.area-negra','Horror / Suspense']];for(const[selector,area]of configs){const card=document.querySelector(selector);if(!card)continue;const count=counts.get(area)||0;if(!card.dataset.originalHref&&card.getAttribute('href'))card.dataset.originalHref=card.getAttribute('href');let state=card.querySelector('.area-state');if(!state){state=document.createElement('span');state.className='area-state';card.appendChild(state)}state.textContent=count?`${count} ${count===1?'livro':'livros'}`:'Em preparação';card.classList.toggle('area-empty',!count);if(count){if(card.dataset.originalHref)card.setAttribute('href',card.dataset.originalHref);card.removeAttribute('aria-disabled')}else{card.removeAttribute('href');card.setAttribute('aria-disabled','true')}}}
-async function renderHomeGarimpo(){const tagRoot=document.getElementById('homeTopTags'),catRoot=document.getElementById('homeTopCategories');if(!tagRoot||!catRoot)return;const {data:rows,error}=await window.BB_HOME_DISCOVERY_PROMISE;if(error){tagRoot.innerHTML='<span class="muted">Não foi possível carregar os temas.</span>';catRoot.innerHTML='<span class="muted">Não foi possível carregar as categorias.</span>';return}updateHomeAreaCards(rows);
+function hpSafeLink(v){try{const u=new URL(String(v||''),location.href);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return''}}
+function hpSafeImage(v){try{const u=new URL(String(v||''),location.href);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return''}}
+async function renderManagedHomeAreaCards(rows){
+ const root=document.querySelector('.cards');if(!root)return;
+ const counts=new Map((rows||[]).filter(x=>x.item_type==='area').map(x=>[x.area,Number(x.item_count)||0]));
+ const {data,error}=await sbHomePublic.from('home_area_cards').select('id,title,description,href,image_url,background_color,area_key,badge_mode,badge_text,sort_order,is_active').eq('is_active',true).order('sort_order').order('created_at');
+ if(error||!data?.length){if(error)console.warn('Cards administráveis da Home indisponíveis:',error);updateHomeAreaCards(rows);return}
+ root.innerHTML='';
+ for(const c of data){
+  const link=hpSafeLink(c.href),image=hpSafeImage(c.image_url),card=document.createElement('a');
+  card.className='card area-card';
+  if(link)card.href=link;
+  card.style.backgroundColor=c.background_color||'#252223';
+  if(image)card.style.backgroundImage='url("'+image.replace(/"/g,'%22')+'")';
+  const h=document.createElement('h3');h.textContent=c.title||'Área';card.appendChild(h);
+  const p=document.createElement('p');p.textContent=c.description||'';card.appendChild(p);
+  if(c.badge_mode!=='none'){
+   const state=document.createElement('span');state.className='area-state';
+   if(c.badge_mode==='manual')state.textContent=c.badge_text||'';
+   else{
+    const count=counts.get(c.area_key)||0;
+    state.textContent=count?count+' '+(count===1?'livro':'livros'):'Em preparação';
+    card.classList.toggle('area-empty',!count);
+    if(!count){card.removeAttribute('href');card.setAttribute('aria-disabled','true')}
+   }
+   if(state.textContent)card.appendChild(state);
+  }
+  root.appendChild(card);
+ }
+}
+async function renderHomeGarimpo(){const tagRoot=document.getElementById('homeTopTags'),catRoot=document.getElementById('homeTopCategories');if(!tagRoot||!catRoot)return;const {data:rows,error}=await window.BB_HOME_DISCOVERY_PROMISE;if(error){tagRoot.innerHTML='<span class="muted">Não foi possível carregar os temas.</span>';catRoot.innerHTML='<span class="muted">Não foi possível carregar as categorias.</span>';return}await renderManagedHomeAreaCards(rows);
  const tagRowsByArea=new Map(),catRowsByArea=new Map();
  for(const x of rows||[]){if(!x.area)continue;const row={id:x.id,name:x.name,count:Number(x.item_count)||0};if(x.item_type==='theme'){if(!tagRowsByArea.has(x.area))tagRowsByArea.set(x.area,[]);tagRowsByArea.get(x.area).push(row)}else if(x.item_type==='category'){if(!catRowsByArea.has(x.area))catRowsByArea.set(x.area,[]);catRowsByArea.get(x.area).push(row)}}
  for(const list of tagRowsByArea.values())list.sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,'pt-BR'));
