@@ -58,7 +58,7 @@ function updateSeriesStructuredData(s,volumes){
  if(!script){script=document.createElement('script');script.type='application/ld+json';script.id=id;document.head.appendChild(script)}
  script.textContent=JSON.stringify(data);
 }
-async function getSeries(){if(seriesCache)return seriesCache;const {data,error}=await sbSeries.from('series').select('*,books(id,title,cover_url,area,series_volume,item_type,authors(id,name),editions(cover_url,publisher,publication_year,is_primary,country))').order('name');if(error){console.error(error);return []}seriesCache=data||[];return seriesCache}
+async function getSeries(){if(seriesCache)return seriesCache;let {data,error}=await sbSeries.from('public_series_cards').select('*').order('name');if(error){({data,error}=await sbSeries.from('series').select('*,books(id,title,cover_url,area,series_volume,item_type,authors(id,name),editions(cover_url,publisher,publication_year,is_primary,country))').order('name'))}if(error){console.error(error);return []}seriesCache=data||[];return seriesCache}
 function seriesNorm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').trim()}
 function seriesAreasForFilter(area){if(!area)return[];return SERIES_AREA_GROUPS[area]||[area]}
 function publicSeriesArea(area){if(['Policial/Mistério','Coleção Negra','Coleção Policial'].includes(area))return'Policial/Mistério';if(['Ficção Militar','Ação / Militar'].includes(area))return'Ação / Militar';return area}
