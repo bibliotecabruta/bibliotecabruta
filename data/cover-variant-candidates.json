@@ -49,5 +49,46 @@
     "source_label": "Editora Record — mesma capa oficial de 1998, solicitada ao CDN em 1200 px",
     "output_basename": "tabloide-americano-9788501049223-1998",
     "candidate_url": "https://www.record.com.br/cdn/shop/files/617cab2e3eaaca5ea6b187c22ea50ac2_3d951c00-8ceb-4eb0-9e71-e26cdf5109f2.jpg?v=1783743085&width=1200"
+  },
+  {
+    "audit_key": "vento-sudoeste-4ed-2010",
+    "edition_id": "4fcfb6e0-b9f4-4a8f-a48e-191e667fc8b0",
+    "title": "Vento Sudoeste",
+    "isbn": "9788571649507",
+    "variant_label": "4ª edição de 2010",
+    "publication_year": 2010,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/4fcfb6e0-b9f4-4a8f-a48e-191e667fc8b0.jpg",
+    "candidate_page_url": "https://www.travessa.com.br/vento-sudoeste/artigo/aa94c8ac-bb7b-4195-bcbe-ba13ca5f9698",
+    "source_url": "https://www.travessa.com.br/vento-sudoeste/artigo/aa94c8ac-bb7b-4195-bcbe-ba13ca5f9698",
+    "source_label": "Travessa — 4ª edição, 2010, mesmo ISBN",
+    "output_basename": "vento-sudoeste-9788571649507-2010"
+  },
+  {
+    "audit_key": "desumano-degradante-2ed-2003",
+    "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
+    "title": "Desumano e Degradante",
+    "isbn": "9788571645790",
+    "variant_label": "2ª edição de 2003",
+    "publication_year": 2003,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/628090f7-72b3-43cc-a62e-2bb5abc3e46d.jpg",
+    "candidate_page_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/desumano-e-degradante-32",
+    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/desumano-e-degradante-32",
+    "source_label": "Sebo do Messias — exemplar da 2ª edição de 2003; imagem usada apenas para comparação",
+    "compare_only": true,
+    "output_basename": "desumano-e-degradante-9788571645790-2003"
+  },
+  {
+    "audit_key": "lavoura-corpos-reimpressao-2002",
+    "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
+    "title": "Lavoura de Corpos",
+    "isbn": "9788571647978",
+    "variant_label": "Reimpressão de 2002",
+    "publication_year": 2002,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/bbc77899-8585-4792-83c8-7ca4b3c6f8a9.jpg",
+    "candidate_page_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-34",
+    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-34",
+    "source_label": "Sebo do Messias — exemplar de 2002 com mesmo ISBN; imagem usada apenas para comparação",
+    "compare_only": true,
+    "output_basename": "lavoura-de-corpos-9788571647978-2002"
   }
 ]
