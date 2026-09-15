@@ -144,20 +144,20 @@
     "isbn": "9788571647978",
     "variant_label": "2ª edição de 2010",
     "publication_year": 2010,
-    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-33",
-    "source_label": "Sebo do Messias — 2ª edição de 2010, mesmo ISBN; apenas comparação visual",
+    "source_url": "https://www.skoob.com.br/pt/book/265947",
+    "source_label": "Skoob — edição Companhia das Letras de 2010, mesmo ISBN; 2ª edição confirmada também por exemplar físico",
     "audit_key": "lavoura-corpos-2ed-2010-compare",
-    "candidate_url_resolved": "https://sebomessiasstorage.blob.core.windows.net/produtos/262/2625431_2625431.jpg",
-    "status": "different_compare_only",
-    "dhash_distance": 24,
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/13890/LAVOURA_DE_CORPOS_1336306737B.jpg",
+    "status": "same",
+    "dhash_distance": 5,
     "current": {
       "width": 925,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 360,
-      "height": 500,
+      "width": 300,
+      "height": 486,
       "format": "JPEG"
     }
   }
