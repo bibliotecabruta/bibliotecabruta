@@ -1,5 +1,6 @@
 let adminEditionBookId='';
 let adminEditionRows=[];
+let adminCollectionContext=null;
 
 function editionEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
@@ -31,13 +32,15 @@ async function loadEditionAdmin(bookId){
  adminEditionBookId=bookId||'';
  const shell=document.getElementById('editionManagerShell');
  if(!shell)return;
- if(!bookId){shell.classList.add('hidden');adminEditionRows=[];return}
+ if(!bookId){shell.classList.add('hidden');adminEditionRows=[];adminCollectionContext=null;return}
  shell.classList.remove('hidden');
  const list=document.getElementById('editionAdminList');
  list.innerHTML='<div class="muted">Carregando edições…</div>';
  const {data,error}=await sbAdmin.from('editions').select('*').eq('book_id',bookId).eq('country','Brasil').order('publication_year',{ascending:true,nullsFirst:false}).order('created_at',{ascending:true});
  if(error){list.innerHTML='<div class="note error">Erro ao carregar edições: '+editionEsc(error.message)+'</div>';return}
  const editions=data||[];
+ const collectionResult=await sbAdmin.from('book_collections').select('collection_id,edition_id,collections(name)').eq('book_id',bookId).maybeSingle();
+ if(collectionResult.error){console.error('Erro ao carregar vínculo de coleção:',collectionResult.error);adminCollectionContext=null}else adminCollectionContext=collectionResult.data||null;
  let variants=[];
  const ids=editions.map(e=>e.id);
  if(ids.length){
@@ -66,10 +69,24 @@ function renderEditionAdminList(){
  if(!adminEditionRows.length){list.innerHTML='<div class="edition-admin-empty">Nenhuma edição brasileira cadastrada.</div>';return}
  list.innerHTML=adminEditionRows.map(e=>{
    const variants=e.edition_variants||[],primaryVariant=editionPrimaryVariant(e);
+   const collectionName=adminCollectionContext?.collections?.name||'',collectionLinked=adminCollectionContext?.edition_id===e.id;
    const cover=(primaryVariant?.cover_url||e.cover_url)?'background-image:url(&quot;'+editionEsc(primaryVariant?.cover_url||e.cover_url)+'&quot;)':'';
    const variantRows=variants.length?variants.map(v=>'<div class="edition-variant-row '+(v.is_primary?'primary-variant':'')+'"><img class="edition-variant-thumb" src="'+editionEsc(v.cover_url)+'" alt="" onerror="this.style.visibility=\'hidden\'"><div class="edition-variant-copy"><strong>'+editionEsc(v.variant_label||'Capa sem identificação')+(v.is_primary?' · principal':'')+'</strong><small>'+editionEsc(variantAdminSummary(v,e)||'Mesma edição / dados específicos não informados')+'</small></div><div class="edition-variant-actions"><button class="secondary" type="button" onclick="editVariantAdmin(\''+v.id+'\')">Editar capa</button>'+(!v.is_primary?'<button class="secondary" type="button" onclick="setPrimaryVariantAdmin(\''+v.id+'\')">Tornar principal</button><button class="secondary" type="button" onclick="deleteVariantAdmin(\''+v.id+'\')">Excluir</button>':'')+'</div></div>').join(''):'<div class="edition-admin-empty">Nenhuma capa vinculada a esta edição.</div>';
-   return '<article class="edition-admin-card '+(e.is_primary?'primary-edition':'')+'"><div class="edition-admin-cover" style="'+cover+'"></div><div><h4>'+editionEsc(e.edition_label||e.publisher||'Edição brasileira')+'</h4><p>'+editionEsc(editionAdminSummary(e)||'Dados editoriais não informados')+'</p>'+(e.isbn?'<p>ISBN '+editionEsc(e.isbn)+'</p>':'')+(e.translator?'<p>Tradução: '+editionEsc(e.translator)+'</p>':'')+'<div class="edition-admin-tags">'+(e.is_primary?'<span>EDIÇÃO PRINCIPAL</span>':'<span>OUTRA EDIÇÃO</span>')+(e.binding?'<span>'+editionEsc(e.binding)+'</span>':'')+'<span>'+variants.length+' '+(variants.length===1?'CAPA':'CAPAS')+'</span></div></div><div class="edition-admin-actions"><button class="secondary" type="button" onclick="editEditionAdmin(\''+e.id+'\')">Editar edição</button>'+(!e.is_primary?'<button class="secondary" type="button" onclick="setPrimaryEditionAdmin(\''+e.id+'\')">Tornar edição principal</button><button class="secondary" type="button" onclick="deleteEditionAdmin(\''+e.id+'\')">Excluir edição</button>':'')+'</div><div class="edition-variants-admin"><div class="edition-variants-head"><strong>Capas / reimpressões desta edição</strong><button class="secondary" type="button" onclick="newVariantAdmin(\''+e.id+'\')">+ Adicionar outra capa</button></div><div class="edition-variant-list">'+variantRows+'</div></div></article>';
+   return '<article class="edition-admin-card '+(e.is_primary?'primary-edition':'')+'"><div class="edition-admin-cover" style="'+cover+'"></div><div><h4>'+editionEsc(e.edition_label||e.publisher||'Edição brasileira')+'</h4><p>'+editionEsc(editionAdminSummary(e)||'Dados editoriais não informados')+'</p>'+(e.isbn?'<p>ISBN '+editionEsc(e.isbn)+'</p>':'')+(e.translator?'<p>Tradução: '+editionEsc(e.translator)+'</p>':'')+'<div class="edition-admin-tags">'+(e.is_primary?'<span>EDIÇÃO PRINCIPAL</span>':'<span>OUTRA EDIÇÃO</span>')+(e.binding?'<span>'+editionEsc(e.binding)+'</span>':'')+(collectionLinked?'<span>EDIÇÃO DA '+editionEsc(collectionName.toUpperCase())+'</span>':'')+'<span>'+variants.length+' '+(variants.length===1?'CAPA':'CAPAS')+'</span></div></div><div class="edition-admin-actions"><button class="secondary" type="button" onclick="editEditionAdmin(\''+e.id+'\')">Editar edição</button>'+(adminCollectionContext&&!collectionLinked?'<button class="secondary" type="button" onclick="setCollectionEditionAdmin(\''+e.id+'\')">Usar na '+editionEsc(collectionName||'coleção')+'</button>':'')+(!e.is_primary?'<button class="secondary" type="button" onclick="setPrimaryEditionAdmin(\''+e.id+'\')">Tornar edição principal</button><button class="secondary" type="button" onclick="deleteEditionAdmin(\''+e.id+'\')">Excluir edição</button>':'')+'</div><div class="edition-variants-admin"><div class="edition-variants-head"><strong>Capas / reimpressões desta edição</strong><button class="secondary" type="button" onclick="newVariantAdmin(\''+e.id+'\')">+ Adicionar outra capa</button></div><div class="edition-variant-list">'+variantRows+'</div></div></article>';
  }).join('');
+}
+
+
+async function setCollectionEditionAdmin(id){
+ if(!adminCollectionContext||!adminEditionBookId){msg('Este livro não está vinculado a uma coleção editorial.','error');return}
+ const edition=adminEditionRows.find(e=>e.id===id);if(!edition){msg('Edição não encontrada.','error');return}
+ try{
+   const {error}=await sbAdmin.from('book_collections').update({edition_id:id}).eq('book_id',adminEditionBookId).eq('collection_id',adminCollectionContext.collection_id);
+   if(error)throw error;
+   adminCollectionContext={...adminCollectionContext,edition_id:id};
+   renderEditionAdminList();
+   msg('Esta edição passou a ser a edição exibida na página da '+(adminCollectionContext.collections?.name||'coleção')+'. A edição principal geral não foi alterada.','ok');
+ }catch(err){console.error(err);msg('Erro ao vincular edição à coleção: '+(err.message||err),'error')}
 }
 
 function newEditionAdmin(){
@@ -311,6 +328,6 @@ function syncPrimaryEditionAdmin(){
  const oldEdit=window.editBook;
  if(typeof oldEdit==='function')window.editBook=async function(id){await oldEdit(id);await loadEditionAdmin(id)};
  const oldNew=window.newBook;
- if(typeof oldNew==='function')window.newBook=function(...args){const r=oldNew(...args);adminEditionBookId='';adminEditionRows=[];document.getElementById('editionManagerShell')?.classList.add('hidden');return r};
+ if(typeof oldNew==='function')window.newBook=function(...args){const r=oldNew(...args);adminEditionBookId='';adminEditionRows=[];adminCollectionContext=null;document.getElementById('editionManagerShell')?.classList.add('hidden');return r};
  document.addEventListener('DOMContentLoaded',ensureEditionManagerUI);
 })();
