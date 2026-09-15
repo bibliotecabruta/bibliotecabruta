@@ -1,6 +1,9 @@
 import json, hashlib, io, os, pathlib, sys
 import requests
 from PIL import Image
+from urllib.parse import urljoin
+import re
+import html
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "data" / "cover-variant-candidates.json"
@@ -9,9 +12,28 @@ OUTDIR = ROOT / "assets" / "covers" / "variants"
 OUTDIR.mkdir(parents=True, exist_ok=True)
 
 def fetch(url):
-    r = requests.get(url, timeout=30, headers={"User-Agent":"BibliotecaBrutaCoverAudit/1.0"})
+    r = requests.get(url, timeout=30, headers={"User-Agent":"Mozilla/5.0 BibliotecaBrutaCoverAudit/1.0"})
     r.raise_for_status()
     return r.content, r.headers.get("content-type","")
+
+def discover_image(page_url):
+    raw, ct = fetch(page_url)
+    text = raw.decode("utf-8", errors="ignore")
+    patterns = [
+        r'<meta[^>]+property=["\']og:image(?::secure_url)?["\'][^>]+content=["\']([^"\']+)',
+        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::secure_url)?["\']',
+        r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
+        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image["\']'
+    ]
+    for pattern in patterns:
+        m = re.search(pattern, text, re.I)
+        if m:
+            return urljoin(page_url, html.unescape(m.group(1)))
+    isbn = re.sub(r'\D', '', str(page_url))
+    candidates = re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png|webp)(?:\?[^"\'<> ]*)?', text, re.I)
+    if candidates:
+        return html.unescape(candidates[0])
+    raise ValueError("Nenhuma imagem principal encontrada na página")
 
 def dhash(raw):
     im = Image.open(io.BytesIO(raw)).convert("L").resize((9,8))
@@ -44,7 +66,9 @@ for item in items:
     row={k:item.get(k) for k in ["edition_id","title","isbn","variant_label","publication_year","source_url","source_label"]}
     try:
         current_raw,_ = fetch(item["current_cover_url"])
-        cand_raw,cand_ct = fetch(item["candidate_url"])
+        candidate_url = item.get("candidate_url") or discover_image(item["candidate_page_url"])
+        row["candidate_url_resolved"] = candidate_url
+        cand_raw,cand_ct = fetch(candidate_url)
         cur_info=image_info(current_raw)
         cand_info=image_info(cand_raw)
         dist=distance(dhash(current_raw),dhash(cand_raw))
