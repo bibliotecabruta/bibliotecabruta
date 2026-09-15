@@ -60,12 +60,26 @@ function decodeHtmlUrl(value,baseUrl){
  const decoded=String(value||'').replace(/&amp;/g,'&').replace(/\\u0026/g,'&').replace(/\\\//g,'/');
  try{return new URL(decoded,baseUrl).href}catch{return ''}
 }
-function htmlImageCandidates(html,baseUrl){
+function htmlImageCandidates(html,baseUrl,item={}){
  const rows=[];
- const add=(value,score=0,source='html')=>{
+ const targetIsbn=String(item.target_isbn||item.isbn||'').replace(/[^0-9Xx]/g,'').toUpperCase();
+ const targetYear=item.target_year||item.publication_year||null;
+ const contextBoost=(index)=>{
+  if(index==null)return 0;
+  const context=html.slice(Math.max(0,index-1800),Math.min(html.length,index+2800));
+  let boost=0;
+  if(targetIsbn){
+   const compact=context.replace(/[^0-9Xx]/g,'').toUpperCase();
+   if(compact.includes(targetIsbn))boost+=600;
+  }
+  if(targetYear&&context.includes(String(targetYear)))boost+=120;
+  return boost;
+ };
+ const add=(value,score=0,source='html',index=null)=>{
   const url=decodeHtmlUrl(value,baseUrl);
   if(!url||!/^https?:/i.test(url))return;
   if(/(?:logo|icon|avatar|sprite|placeholder)/i.test(url))score-=20;
+  score+=contextBoost(index);
   rows.push({url,score,source});
  };
  const metaPatterns=[
@@ -74,20 +88,20 @@ function htmlImageCandidates(html,baseUrl){
   [/<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/gi,20,'twitter:image'],
   [/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["']/gi,20,'twitter:image']
  ];
- for(const [rx,score,source] of metaPatterns){for(const m of html.matchAll(rx))add(m[1],score,source)}
+ for(const [rx,score,source] of metaPatterns){for(const m of html.matchAll(rx))add(m[1],score,source,m.index)}
  for(const m of html.matchAll(/<img\b[^>]*>/gi)){
   const tag=m[0],boost=/(?:product|gallery|book|livro|cover|capa|zoom)/i.test(tag)?45:0,penalty=/(?:author|autor|avatar|logo|icon)/i.test(tag)?-35:0;
   for(const attr of ['data-zoom-image','data-large-image','data-original','data-src','src']){
    const am=tag.match(new RegExp(attr+'=["\\\']([^"\\\']+)["\\\']','i'));
-   if(am)add(am[1],boost+penalty+(attr.includes('zoom')||attr.includes('large')?30:0),'img:'+attr);
+   if(am)add(am[1],boost+penalty+(attr.includes('zoom')||attr.includes('large')?30:0),'img:'+attr,m.index);
   }
   for(const attr of ['data-srcset','srcset']){
    const am=tag.match(new RegExp(attr+'=["\\\']([^"\\\']+)["\\\']','i'));
-   if(am){for(const part of am[1].split(',')){const u=part.trim().split(/\s+/)[0];if(u)add(u,boost+penalty+20,'img:'+attr)}}
+   if(am){for(const part of am[1].split(',')){const u=part.trim().split(/\s+/)[0];if(u)add(u,boost+penalty+20,'img:'+attr,m.index)}}
   }
  }
- for(const m of html.matchAll(/"image"\s*:\s*"([^"]+)"/gi))add(m[1],40,'jsonld:image');
- for(const m of html.matchAll(/"(?:imageUrl|image_url|large_image|zoom_image)"\s*:\s*"([^"]+)"/gi))add(m[1],35,'json:image');
+ for(const m of html.matchAll(/"image"\s*:\s*"([^"]+)"/gi))add(m[1],40,'jsonld:image',m.index);
+ for(const m of html.matchAll(/"(?:imageUrl|image_url|large_image|zoom_image)"\s*:\s*"([^"]+)"/gi))add(m[1],35,'json:image',m.index);
  const uniq=new Map();
  for(const row of rows){const prev=uniq.get(row.url);if(!prev||row.score>prev.score)uniq.set(row.url,row)}
  return [...uniq.values()].sort((a,b)=>b.score-a.score).slice(0,80);
@@ -99,7 +113,7 @@ async function fetchBinaryImage(url,headers){
  if(buf.length<5000||!looksLikeImage(buf,type))return null;
  return{type,buf,dims:imageDimensions(buf,type),url:res.url};
 }
-async function fetchCover(url){
+async function fetchCover(url,item={}){
  const headers={'user-agent':'Mozilla/5.0 (compatible; BibliotecaBruta/1.0; +https://bibliotecabruta.com.br/)','accept':'image/webp,image/jpeg,image/png,image/*;q=0.8,text/html;q=0.7,*/*;q=0.5'};
  const res=await fetch(url,{redirect:'follow',headers});
  if(!res.ok)throw new Error('HTTP '+res.status);
@@ -108,7 +122,7 @@ async function fetchCover(url){
   const buf=Buffer.from(await res.arrayBuffer());
   return{type,buf,imageUrl:res.url,candidatesChecked:1};
  }
- const html=await res.text(),candidates=htmlImageCandidates(html,res.url);
+ const html=await res.text(),candidates=htmlImageCandidates(html,res.url,item);
  let best=null,checked=0;
  for(const candidate of candidates){
   try{
@@ -126,7 +140,7 @@ async function fetchCover(url){
 for(const item of batch){
  let result={edition_id:item.edition_id,book_id:item.book_id,title:item.title,original_url:item.url,status:'failed'};
  try{
-  const fetched=await fetchCover(item.url);
+  const fetched=await fetchCover(item.url,item);
   const type=fetched.type,buf=fetched.buf;
   if(buf.length<5000)throw new Error('arquivo pequeno demais: '+buf.length+' bytes');
   if(!looksLikeImage(buf,type))throw new Error('resposta não parece imagem: '+type);
