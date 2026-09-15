@@ -170,6 +170,17 @@
       "decision": "second_edition_registered",
       "edition_id": "c9d32cad-0581-4e3c-9ac4-f46762aab448",
       "detail": "O registro antigo foi corrigido para representar a 2ª edição de 2006 e passou a ser principal. A 1ª edição de 1997 foi criada separadamente com a capa fornecida pelo usuário, mesmo ISBN, 334 p. e tradução de Beth Vieira."
+    },
+    {
+      "work": "Bellini e o Demônio",
+      "edition_title": "Bellini e o Demônio",
+      "year": 2017,
+      "isbn": "9788535928976",
+      "publisher": "Companhia das Letras",
+      "pages": 240,
+      "decision": "new_edition_registered",
+      "edition_id": "4e5130bb-2bab-4cee-8f54-107e64eb1dbe",
+      "detail": "A obra agora tem 1ª edição de 1997, 2ª edição pocket de 2002 com ISBN reaproveitado e nova edição de 2017 com novo ISBN. A edição de 2017 é a principal."
     }
   ],
   "external_false_positive": [
