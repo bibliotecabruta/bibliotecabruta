@@ -119,3 +119,5 @@ await writeFile('sitemap-authors.xml',sitemap('author',authorRows,authorPath),'u
 console.log('SEO books:',books.length,'series:',seriesRows.length,'authors:',authorRows.length);
 
 // SEO refresh trigger: 2026-09-15 latest-edition-primary
+
+// SEO refresh trigger: 2026-09-15 bellini-edition-split
