@@ -41,7 +41,9 @@
     "candidate_page_url": "https://www.skoob.com.br/book/1609",
     "allow_low_res": true,
     "min_width": 280,
-    "min_height": 420
+    "min_height": 420,
+    "reference_url": "https://lojasebocultural.com.br/wp-content/uploads/2023/09/f5a33444-6e94-4053-bb91-80ea96b4f68c.jpg",
+    "reference_label": "Foto do exemplar físico da 7ª edição de 2006 — Sebo Cultural; apenas para validação visual"
   },
   {
     "audit_key": "desumano-degradante-2ed-2003",
