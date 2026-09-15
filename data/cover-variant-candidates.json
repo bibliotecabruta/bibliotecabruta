@@ -32,10 +32,10 @@
     "publication_year": 2006,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/44061e8a-d60b-4700-a274-8071057b2792.jpg",
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Sebo do Messias confirma 2ª edição de 2006 e mesmo ISBN; imagem limpa candidata via Magalu",
+    "source_label": "Sebo do Messias confirma 2ª edição de 2006 e mesmo ISBN; capa limpa candidata via Amazon/ISBN",
     "output_basename": "corpo-de-delito-9788571644816-2006",
-    "candidate_page_url": "https://www.magazineluiza.com.br/livro-corpo-de-delito/p/cfkgkjg71b/li/llit/",
-    "compare_only": false
+    "compare_only": false,
+    "candidate_url": "https://images-na.ssl-images-amazon.com/images/P/8571644810.01.LZZZZZZZ.jpg"
   },
   {
     "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
@@ -56,9 +56,9 @@
     "variant_label": "Reimpressão c. 2002/2003",
     "publication_year": 2002,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/b4a196c4-a131-428a-950b-35c058687ba0.jpg",
-    "candidate_page_url": "https://www.magazineluiza.com.br/livro-cemiterio-de-indigentes/p/dhdc92j804/li/llit/",
     "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Skoob confirma reimpressão c. 2002 com mesmo ISBN; imagem limpa candidata via Magalu",
-    "output_basename": "cemiterio-de-indigentes-9788571646377-2002"
+    "source_label": "Skoob confirma reimpressão c. 2002 com mesmo ISBN; capa limpa candidata via Amazon/ISBN",
+    "output_basename": "cemiterio-de-indigentes-9788571646377-2002",
+    "candidate_url": "https://images-na.ssl-images-amazon.com/images/P/8571646376.01.LZZZZZZZ.jpg"
   }
 ]
