@@ -131,7 +131,10 @@ async function saveEditionAdmin(ev){
    if(isbn){
      const norm=normalizedEditionIsbn(isbn);
      const duplicate=adminEditionRows.find(x=>x.id!==editionId&&normalizedEditionIsbn(x.isbn)===norm);
-     if(duplicate)throw new Error('Já existe outra edição deste livro com esse ISBN. Se mudou apenas a capa, use “Adicionar outra capa” na edição existente.');
+     if(duplicate&&!editionId){
+       const proceed=confirm('Já existe uma edição desta obra com o mesmo ISBN.\n\nSe mudou apenas a capa/reimpressão visual, clique em Cancelar e use “Adicionar outra capa”.\n\nSe esta é uma nova edição real (ex.: 2ª edição declarada, pocket, capa dura, novo formato ou mudança editorial relevante), clique em OK para continuar mesmo com o ISBN repetido.');
+       if(!proceed)return;
+     }
    }
    const file=fd.get('cover_file');
    const newCover=await uploadCover(file);
