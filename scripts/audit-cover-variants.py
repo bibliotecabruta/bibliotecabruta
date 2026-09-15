@@ -74,7 +74,9 @@ for item in items:
         dist=distance(dhash(current_raw),dhash(cand_raw))
         row.update({"status":"same" if dist < 8 else "different","dhash_distance":dist,"current":cur_info,"candidate":cand_info})
         if dist >= 8:
-            if cand_info["width"] < 400 or cand_info["height"] < 500:
+            if item.get("compare_only"):
+                row["status"]="different_compare_only"
+            elif cand_info["width"] < 400 or cand_info["height"] < 500:
                 row["status"]="different_low_resolution"
             else:
                 ext=safe_ext(cand_ct,cand_info)
