@@ -47,31 +47,6 @@
     }
   },
   {
-    "edition_id": "8c6b2989-3f79-4f56-a2db-f30e481f27ef",
-    "title": "Tablóide Americano",
-    "isbn": "9788501049223",
-    "variant_label": "Capa da edição original brasileira de 1998",
-    "publication_year": 1998,
-    "source_url": "https://www.record.com.br/products/tabloide-americano",
-    "source_label": "Martins Fontes Paulista / catálogo VTEX — ficha da mesma edição Record ISBN 9788501049223; imagem original do SKU",
-    "audit_key": "tabloide-americano-1998-vs-2011",
-    "candidate_url_resolved": "https://martinsfontespaulista.vteximg.com.br/arquivos/ids/1444393/174467.jpg?v=638294678015600000",
-    "status": "different",
-    "dhash_distance": 37,
-    "current": {
-      "width": 1023,
-      "height": 1500,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 600,
-      "height": 800,
-      "format": "JPEG"
-    },
-    "saved_path": "assets/covers/variants/tabloide-americano-9788501049223-1998.jpg",
-    "sha256": "7c151f68d5be179dd0aa3fc5acb1d8fea3d9a048735edbc968212963bfaf2ee8"
-  },
-  {
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
     "title": "Desumano e Degradante",
     "isbn": "9788571645790",
