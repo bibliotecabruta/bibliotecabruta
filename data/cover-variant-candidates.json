@@ -11,5 +11,53 @@
     "source_label": "CAASP Shop — 2ª edição, 2002, mesmo ISBN",
     "output_basename": "edicoes-perigosas-9788571643789-2002",
     "audit_note": "Mesmo ISBN confirmado em 1994 e 2ª edição de 2002; comparar a capa de 2002 com a capa atual do catálogo."
+  },
+  {
+    "edition_id": "aeb4d7dd-7c18-460b-996c-3bb5b5850c1f",
+    "title": "Causa Mortis",
+    "isbn": "9788571649774",
+    "variant_label": "2ª edição / reimpressão de 2007",
+    "publication_year": 2007,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/aeb4d7dd-7c18-460b-996c-3bb5b5850c1f.jpg",
+    "candidate_page_url": "https://www.skoob.com.br/pt/book/37831",
+    "source_url": "https://www.portaldoslivreiros.com.br/livro.asp?codigo=7881187&titulo=Causa+Mortis",
+    "source_label": "Portal dos Livreiros — 2ª edição, 2007, mesmo ISBN; imagem candidata via Skoob",
+    "output_basename": "causa-mortis-9788571649774-2007"
+  },
+  {
+    "edition_id": "44061e8a-d60b-4700-a274-8071057b2792",
+    "title": "Corpo de Delito",
+    "isbn": "9788571644816",
+    "variant_label": "2ª edição / reimpressão de 2006",
+    "publication_year": 2006,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/44061e8a-d60b-4700-a274-8071057b2792.jpg",
+    "candidate_page_url": "https://www.livrariadavila.com.br/15692-corpo-de-delito/p",
+    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
+    "source_label": "Sebo do Messias — 2ª edição, 2006, mesmo ISBN; imagem candidata via Livraria da Vila",
+    "output_basename": "corpo-de-delito-9788571644816-2006"
+  },
+  {
+    "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
+    "title": "A Noiva Estava de Preto",
+    "isbn": "9788571640214",
+    "variant_label": "2ª edição / reimpressão de 2007",
+    "publication_year": 2007,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/58309030-dbb7-4d9f-bca8-b50d4340c083.jpg",
+    "candidate_page_url": "https://www.livrariadavila.com.br/16046-a-noiva-estava-de-preto/p",
+    "source_url": "https://lojasebocultural.com.br/produto/a-noiva-estava-de-preto/",
+    "source_label": "Sebo Cultural — 2ª edição, 2007, mesmo ISBN; imagem candidata via Livraria da Vila",
+    "output_basename": "a-noiva-estava-de-preto-9788571640214-2007"
+  },
+  {
+    "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
+    "title": "Cemitério de Indigentes",
+    "isbn": "9788571646377",
+    "variant_label": "3ª edição / reimpressão de 2010",
+    "publication_year": 2010,
+    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/b4a196c4-a131-428a-950b-35c058687ba0.jpg",
+    "candidate_page_url": "https://www.livrariadavila.com.br/15008-cemiterio-de-indigentes/p",
+    "source_url": "https://www.goodreads.com/work/editions/1455041-from-potter-s-field?expanded=true",
+    "source_label": "Goodreads — 3ª edição brasileira, 2010, mesmo ISBN; imagem candidata via Livraria da Vila",
+    "output_basename": "cemiterio-de-indigentes-9788571646377-2010"
   }
 ]
