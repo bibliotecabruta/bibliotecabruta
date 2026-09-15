@@ -3,7 +3,7 @@ function boxEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 function boxCover(book){const ed=(book.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(book.editions||[]).find(e=>e.country==='Brasil');return ed?.cover_url||book.cover_url}
 function boxBookCard(book,label=''){const cover=boxCover(book);return `<a class="volume-card" href="livro.html?id=${encodeURIComponent(book.id)}">${cover?`<img src="${boxEsc(cover)}" alt="${boxEsc(book.title)}">`:'<div class="mini-placeholder">Sem capa</div>'}<div>${label?`<small>${boxEsc(label)}</small>`:''}<strong>${boxEsc(book.title)}</strong>${book.series_volume?`<span>Volume ${boxEsc(book.series_volume)}</span>`:''}</div></a>`}
 async function waitForBookPage(){for(let i=0;i<40;i++){const root=document.getElementById('bookPage');if(root?.querySelector('h1'))return root;await new Promise(resolve=>setTimeout(resolve,100))}return null}
-async function renderBoxRelations(){const id=new URLSearchParams(location.search).get('id');if(!id)return;let ctx=null;
+async function renderBoxRelations(){const id=window.BB_BOOK_ID||new URLSearchParams(location.search).get('id')||document.body?.dataset.bookId||'';if(!id)return;let ctx=null;
  if(window.BB_BOOK_ENGAGEMENT_PROMISE){const {data,error}=await window.BB_BOOK_ENGAGEMENT_PROMISE;if(!error&&data)ctx=data}
  const root=await waitForBookPage();if(!root)return;
  if(ctx){
