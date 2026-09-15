@@ -2,55 +2,29 @@
   {
     "edition_id": "f5ca091f-1354-4f26-9176-71e7ba63829c",
     "book_id": "2087c3fe-72ac-4add-aeff-ae5797f98f59",
-    "title": "Perseguido — edição 9788535929713",
-    "url": "https://www.companhiadasletras.com.br/livro/9788535929713/"
+    "title": "Perseguido — Companhia 2018",
+    "url": "https://www.companhiadasletras.com.br/livro/9788535929713/",
+    "allow_exception": true
   },
   {
     "edition_id": "406e607f-912d-4494-863e-929f5da4cd1c",
     "book_id": "0134b9b4-5371-461b-8315-ee37a9bc3a42",
-    "title": "Espinosa sem Saída — edição 9788535929980",
-    "url": "https://www.companhiadasletras.com.br/livro/9788535929980/"
-  },
-  {
-    "edition_id": "7804111a-bdec-4c4e-b140-94c92d914660",
-    "book_id": "8cda8f8a-e738-4d7c-9576-ca281b511807",
-    "title": "Corpo de Delito — edição 9788565530200",
-    "url": "https://www.companhiadasletras.com.br/livro/9788565530200/"
-  },
-  {
-    "edition_id": "a899a651-14ee-4cf3-8c8d-21b2d62da813",
-    "book_id": "c746bbdf-3ab7-4c2d-8a17-97b8041d3572",
-    "title": "Desumano e Degradante — edição 9788565530415",
-    "url": "https://www.companhiadasletras.com.br/livro/9788565530415/"
-  },
-  {
-    "edition_id": "33f451ce-ebfc-4a6d-8672-ba99dff53bd3",
-    "book_id": "1e6011f4-5e0b-4daa-a885-660517a6fc22",
-    "title": "Restos Mortais — edição 9788565530286",
-    "url": "https://www.companhiadasletras.com.br/livro/9788565530286/"
-  },
-  {
-    "edition_id": "6b76b17b-c9ea-4a3d-a0ae-7508807e9254",
-    "book_id": "63618260-7a35-4fd1-a52e-b36d860cbc22",
-    "title": "Post-Mortem — edição 9788565530170",
-    "url": "https://www.companhiadasletras.com.br/livro/9788565530170/"
-  },
-  {
-    "edition_id": "08d1acf3-a612-4d9f-9a8d-b34f3352ca75",
-    "book_id": "0f1de770-9465-4d1a-afc4-ac1494e60b0e",
-    "title": "Sobre Meninos e Lobos — edição 9788535921052",
-    "url": "https://www.companhiadasletras.com.br/livro/9788535921052/"
+    "title": "Espinosa sem Saída — Companhia 2017",
+    "url": "https://www.companhiadasletras.com.br/livro/9788535929980/",
+    "allow_exception": true
   },
   {
     "edition_id": "7d9e0632-84c9-4d2c-934d-8a992e03e584",
     "book_id": "7cfaa5b8-2d67-418d-bd4d-1556dddec35a",
-    "title": "Uma Certa Justiça — edição 9788535921540",
-    "url": "https://www.companhiadasletras.com.br/livro/9788535921540/"
+    "title": "Uma Certa Justiça — Companhia de Bolso 2012",
+    "url": "https://www.companhiadasletras.com.br/livro/9788535921540/",
+    "allow_exception": true
   },
   {
     "edition_id": "ba43dd05-145d-470b-9d71-dec71f43686e",
     "book_id": "17c9e431-a99e-4c50-a7e1-bee4ed6f6d76",
-    "title": "O Silêncio da Chuva — edição 9788535907520",
-    "url": "https://www.companhiadasletras.com.br/livro/9788535907520/"
+    "title": "O Silêncio da Chuva — Companhia de Bolso 2005",
+    "url": "https://www.companhiadasletras.com.br/livro/9788535907520/",
+    "allow_exception": true
   }
 ]
