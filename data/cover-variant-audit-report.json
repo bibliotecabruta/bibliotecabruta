@@ -18,21 +18,10 @@
     "variant_label": "Nova fase da Coleção Negra / Especial noir europeu",
     "publication_year": 2007,
     "source_url": "https://www.skoob.com.br/pt/book/494413",
-    "source_label": "Skoob/UFSC confirmam 3ª edição Record 2007, mesmo ISBN; arte limpa candidata via Touché",
+    "source_label": "Martins Fontes Paulista — imagem do produto pelo mesmo ISBN; 3ª edição Record 2007 confirmada em fontes bibliográficas",
     "audit_key": null,
-    "candidate_url_resolved": "https://i0.wp.com/www.touchelivros.com.br/wp-content/uploads/2025/02/a_forma_da_agua_comissario_montalbano_1.jpg?ssl=1",
-    "status": "different_low_resolution",
-    "dhash_distance": 39,
-    "current": {
-      "width": 1006,
-      "height": 1006,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 300,
-      "height": 443,
-      "format": "JPEG"
-    }
+    "status": "error",
+    "error": "404 Client Error: Not Found for url: https://www.martinsfontespaulista.com.br/Sistema/404?ProductLinkNotFound=forma-da-agua--a-175093"
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
@@ -41,20 +30,20 @@
     "variant_label": "7ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
-    "source_label": "Sebo Cultural confirma 7ª edição de 2006 e mesmo ISBN; arte limpa candidata via IndicaLivros",
+    "source_label": "Travessa — mesma arte da 7ª edição/reimpressão, tentativa em imagem grande /GR/",
     "audit_key": null,
-    "candidate_url_resolved": "https://indicalivros.com/livros/o-colecionador-de-ossos-colecao-negra-jeffery-deaver/o-colecionador-de-ossos-colecao-negra-jeffery-deaver-capa.webp",
+    "candidate_url_resolved": "https://img.travessa.com.br/livro/GR/ad/adc26732-571c-4885-b715-3b60f2f86d05.jpg",
     "status": "different_low_resolution",
-    "dhash_distance": 23,
+    "dhash_distance": 16,
     "current": {
       "width": 1000,
       "height": 1555,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 236,
-      "height": 360,
-      "format": "JPEG"
+      "width": 75,
+      "height": 105,
+      "format": "GIF"
     }
   }
 ]
