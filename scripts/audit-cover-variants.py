@@ -186,7 +186,9 @@ for item in items:
         if dist >= 8:
             if item.get("compare_only"):
                 row["status"] = "different_compare_only"
-            elif cand_info["width"] < 400 or cand_info["height"] < 500:
+            elif (cand_info["width"] < 400 or cand_info["height"] < 500) and not item.get("allow_low_res"):
+                row["status"] = "different_low_resolution"
+            elif item.get("allow_low_res") and (cand_info["width"] < int(item.get("min_width", 280)) or cand_info["height"] < int(item.get("min_height", 420))):
                 row["status"] = "different_low_resolution"
             else:
                 ext = safe_ext(cand_ct, cand_info)
