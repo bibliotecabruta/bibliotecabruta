@@ -1,5 +1,13 @@
 const sbBook=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
-const bbBookId=new URLSearchParams(location.search).get('id')||document.body?.dataset.bookId||'';
+function resolveBookId(){
+ const queryId=new URLSearchParams(location.search).get('id');
+ if(queryId)return queryId;
+ const dataId=document.body?.dataset.bookId;
+ if(dataId)return dataId;
+ const match=decodeURIComponent(location.pathname).match(/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})(?:\.html)?$/i);
+ return match?.[1]||'';
+}
+const bbBookId=resolveBookId();
 function bbSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'livro'}
 function bbBookSeoUrl(b){return location.origin+'/livros/'+bbSlug(b.title)+'-'+b.id+'.html'}
 window.BB_BOOK_PROMISE=window.BB_BOOK_PROMISE||(bbBookId?sbBook.from('books').select('*,authors(id,name,nationality,bio),series(*),book_categories(category_id,categories(id,name)),book_tags(tag_id,tags(id,name)),book_collections(collection_number,collections(id,name,publisher)),editions(*,edition_variants(*))').eq('id',bbBookId).single():Promise.resolve({data:null,error:null}));
@@ -88,7 +96,7 @@ async function shareBook(){
  }catch(e){if(e?.name!=='AbortError'&&btn){const old=btn.textContent;btn.textContent='Não foi possível compartilhar';setTimeout(()=>btn.textContent=old,1800)}}
 }
 async function loadBook(){
- const root=document.getElementById('bookPage'),id=new URLSearchParams(location.search).get('id');
+ const root=document.getElementById('bookPage'),id=bbBookId;
  if(!id){root.innerHTML='<div class="empty">Livro não informado.</div>';return}
  const {data:b,error}=await window.BB_BOOK_PROMISE;
  if(error||!b){root.innerHTML='<div class="empty">Livro não encontrado.</div>';return}
