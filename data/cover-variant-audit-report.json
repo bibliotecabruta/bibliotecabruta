@@ -52,9 +52,9 @@
     "variant_label": "2ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Companhia das Letras — CDN oficial em alta resolução, mesmo ISBN",
+    "source_label": "Livraria da Vila — imagem do produto identificada pelo mesmo ISBN; 2ª edição de 2006 confirmada separadamente",
     "audit_key": null,
-    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571644816/corpo-de-delito.jpg",
+    "candidate_url_resolved": "https://livrariadavila.vtexassets.com/arquivos/ids/9542188/9788571644816.jpg?v=639222041623070000",
     "status": "same",
     "dhash_distance": 1,
     "current": {
@@ -63,9 +63,9 @@
       "format": "JPEG"
     },
     "candidate": {
-      "width": 403,
-      "height": 650,
-      "format": "JPEG"
+      "width": 500,
+      "height": 805,
+      "format": "PNG"
     }
   },
   {
@@ -98,21 +98,10 @@
     "variant_label": "Reimpressão c. 2002/2003",
     "publication_year": 2002,
     "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Companhia das Letras — CDN oficial em alta resolução, mesmo ISBN",
+    "source_label": "Livraria da Vila — imagem do produto identificada pelo mesmo ISBN; reimpressão posterior confirmada separadamente",
     "audit_key": null,
-    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571646377/cemiterio-de-indigentes.jpg",
-    "status": "same",
-    "dhash_distance": 1,
-    "current": {
-      "width": 928,
-      "height": 1500,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 402,
-      "height": 650,
-      "format": "JPEG"
-    }
+    "status": "error",
+    "error": "404 Client Error: Not Found for url: https://www.livrariadavila.com.br/15008-cemiterio-de-indigentes/p"
   },
   {
     "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
@@ -125,7 +114,7 @@
     "audit_key": null,
     "candidate_url_resolved": "https://i0.wp.com/www.touchelivros.com.br/wp-content/uploads/2025/02/a_forma_da_agua_comissario_montalbano_1.jpg?ssl=1",
     "status": "different_low_resolution",
-    "dhash_distance": 40,
+    "dhash_distance": 39,
     "current": {
       "width": 1006,
       "height": 1006,
