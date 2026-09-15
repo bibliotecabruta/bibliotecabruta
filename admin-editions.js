@@ -31,7 +31,7 @@ async function loadEditionAdmin(bookId){
  shell.classList.remove('hidden');
  const list=document.getElementById('editionAdminList');
  list.innerHTML='<div class="muted">Carregando edições…</div>';
- const {data,error}=await sbAdmin.from('editions').select('*').eq('book_id',bookId).eq('country','Brasil').order('is_primary',{ascending:false}).order('publication_year',{ascending:false});
+ const {data,error}=await sbAdmin.from('editions').select('*').eq('book_id',bookId).eq('country','Brasil').order('publication_year',{ascending:true,nullsFirst:false}).order('created_at',{ascending:true});
  if(error){list.innerHTML='<div class="note error">Erro ao carregar edições: '+editionEsc(error.message)+'</div>';return}
  adminEditionRows=data||[];
  renderEditionAdminList();
