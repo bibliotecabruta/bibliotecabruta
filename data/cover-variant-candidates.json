@@ -38,19 +38,6 @@
     "candidate_url": "https://img.travessa.com.br/livro/GR/ad/adc26732-571c-4885-b715-3b60f2f86d05.jpg"
   },
   {
-    "audit_key": "tabloide-americano-1998-vs-2011",
-    "edition_id": "8c6b2989-3f79-4f56-a2db-f30e481f27ef",
-    "title": "Tablóide Americano",
-    "isbn": "9788501049223",
-    "variant_label": "Capa da edição original brasileira de 1998",
-    "publication_year": 1998,
-    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/8c6b2989-3f79-4f56-a2db-f30e481f27ef.jpg",
-    "source_url": "https://www.record.com.br/products/tabloide-americano",
-    "source_label": "Martins Fontes Paulista / catálogo VTEX — ficha da mesma edição Record ISBN 9788501049223; imagem original do SKU",
-    "output_basename": "tabloide-americano-9788501049223-1998",
-    "candidate_page_url": "https://www.martinsfontespaulista.com.br/tabloide-americano-174467/p"
-  },
-  {
     "audit_key": "desumano-degradante-2ed-2003",
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
     "title": "Desumano e Degradante",
