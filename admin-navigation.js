@@ -12,7 +12,7 @@ let adminSearchTimer=null;
 let adminWorkQueue=[];
 let adminWorkIndex=-1;
 let adminWorkMode=false;
-const ADMIN_ISSUE_LABELS={sem_capa:'Sem capa',sem_titulo_original:'Sem título original',sem_ano_original:'Sem ano original',sem_sinopse:'Sem sinopse',sem_edicao_principal:'Sem edição principal',sem_editora:'Sem editora',sem_ano_br:'Sem ano BR',sem_paginas:'Sem páginas',sem_isbn:'Sem ISBN · baixa prioridade',sem_categoria:'Sem categoria',menos_de_5_tags:'Menos de 5 tags · baixa prioridade'};
+const ADMIN_ISSUE_LABELS={sem_capa:'Sem capa',sem_titulo_original:'Sem título original',sem_ano_original:'Sem ano original',sem_sinopse:'Sem sinopse',sem_edicao_principal:'Sem edição principal',sem_editora:'Sem editora',sem_ano_br:'Sem ano BR',sem_paginas:'Sem páginas',sem_isbn:'Sem ISBN · baixa prioridade',sem_categoria:'Sem categoria',menos_de_5_tags:'Menos de 5 tags · baixa prioridade',edicao_recente_sem_capa:'Edição mais recente sem capa',edicao_principal_desatualizada:'Edição principal desatualizada'};
 
 function injectAdminAuditUI(){
  const list=document.getElementById('bookList');
