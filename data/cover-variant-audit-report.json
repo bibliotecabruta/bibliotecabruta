@@ -46,7 +46,7 @@
     "source_label": "Skoob — ficha da edição Coleção Negra; comparar com a 7ª edição de 2006 confirmada",
     "audit_key": null,
     "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/1181/O_COLECIONADOR_DE_OSSOS_1410371210B.jpg",
-    "status": "different",
+    "status": "error",
     "dhash_distance": 9,
     "current": {
       "width": 1000,
@@ -58,8 +58,7 @@
       "height": 454,
       "format": "JPEG"
     },
-    "saved_path": "assets/covers/variants/o-colecionador-de-ossos-9788501058126-2006.jpg",
-    "sha256": "8d02da95fddafa313f25689643bc35301725aad0ec6f56ebc3098010f9eaa1bb"
+    "error": "403 Client Error: Forbidden for url: https://lojasebocultural.com.br/wp-content/uploads/2023/09/f5a33444-6e94-4053-bb91-80ea96b4f68c.jpg"
   },
   {
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
