@@ -29,11 +29,11 @@ def discover_image(page_url):
     text = raw.decode("utf-8", errors="ignore")
     normalized = text.replace("\\/", "/")
 
-    page_isbn_match = re.search(r"/livro/(\\d{10,13})(?:/|$)", page_url)
+    page_isbn_match = re.search(r"/livro/(\d{10,13})(?:/|$)", page_url)
     page_isbn = page_isbn_match.group(1) if page_isbn_match else None
 
     if page_isbn and "companhiadasletras.com.br" in page_url:
-        cover_pattern = rf"""https?://[^"'<> ]+/covers/(?:p|pp|g|gg|100|200|300|400|600)/{re.escape(page_isbn)}/[^"'<> ?]+\\.(?:jpg|jpeg|png|webp)"""
+        cover_pattern = rf"""https?://[^"'<> ]+/covers/(?:p|pp|g|gg|100|200|300|400|600)/{re.escape(page_isbn)}/[^"'<> ?]+\.(?:jpg|jpeg|png|webp)"""
         m = re.search(cover_pattern, normalized, re.I)
         if not m:
             raise ValueError("Ficha da Companhia sem capa correspondente ao ISBN solicitado")
@@ -56,7 +56,7 @@ def discover_image(page_url):
             return urljoin(page_url, html.unescape(m.group(1)))
 
     candidates = re.findall(
-        r"""https?://[^"'<> ]+\\.(?:jpg|jpeg|png|webp)(?:\\?[^"'<> ]*)?""",
+        r"""https?://[^"'<> ]+\.(?:jpg|jpeg|png|webp)(?:\?[^"'<> ]*)?""",
         normalized,
         re.I,
     )
