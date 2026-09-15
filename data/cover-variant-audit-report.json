@@ -74,5 +74,28 @@
       "height": 500,
       "format": "JPEG"
     }
+  },
+  {
+    "edition_id": "new-edition-bellini-2017",
+    "title": "Bellini e o Demônio",
+    "isbn": "9788535928976",
+    "variant_label": "Nova edição de 2017",
+    "publication_year": 2017,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535928976/bellini-e-o-demonio",
+    "source_label": "Companhia das Letras — edição de 2017, ISBN 9788535928976",
+    "audit_key": "bellini-demonio-2017-edition",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535928976/bellini-e-o-demonio.jpg",
+    "status": "same",
+    "dhash_distance": 2,
+    "current": {
+      "width": 946,
+      "height": 1409,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 436,
+      "height": 650,
+      "format": "JPEG"
+    }
   }
 ]
