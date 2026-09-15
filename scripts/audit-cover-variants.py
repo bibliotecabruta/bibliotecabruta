@@ -24,7 +24,7 @@ def fetch(url):
     return r.content, r.headers.get("content-type", "")
 
 
-def discover_image(page_url):
+def discover_image(page_url, expected_isbn=None):
     raw, _ = fetch(page_url)
     text = raw.decode("utf-8", errors="ignore")
     normalized = text.replace("\\/", "/")
@@ -43,6 +43,13 @@ def discover_image(page_url):
             "/covers/gg/",
             url,
         )
+
+    expected_digits = re.sub(r"[^0-9Xx]", "", str(expected_isbn or ""))
+    if expected_digits:
+        isbn_image_pattern = rf"""https?://[^"'<> ]*{re.escape(expected_digits)}[^"'<> ]*\.(?:jpg|jpeg|png|webp)(?:\?[^"'<> ]*)?"""
+        m = re.search(isbn_image_pattern, normalized, re.I)
+        if m:
+            return html.unescape(m.group(0))
 
     patterns = [
         r"""<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)""",
@@ -113,7 +120,7 @@ for item in items:
     }
     try:
         current_raw, _ = fetch(item["current_cover_url"])
-        candidate_url = item.get("candidate_url") or discover_image(item["candidate_page_url"])
+        candidate_url = item.get("candidate_url") or discover_image(item["candidate_page_url"], item.get("isbn"))
         row["candidate_url_resolved"] = candidate_url
 
         cand_raw, cand_ct = fetch(candidate_url)
