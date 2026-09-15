@@ -117,3 +117,5 @@ await writeFile('sitemap-books.xml',sitemap('book',books,bookPath),'utf8');
 await writeFile('sitemap-series.xml',sitemap('series',seriesRows,seriesPath),'utf8');
 await writeFile('sitemap-authors.xml',sitemap('author',authorRows,authorPath),'utf8');
 console.log('SEO books:',books.length,'series:',seriesRows.length,'authors:',authorRows.length);
+
+// SEO refresh trigger: 2026-09-15 latest-edition-primary
