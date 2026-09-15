@@ -56,12 +56,44 @@ function imageDimensions(buf,type){
  }
  return{width:null,height:null};
 }
+function htmlImageUrl(html,baseUrl){
+ const patterns=[
+  /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["']/i,
+  /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["']/i
+ ];
+ for(const rx of patterns){
+  const m=html.match(rx);
+  if(m?.[1]){
+   const decoded=m[1].replace(/&amp;/g,'&');
+   return new URL(decoded,baseUrl).href;
+  }
+ }
+ return '';
+}
+async function fetchCover(url){
+ const headers={'user-agent':'Mozilla/5.0 (compatible; BibliotecaBruta/1.0; +https://bibliotecabruta.com.br/)','accept':'image/webp,image/jpeg,image/png,image/*;q=0.8,text/html;q=0.7,*/*;q=0.5'};
+ let res=await fetch(url,{redirect:'follow',headers});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ let type=res.headers.get('content-type')||'';
+ if(type.toLowerCase().includes('text/html')){
+  const html=await res.text();
+  const imageUrl=htmlImageUrl(html,res.url);
+  if(!imageUrl)throw new Error('página sem og:image/twitter:image utilizável');
+  res=await fetch(imageUrl,{redirect:'follow',headers:{...headers,accept:'image/webp,image/jpeg,image/png,image/*;q=0.9,*/*;q=0.5'}});
+  if(!res.ok)throw new Error('imagem da página: HTTP '+res.status);
+  type=res.headers.get('content-type')||'';
+  return{res,type,imageUrl};
+ }
+ return{res,type,imageUrl:res.url};
+}
+
 for(const item of batch){
  let result={edition_id:item.edition_id,book_id:item.book_id,title:item.title,original_url:item.url,status:'failed'};
  try{
-  const res=await fetch(item.url,{redirect:'follow',headers:{'user-agent':'Mozilla/5.0 (compatible; BibliotecaBruta/1.0; +https://bibliotecabruta.com.br/)','accept':'image/webp,image/jpeg,image/png,image/*;q=0.8,*/*;q=0.5'}});
-  if(!res.ok)throw new Error('HTTP '+res.status);
-  const type=res.headers.get('content-type')||'';
+  const fetched=await fetchCover(item.url);
+  const res=fetched.res,type=fetched.type;
   const buf=Buffer.from(await res.arrayBuffer());
   if(buf.length<5000)throw new Error('arquivo pequeno demais: '+buf.length+' bytes');
   if(!looksLikeImage(buf,type))throw new Error('resposta não parece imagem: '+type);
@@ -79,7 +111,7 @@ for(const item of batch){
     result={...result,status,quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
   }else{
     await writeFile(file,buf);
-    result={...result,status,quality,width:dims.width,height:dims.height,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
+    result={...result,status,quality,width:dims.width,height:dims.height,source_image_url:fetched.imageUrl,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
   }
  }catch(err){
   result={...result,error:String(err?.message||err)};
