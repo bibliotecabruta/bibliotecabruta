@@ -1,0 +1,23 @@
+[
+  {
+    "edition_id": "0f7ec4c5-235b-4899-a736-a312f47425c9",
+    "title": "Edições Perigosas",
+    "isbn": "9788571643789",
+    "variant_label": "2ª edição / reimpressão de 2002",
+    "publication_year": 2002,
+    "source_url": "https://www.caaspshop.com.br/edicoes-perigosas-71149/p",
+    "source_label": "CAASP Shop — 2ª edição, 2002, mesmo ISBN",
+    "status": "same",
+    "dhash_distance": 2,
+    "current": {
+      "width": 907,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 302,
+      "height": 500,
+      "format": "JPEG"
+    }
+  }
+]
