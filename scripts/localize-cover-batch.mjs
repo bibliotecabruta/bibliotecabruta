@@ -64,23 +64,21 @@ function htmlImageCandidates(html,baseUrl,item={}){
  const rows=[];
  const targetIsbn=String(item.target_isbn||item.isbn||'').replace(/[^0-9Xx]/g,'').toUpperCase();
  const targetYear=item.target_year||item.publication_year||null;
- const contextBoost=(index)=>{
-  if(index==null)return 0;
+ const contextMatch=(index)=>{
+  if(index==null)return{boost:0,isbn:false,year:false};
   const context=html.slice(Math.max(0,index-1800),Math.min(html.length,index+2800));
-  let boost=0;
-  if(targetIsbn){
-   const compact=context.replace(/[^0-9Xx]/g,'').toUpperCase();
-   if(compact.includes(targetIsbn))boost+=600;
-  }
-  if(targetYear&&context.includes(String(targetYear)))boost+=120;
-  return boost;
+  const compact=context.replace(/[^0-9Xx]/g,'').toUpperCase();
+  const isbn=!!targetIsbn&&compact.includes(targetIsbn);
+  const year=!!targetYear&&context.includes(String(targetYear));
+  return{boost:(isbn?600:0)+(year?120:0),isbn,year};
  };
  const add=(value,score=0,source='html',index=null)=>{
   const url=decodeHtmlUrl(value,baseUrl);
   if(!url||!/^https?:/i.test(url))return;
   if(/(?:logo|icon|avatar|sprite|placeholder)/i.test(url))score-=20;
-  score+=contextBoost(index);
-  rows.push({url,score,source});
+  const match=contextMatch(index);
+  score+=match.boost;
+  rows.push({url,score,source,targetMatch:(!targetIsbn||match.isbn)&&(!targetYear||match.year)});
  };
  const metaPatterns=[
   [/<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/gi,25,'og:image'],
@@ -125,6 +123,7 @@ async function fetchCover(url,item={}){
  const html=await res.text(),candidates=htmlImageCandidates(html,res.url,item);
  let best=null,checked=0;
  for(const candidate of candidates){
+  if(item.require_target_match&&candidate.targetMatch!==true)continue;
   try{
    const img=await fetchBinaryImage(candidate.url,headers);checked++;
    if(!img?.dims?.width||!img?.dims?.height)continue;
