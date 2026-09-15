@@ -28,6 +28,13 @@
       "isbn": "9788571646377",
       "decision": "variant_registered",
       "detail": "Capa da 1ª edição de 1997 mantida principal; variante posterior cadastrada como período aproximado 2002–2010 devido à divergência entre Skoob (2002), exemplar 2ª ed. 2003 e Goodreads (3ª ed. 2010), todos com 356 p. e o mesmo ISBN."
+    },
+    {
+      "title": "Desumano e Degradante",
+      "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
+      "isbn": "9788571645790",
+      "decision": "variant_registered",
+      "detail": "Capa da 1ª edição de 1996 mantida principal; capa associada à publicação/reimpressão Companhia das Letras de 2009 cadastrada como variante. A 2ª edição de 2003 tem uma terceira arte confirmada e segue pendente por falta de imagem limpa."
     }
   ],
   "same_cover": [
@@ -82,6 +89,17 @@
       ],
       "dhash_distance": 1,
       "detail": "4ª edição de 2010 confirmada pela Travessa; capa limpa da Travessa coincide com a capa atual."
+    },
+    {
+      "title": "O Colecionador de Ossos",
+      "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
+      "isbn": "9788501058126",
+      "years": [
+        1997,
+        2000
+      ],
+      "dhash_distance": 7,
+      "detail": "Skoob registra Record 2000, 475 p., mesmo ISBN. A capa é essencialmente a mesma da edição cadastrada de 1997; não criar variante. A 7ª edição de 2006 segue separadamente em auditoria."
     }
   ],
   "confirmed_difference_waiting_clean_image": [
