@@ -56,30 +56,5 @@
       "height": 360,
       "format": "JPEG"
     }
-  },
-  {
-    "edition_id": "new-edition-b155987e-3005-4e39-a404-1189b6a4d0cd",
-    "title": "Ilha do Medo",
-    "isbn": "9788535916256",
-    "variant_label": "2ª edição brasileira / novo título",
-    "publication_year": 2010,
-    "source_url": "https://www.companhiadasletras.com.br/livro/9788535916256/ilha-do-medo",
-    "source_label": "Companhia das Letras — edição de 2010, novo título e novo ISBN",
-    "audit_key": "new-edition-ilha-do-medo-2010",
-    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535916256/ilha-do-medo.jpg",
-    "status": "different",
-    "dhash_distance": 38,
-    "current": {
-      "width": 929,
-      "height": 1500,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 432,
-      "height": 650,
-      "format": "JPEG"
-    },
-    "saved_path": "assets/covers/editions/ilha-do-medo-9788535916256-2010.jpg",
-    "sha256": "d5d34b198f6b15d25030e34af68e458f3647a144d1e0b73b53ba417971f29684"
   }
 ]
