@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T23:55:11.901Z",
+  "generated_at": "2026-09-15T23:56:47.765Z",
   "results": [
     {
       "edition_id": "e86f9c0a-21aa-4a24-bb99-e1cdcc7cd065",
@@ -10,12 +10,12 @@
       "quality": "low_resolution_exception",
       "width": 320,
       "height": 480,
-      "source_image_url": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/7421/ACHADOS_E_PERDIDOS_17515638207421SK-V11751563821B.jpg",
+      "source_image_url": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/7421/ACHADOS_E_PERDIDOS_1232123284B.jpg",
       "candidate_source": "img:src",
       "candidates_checked": 16,
       "local_path": "assets/capas-edicoes/e86f9c0a-21aa-4a24-bb99-e1cdcc7cd065.webp",
       "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/e86f9c0a-21aa-4a24-bb99-e1cdcc7cd065.webp",
-      "bytes": 40624,
+      "bytes": 32916,
       "content_type": "image/webp"
     },
     {
@@ -44,12 +44,12 @@
       "quality": "low_resolution_exception",
       "width": 320,
       "height": 480,
-      "source_image_url": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/12724/CAUSA_MORTIS_1233851445B.jpg",
+      "source_image_url": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/12724/CAUSA_MORTIS_155219924812724SK1552199248B.jpg",
       "candidate_source": "img:src",
       "candidates_checked": 8,
       "local_path": "assets/capas-edicoes/e6450a56-e509-4739-ba36-f3f4e76e111a.webp",
       "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/e6450a56-e509-4739-ba36-f3f4e76e111a.webp",
-      "bytes": 23030,
+      "bytes": 19568,
       "content_type": "image/webp"
     }
   ]
