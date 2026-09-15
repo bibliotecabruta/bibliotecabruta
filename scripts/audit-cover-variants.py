@@ -35,10 +35,10 @@ def discover_image(page_url):
         raise ValueError("Ficha da Companhia sem capa correspondente ao ISBN solicitado")
 
     patterns = [
-        r'<meta[^>]+property=["\\']og:image(?::secure_url)?["\\'][^>]+content=["\\']([^"\\']+)',
-        r'<meta[^>]+content=["\\']([^"\\']+)["\\'][^>]+property=["\\']og:image(?::secure_url)?["\\']',
-        r'<meta[^>]+name=["\\']twitter:image["\\'][^>]+content=["\\']([^"\\']+)',
-        r'<meta[^>]+content=["\\']([^"\\']+)["\\'][^>]+name=["\\']twitter:image["\\']'
+        r"""<meta[^>]+property=["\']og:image(?::secure_url)?["\'][^>]+content=["\']([^"\']+)""",
+        r"""<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::secure_url)?["\']""",
+        r"""<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)""",
+        r"""<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image["\']"""
     ]
     for pattern in patterns:
         m = re.search(pattern, text, re.I)
