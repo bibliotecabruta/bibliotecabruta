@@ -68,11 +68,11 @@
     "variant_label": "Nova fase da Coleção Negra / Especial noir europeu",
     "publication_year": 2007,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/bd31eb6e-e1d3-496e-b9e3-06766d90fb56.jpg",
-    "candidate_page_url": "https://www.skoob.com.br/pt/book/494413",
     "source_url": "https://www.skoob.com.br/pt/book/494413",
-    "source_label": "Skoob — Record 2007, 3ª edição, mesmo ISBN; nova fase da Coleção Negra; imagem usada apenas para comparação visual",
+    "source_label": "Skoob/UFSC confirmam 3ª edição Record 2007, mesmo ISBN; arte limpa candidata via Touché",
     "output_basename": "a-forma-da-agua-9788501056184-2007",
-    "compare_only": true
+    "compare_only": false,
+    "candidate_url": "https://i0.wp.com/www.touchelivros.com.br/wp-content/uploads/2025/02/a_forma_da_agua_comissario_montalbano_1.jpg?ssl=1"
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
@@ -82,9 +82,9 @@
     "publication_year": 2006,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/original/cb5cf51a-1b25-4186-b938-30bffe7dfb53.jpg",
     "source_url": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
-    "source_label": "Sebo Cultural confirma 7ª edição de 2006 e mesmo ISBN; capa candidata via Amazon/ISBN",
+    "source_label": "Sebo Cultural confirma 7ª edição de 2006 e mesmo ISBN; arte limpa candidata via IndicaLivros",
     "output_basename": "o-colecionador-de-ossos-9788501058126-2006",
-    "candidate_url": "https://images-na.ssl-images-amazon.com/images/P/8501058122.01.LZZZZZZZ.jpg"
+    "candidate_url": "https://indicalivros.com/livros/o-colecionador-de-ossos-colecao-negra-jeffery-deaver/o-colecionador-de-ossos-colecao-negra-jeffery-deaver-capa.webp"
   },
   {
     "edition_id": "69e8173f-6a4b-495a-a28c-890b095412fa",
