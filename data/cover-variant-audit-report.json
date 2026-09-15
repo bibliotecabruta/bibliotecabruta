@@ -119,7 +119,7 @@
     "source_label": "Skoob/UFSC confirmam 3ª edição Record 2007, mesmo ISBN; arte limpa candidata via Touché",
     "candidate_url_resolved": "https://i0.wp.com/www.touchelivros.com.br/wp-content/uploads/2025/02/a_forma_da_agua_comissario_montalbano_1.jpg?ssl=1",
     "status": "different_low_resolution",
-    "dhash_distance": 39,
+    "dhash_distance": 40,
     "current": {
       "width": 1006,
       "height": 1006,
@@ -176,5 +176,379 @@
     },
     "saved_path": "assets/covers/variants/dalia-negra-9788501055323-2006.jpg",
     "sha256": "6412580c8243cfc477f84d745a1b880b3246220c135aabd0d45dd5784af9783c"
+  },
+  {
+    "edition_id": "5a8a460d-318c-4910-b124-ab4e0c31c332",
+    "title": "Achados e Perdidos",
+    "isbn": "9788571647657",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571647657/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788571647657/achados-e-perdidos.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 937,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 160,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "aeb4d7dd-7c18-460b-996c-3bb5b5850c1f",
+    "title": "Causa Mortis",
+    "isbn": "9788571649774",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571649774/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9788545717195/my-home-hero-vol-11.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 33,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 302,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
+    "title": "Cemitério de Indigentes",
+    "isbn": "9788571646377",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571646377/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9788556524003/lolita-nova-edicao.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 39,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 309,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "5c1332e2-4d1e-4ba7-a168-3c18fdbce095",
+    "title": "Clientes Demais",
+    "isbn": "9788571641075",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571641075/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788571641075/clientes-demais.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 995,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 150,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "d021ced1-5f5a-4b80-b6dd-c87460c70c6a",
+    "title": "Contágio Criminoso",
+    "isbn": "9788535901672",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535901672/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9786584952577/autobiografia-de-um-ex-negro-edicao-comentada.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 38,
+    "current": {
+      "width": 944,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 287,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "44061e8a-d60b-4700-a274-8071057b2792",
+    "title": "Corpo de Delito",
+    "isbn": "9788571644816",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571644816/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9786583127662/doce-veneno-vipers-vol-2.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 36,
+    "current": {
+      "width": 931,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 294,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
+    "title": "Desumano e Degradante",
+    "isbn": "9788571645790",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571645790/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9788545717911/o-alquimista-manga.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 27,
+    "current": {
+      "width": 924,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 279,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "04eb374b-ea58-44a9-8eff-1414e3edb4c2",
+    "title": "Informações sobre a Vítima",
+    "isbn": "9788535902297",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535902297/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788535902297/informacoes-sobre-a-vitima.jpg",
+    "status": "same",
+    "dhash_distance": 1,
+    "current": {
+      "width": 1000,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 150,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
+    "title": "Lavoura de Corpos",
+    "isbn": "9788571647978",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571647978/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9786554250269/no-ar-rarefeito-nova-edicao.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 36,
+    "current": {
+      "width": 925,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 291,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "764e2ead-83c0-4146-b940-554ef98d431e",
+    "title": "Morte no Seminário",
+    "isbn": "9788535902181",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535902181/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788535902181/morte-no-seminario.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 161,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "876f5c80-7447-48cd-a9cd-fe3e834f0223",
+    "title": "O Homem da Minha Vida",
+    "isbn": "9788535904215",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535904215/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9788535947908/a-estranha-na-cama.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 33,
+    "current": {
+      "width": 1000,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 300,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "6b747f09-efea-43dc-bd01-3dc10bf6f389",
+    "title": "O Silêncio da Chuva",
+    "isbn": "9788571646124",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571646124/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788571646124/o-silencio-da-chuva.jpg",
+    "status": "same",
+    "dhash_distance": 2,
+    "current": {
+      "width": 931,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 162,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "f21113d1-4482-495a-903b-9f57cb0f085b",
+    "title": "Paciente 67",
+    "isbn": "9788535907209",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535907209/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788535907209/paciente-67.jpg",
+    "status": "same",
+    "dhash_distance": 1,
+    "current": {
+      "width": 929,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 161,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "e0f46b61-b86f-427f-87fe-37b41e3beaa8",
+    "title": "Sobre Meninos e Lobos",
+    "isbn": "9788535903058",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535903058/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788535903058/sobre-meninos-e-lobos-mystic-river.jpg",
+    "status": "same",
+    "dhash_distance": 3,
+    "current": {
+      "width": 930,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 161,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "98389bb6-0258-4603-ab76-47c132af1eb8",
+    "title": "Uma Janela em Copacabana",
+    "isbn": "9788535901801",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788535901801/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/p/9788535901801/uma-janela-em-copacabana.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 100,
+      "height": 161,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "e58b4078-0d74-4028-9bab-bb6850072127",
+    "title": "Vendetta",
+    "isbn": "9788571648050",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571648050/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9786588407196/goncalo-o-menino-da-folia.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 36,
+    "current": {
+      "width": 360,
+      "height": 500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 267,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "4fcfb6e0-b9f4-4a8f-a48e-191e667fc8b0",
+    "title": "Vento Sudoeste",
+    "isbn": "9788571649507",
+    "variant_label": "Capa oficial atual / impressão posterior",
+    "publication_year": null,
+    "source_url": "https://www.companhiadasletras.com.br/livro/9788571649507/",
+    "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/200/9786588407196/goncalo-o-menino-da-folia.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 27,
+    "current": {
+      "width": 934,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 200,
+      "height": 267,
+      "format": "JPEG"
+    }
   }
 ]
