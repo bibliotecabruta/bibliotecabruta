@@ -50,20 +50,9 @@
     "variant_label": "2ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Sebo do Messias — 2ª edição, 2006, mesmo ISBN; foto usada somente para comparação visual",
-    "candidate_url_resolved": "https://sebomessiasstorage.blob.core.windows.net/produtos/275/2757572_2757572.jpg",
-    "status": "different_compare_only",
-    "dhash_distance": 34,
-    "current": {
-      "width": 931,
-      "height": 1500,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 360,
-      "height": 500,
-      "format": "JPEG"
-    }
+    "source_label": "Sebo do Messias confirma 2ª edição de 2006 e mesmo ISBN; imagem limpa candidata via Magalu",
+    "status": "error",
+    "error": "403 Client Error: Forbidden for url: https://www.magazineluiza.com.br/livro-corpo-de-delito/p/cfkgkjg71b/li/llit/"
   },
   {
     "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
@@ -94,19 +83,8 @@
     "variant_label": "Reimpressão c. 2002/2003",
     "publication_year": 2002,
     "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Skoob — edição Companhia das Letras de 2002, mesmo ISBN",
-    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/7819/CEMITERIO_DE_INDIGENTES_1232230086B.jpg",
-    "status": "different_low_resolution",
-    "dhash_distance": 31,
-    "current": {
-      "width": 928,
-      "height": 1500,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 300,
-      "height": 485,
-      "format": "JPEG"
-    }
+    "source_label": "Skoob confirma reimpressão c. 2002 com mesmo ISBN; imagem limpa candidata via Magalu",
+    "status": "error",
+    "error": "403 Client Error: Forbidden for url: https://www.magazineluiza.com.br/livro-cemiterio-de-indigentes/p/dhdc92j804/li/llit/"
   }
 ]
