@@ -31,10 +31,11 @@
     "variant_label": "2ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/44061e8a-d60b-4700-a274-8071057b2792.jpg",
-    "candidate_page_url": "https://www.livrariadavila.com.br/15692-corpo-de-delito/p",
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Sebo do Messias — 2ª edição, 2006, mesmo ISBN; imagem candidata via Livraria da Vila",
-    "output_basename": "corpo-de-delito-9788571644816-2006"
+    "source_label": "Sebo do Messias — 2ª edição, 2006, mesmo ISBN; foto usada somente para comparação visual",
+    "output_basename": "corpo-de-delito-9788571644816-2006",
+    "candidate_page_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
+    "compare_only": true
   },
   {
     "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
@@ -43,21 +44,21 @@
     "variant_label": "2ª edição / reimpressão de 2007",
     "publication_year": 2007,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/58309030-dbb7-4d9f-bca8-b50d4340c083.jpg",
-    "candidate_page_url": "https://www.livrariadavila.com.br/16046-a-noiva-estava-de-preto/p",
+    "candidate_page_url": "https://www.skoob.com.br/pt/book/658912",
     "source_url": "https://lojasebocultural.com.br/produto/a-noiva-estava-de-preto/",
-    "source_label": "Sebo Cultural — 2ª edição, 2007, mesmo ISBN; imagem candidata via Livraria da Vila",
+    "source_label": "Sebo Cultural — 2ª edição, 2007, mesmo ISBN; imagem candidata via Skoob",
     "output_basename": "a-noiva-estava-de-preto-9788571640214-2007"
   },
   {
     "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
     "title": "Cemitério de Indigentes",
     "isbn": "9788571646377",
-    "variant_label": "3ª edição / reimpressão de 2010",
-    "publication_year": 2010,
+    "variant_label": "Reimpressão c. 2002/2003",
+    "publication_year": 2002,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/b4a196c4-a131-428a-950b-35c058687ba0.jpg",
-    "candidate_page_url": "https://www.livrariadavila.com.br/15008-cemiterio-de-indigentes/p",
-    "source_url": "https://www.goodreads.com/work/editions/1455041-from-potter-s-field?expanded=true",
-    "source_label": "Goodreads — 3ª edição brasileira, 2010, mesmo ISBN; imagem candidata via Livraria da Vila",
-    "output_basename": "cemiterio-de-indigentes-9788571646377-2010"
+    "candidate_page_url": "https://www.skoob.com.br/pt/book/9073",
+    "source_url": "https://www.skoob.com.br/pt/book/9073",
+    "source_label": "Skoob — edição Companhia das Letras de 2002, mesmo ISBN",
+    "output_basename": "cemiterio-de-indigentes-9788571646377-2002"
   }
 ]
