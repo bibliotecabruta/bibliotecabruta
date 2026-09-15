@@ -108,5 +108,62 @@
       "height": 500,
       "format": "JPEG"
     }
+  },
+  {
+    "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
+    "title": "A Forma da Água",
+    "isbn": "9788501056184",
+    "variant_label": "Nova fase da Coleção Negra / Especial noir europeu",
+    "publication_year": 2007,
+    "source_url": "https://www.skoob.com.br/pt/book/494413",
+    "source_label": "Skoob — Record 2007, mesmo ISBN; nova fase da Coleção Negra; imagem candidata via Martins Fontes",
+    "status": "error",
+    "error": "404 Client Error: Not Found for url: https://www.martinsfontespaulista.com.br/Sistema/404?ProductLinkNotFound=forma-da-agua--a-175093"
+  },
+  {
+    "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
+    "title": "O Colecionador de Ossos",
+    "isbn": "9788501058126",
+    "variant_label": "7ª edição / reimpressão de 2006",
+    "publication_year": 2006,
+    "source_url": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
+    "source_label": "Sebo Cultural — 7ª edição, 2006, mesmo ISBN; imagem candidata via Travessa",
+    "candidate_url_resolved": "https://img.travessa.com.br/livro/BA/ad/adc26732-571c-4885-b715-3b60f2f86d05.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 39,
+    "current": {
+      "width": 1000,
+      "height": 1555,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 214,
+      "height": 306,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "69e8173f-6a4b-495a-a28c-890b095412fa",
+    "title": "Dália Negra",
+    "isbn": "9788501055323",
+    "variant_label": "3ª edição de 2006",
+    "publication_year": 2006,
+    "source_url": "https://www.travessa.com.br/dalia-negra/artigo/fe40afba-79eb-4c4d-a47d-0a1e355bd0d9",
+    "source_label": "Travessa — 3ª edição, 2006, mesmo ISBN",
+    "candidate_url_resolved": "https://img.travessa.com.br/livro/GR/fe/fe40afba-79eb-4c4d-a47d-0a1e355bd0d9.jpg",
+    "status": "different",
+    "dhash_distance": 32,
+    "current": {
+      "width": 643,
+      "height": 1000,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 400,
+      "height": 604,
+      "format": "JPEG"
+    },
+    "saved_path": "assets/covers/variants/dalia-negra-9788501055323-2006.jpg",
+    "sha256": "6412580c8243cfc477f84d745a1b880b3246220c135aabd0d45dd5784af9783c"
   }
 ]
