@@ -6,7 +6,7 @@
     "variant_label": "7ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://www.skoob.com.br/book/1609",
-    "source_label": "Skoob — ficha da edição Coleção Negra; comparar com a 7ª edição de 2006 confirmada",
+    "source_label": "Skoob — capa limpa; só aceitar se coincidir com o exemplar físico da 7ª edição de 2006 do Sebo Cultural",
     "audit_key": null,
     "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/1181/O_COLECIONADOR_DE_OSSOS_1410371210B.jpg",
     "status": "error",
@@ -30,20 +30,26 @@
     "variant_label": "2ª edição de 2003",
     "publication_year": 2003,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/desumano-e-degradante-32",
-    "source_label": "Selecta Livros — imagem limpa do mesmo ISBN; 2ª edição de 2003 comprovada separadamente",
+    "source_label": "Touché Livros — capa limpa; só aceitar se coincidir com o exemplar físico da 2ª edição de 2003",
     "audit_key": "desumano-degradante-2ed-2003",
-    "candidate_url_resolved": "https://images.tcdn.com.br/img/img_prod/825130/1595101543_logo-selecta.png",
-    "status": "different_low_resolution",
-    "dhash_distance": 25,
+    "candidate_url_resolved": "https://www.touchelivros.com.br/wp-content/uploads/2024/08/9788571645790.jpg",
+    "status": "reference_mismatch",
+    "dhash_distance": 0,
     "current": {
       "width": 924,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 251,
-      "height": 140,
-      "format": "PNG"
-    }
+      "width": 308,
+      "height": 500,
+      "format": "JPEG"
+    },
+    "reference": {
+      "width": 360,
+      "height": 500,
+      "format": "JPEG"
+    },
+    "candidate_reference_dhash_distance": 22
   }
 ]
