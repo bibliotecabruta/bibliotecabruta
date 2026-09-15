@@ -144,7 +144,9 @@ for item in items:
                 row["status"] = "different_low_resolution"
             else:
                 ext = safe_ext(cand_ct, cand_info)
-                out = OUTDIR / (item["output_basename"] + ext)
+                target_dir = ROOT / item.get("output_dir", "assets/covers/variants")
+                target_dir.mkdir(parents=True, exist_ok=True)
+                out = target_dir / (item["output_basename"] + ext)
                 out.write_bytes(cand_raw)
                 row["saved_path"] = str(out.relative_to(ROOT)).replace("\\", "/")
                 row["sha256"] = hashlib.sha256(cand_raw).hexdigest()
