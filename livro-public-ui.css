@@ -29,3 +29,14 @@
 .book-public .book-breadcrumb a:hover,.book-public .book-breadcrumb a:focus-visible{color:var(--red);border-bottom-color:var(--red);outline:none}
 .book-public .book-breadcrumb [aria-current="page"]{color:#5f574d;max-width:min(420px,70vw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .book-public .book-breadcrumb-sep{color:#b4a797;font-weight:900}
+
+.book-public .edition-cover-variants{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.book-public .edition-cover-variants>small{display:block;margin-bottom:8px;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.08em}
+.book-public .edition-cover-variant-grid{display:flex;gap:10px;flex-wrap:wrap}
+.book-public .edition-cover-variant{width:78px;margin:0}
+.book-public .edition-card .edition-cover-variant img{display:block;width:78px;aspect-ratio:2/3;object-fit:cover;border-radius:4px;box-shadow:none;border:1px solid var(--line)}
+.book-public .edition-cover-variant.primary-cover-variant img{border-color:var(--gold);box-shadow:0 0 0 2px #e5bd7433}
+.book-public .edition-cover-variant figcaption{margin-top:5px;line-height:1.2}
+.book-public .edition-cover-variant figcaption strong{display:block;font-size:9px;font-family:inherit}
+.book-public .edition-cover-variant figcaption span{display:block;margin-top:2px;font-size:8px;color:var(--muted)}
+@media(max-width:700px){.book-public .edition-cover-variant{width:68px}.book-public .edition-card .edition-cover-variant img{width:68px}}
