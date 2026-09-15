@@ -52,37 +52,5 @@
     "source_label": "Sebo do Messias — 2ª edição, 2007, formato 12×18, 257 p., mesmo ISBN; foto usada apenas para comparação",
     "compare_only": true,
     "output_basename": "bellini-e-o-demonio-9788571647282-2ed"
-  },
-  {
-    "audit_key": "bellini-demonio-2017-edition",
-    "edition_id": "new-edition-bellini-2017",
-    "title": "Bellini e o Demônio",
-    "isbn": "9788535928976",
-    "variant_label": "Nova edição de 2017",
-    "publication_year": 2017,
-    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/75bcc9b4-5b1b-4c9d-b0b8-d1c84caa7214.jpg",
-    "candidate_page_url": "https://www.companhiadasletras.com.br/livro/9788535928976/bellini-e-o-demonio",
-    "source_url": "https://www.companhiadasletras.com.br/livro/9788535928976/bellini-e-o-demonio",
-    "source_label": "Companhia das Letras — edição de 2017, ISBN 9788535928976",
-    "output_basename": "bellini-e-o-demonio-9788535928976-2017",
-    "output_dir": "assets/covers/editions"
-  },
-  {
-    "audit_key": "bellini-demonio-1997-cover",
-    "edition_id": "75bcc9b4-5b1b-4c9d-b0b8-d1c84caa7214",
-    "title": "Bellini e o Demônio",
-    "isbn": "9788571647282",
-    "variant_label": "Capa da 1ª edição de 1997",
-    "publication_year": 1997,
-    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/75bcc9b4-5b1b-4c9d-b0b8-d1c84caa7214.jpg",
-    "candidate_page_url": "https://www.skoob.com.br/pt/book/33493",
-    "source_url": "https://www.skoob.com.br/pt/book/33493",
-    "source_label": "Skoob — edição Companhia das Letras de 1997, ISBN 9788571647282",
-    "output_basename": "bellini-e-o-demonio-9788571647282-1997",
-    "output_dir": "assets/covers/editions",
-    "allow_low_res": true,
-    "min_width": 280,
-    "min_height": 420,
-    "force_save": true
   }
 ]
