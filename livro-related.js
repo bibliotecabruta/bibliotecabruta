@@ -15,7 +15,7 @@ async function loadRelatedLegacy(b,id,cats,tags){
  return (rows||[]).filter(x=>x.id!==id&&(!b.series_id||x.series_id!==b.series_id)&&(!b.author_id||x.author_id!==b.author_id)).map(x=>({...x,__score:(scores.get(x.id)||0)+(relPublicArea(x.area)===currentArea?2:0),__matches:[...(matches.get(x.id)||[])].filter(Boolean)})).sort((a,z)=>z.__score-a.__score||a.title.localeCompare(z.title,'pt-BR')).slice(0,6)
 }
 async function injectRelated(){
- const id=new URLSearchParams(location.search).get('id');if(!id)return;
+ const id=window.BB_BOOK_ID||new URLSearchParams(location.search).get('id')||document.body?.dataset.bookId||'';if(!id)return;
  const {data:b,error}=window.BB_BOOK_PROMISE?await window.BB_BOOK_PROMISE:await sbRelated.from('books').select('id,area,author_id,series_id,book_categories(category_id,categories(name)),book_tags(tag_id,tags(name))').eq('id',id).single();
  if(error||!b)return;
  const cats=(b.book_categories||[]).filter(x=>x.category_id),tags=(b.book_tags||[]).filter(x=>x.tag_id);
