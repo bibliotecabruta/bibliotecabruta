@@ -119,14 +119,14 @@
     "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
     "title": "Lavoura de Corpos",
     "isbn": "9788571647978",
-    "variant_label": "Reimpressão de 2002",
+    "variant_label": "Capa de reimpressão/edição posterior (2002–2010)",
     "publication_year": 2002,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-34",
-    "source_label": "Travessa — imagem limpa do mesmo ISBN; reimpressões posteriores de 2002/2010 comprovadas separadamente",
+    "source_label": "Travessa — imagem limpa direta do produto; reimpressões 2002 e 2ª edição 2010 confirmadas separadamente",
     "audit_key": "lavoura-corpos-reimpressao-2002",
-    "candidate_url_resolved": "https://img.travessa.com.br/destaques/POP_UP_FRETE.webp",
-    "status": "different_low_resolution",
-    "dhash_distance": 30,
+    "candidate_url_resolved": "https://img.travessa.com.br/livro/GR/81/812ce159-06a6-4bbe-bf36-42d8942af9e3.jpg",
+    "status": "same",
+    "dhash_distance": 1,
     "current": {
       "width": 925,
       "height": 1500,
@@ -134,8 +134,31 @@
     },
     "candidate": {
       "width": 400,
-      "height": 458,
-      "format": "WEBP"
+      "height": 648,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
+    "title": "Lavoura de Corpos",
+    "isbn": "9788571647978",
+    "variant_label": "2ª edição de 2010",
+    "publication_year": 2010,
+    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-33",
+    "source_label": "Sebo do Messias — 2ª edição de 2010, mesmo ISBN; apenas comparação visual",
+    "audit_key": "lavoura-corpos-2ed-2010-compare",
+    "candidate_url_resolved": "https://sebomessiasstorage.blob.core.windows.net/produtos/262/2625431_2625431.jpg",
+    "status": "different_compare_only",
+    "dhash_distance": 24,
+    "current": {
+      "width": 925,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 360,
+      "height": 500,
+      "format": "JPEG"
     }
   }
 ]
