@@ -25,33 +25,51 @@ def fetch(url):
 
 
 def discover_image(page_url, expected_isbn=None):
+    expected_digits = re.sub(r"[^0-9Xx]", "", str(expected_isbn or ""))
+
     if "martinsfontespaulista.com.br" in page_url:
-        ref_match = re.search(r"-(\\d+)/p(?:$|[?#])", page_url)
-        if ref_match:
-            ref = ref_match.group(1)
-            api = "https://www.martinsfontespaulista.com.br/api/catalog_system/pub/products/search/"
-            attempts = [
+        ref_match = re.search(r"-(\d+)/p(?:$|[?#])", page_url)
+        ref = ref_match.group(1) if ref_match else ""
+        api = "https://www.martinsfontespaulista.com.br/api/catalog_system/pub/products/search/"
+        attempts = []
+        if expected_digits:
+            attempts.extend([
+                {"fq": "alternateIds_Ean:" + expected_digits},
+                {"ft": expected_digits, "_from": "0", "_to": "9"},
+            ])
+        if ref:
+            attempts.extend([
                 {"fq": "alternateIds_RefId:" + ref},
                 {"fq": "productId:" + ref},
-                {"ft": ref, "_from": "0", "_to": "4"},
-            ]
-            for params in attempts:
-                try:
-                    rr = requests.get(api, params=params, timeout=30, headers=HEADERS)
-                    if rr.status_code != 200:
-                        continue
-                    data = rr.json()
-                    for product in data if isinstance(data, list) else []:
-                        for sku in product.get("items", []):
-                            for image in sku.get("images", []):
-                                url = image.get("imageUrl") or image.get("imageTag")
-                                if not url:
-                                    continue
-                                if url.startswith("http"):
-                                    url = re.sub(r"-\\d+-\\d+(?=\\.[A-Za-z]+(?:\\?|$))", "-1200-1200", url)
-                                    return url
-                except Exception:
-                    pass
+                {"ft": ref, "_from": "0", "_to": "9"},
+            ])
+
+        for params in attempts:
+            try:
+                rr = requests.get(api, params=params, timeout=30, headers=HEADERS)
+                if rr.status_code != 200:
+                    continue
+                data = rr.json()
+                for product in data if isinstance(data, list) else []:
+                    for sku in product.get("items", []):
+                        eans = [str(v) for v in (sku.get("ean") or [])] if isinstance(sku.get("ean"), list) else [str(sku.get("ean") or "")]
+                        refid = str(sku.get("referenceId") or sku.get("itemId") or "")
+                        if expected_digits and any(expected_digits == re.sub(r"\D", "", v) for v in eans if v):
+                            pass
+                        elif ref and ref not in refid and expected_digits:
+                            # Busca textual pode trazer produto irrelevante: exige EAN ou referência compatível.
+                            continue
+                        for image in sku.get("images", []):
+                            url = image.get("imageUrl") or ""
+                            if not url.startswith("http"):
+                                continue
+                            # VTEX normalmente aceita a mesma imagem com dimensões maiores.
+                            url = re.sub(r"-\d+-\d+(?=\.[A-Za-z]+(?:\?|$))", "-1200-1200", url)
+                            return url
+            except Exception:
+                continue
+
+        raise ValueError("Martins Fontes: produto/capa não localizado no catálogo VTEX pelo ISBN/EAN")
 
     raw, _ = fetch(page_url)
     text = raw.decode("utf-8", errors="ignore")
