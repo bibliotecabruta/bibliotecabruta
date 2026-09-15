@@ -56,45 +56,78 @@ function imageDimensions(buf,type){
  }
  return{width:null,height:null};
 }
-function htmlImageUrl(html,baseUrl){
- const patterns=[
-  /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/i,
-  /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["']/i,
-  /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/i,
-  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["']/i
+function decodeHtmlUrl(value,baseUrl){
+ const decoded=String(value||'').replace(/&amp;/g,'&').replace(/\\u0026/g,'&').replace(/\\\//g,'/');
+ try{return new URL(decoded,baseUrl).href}catch{return ''}
+}
+function htmlImageCandidates(html,baseUrl){
+ const rows=[];
+ const add=(value,score=0,source='html')=>{
+  const url=decodeHtmlUrl(value,baseUrl);
+  if(!url||!/^https?:/i.test(url))return;
+  if(/(?:logo|icon|avatar|sprite|placeholder)/i.test(url))score-=20;
+  rows.push({url,score,source});
+ };
+ const metaPatterns=[
+  [/<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/gi,25,'og:image'],
+  [/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["']/gi,25,'og:image'],
+  [/<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/gi,20,'twitter:image'],
+  [/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["']/gi,20,'twitter:image']
  ];
- for(const rx of patterns){
-  const m=html.match(rx);
-  if(m?.[1]){
-   const decoded=m[1].replace(/&amp;/g,'&');
-   return new URL(decoded,baseUrl).href;
+ for(const [rx,score,source] of metaPatterns){for(const m of html.matchAll(rx))add(m[1],score,source)}
+ for(const m of html.matchAll(/<img\b[^>]*>/gi)){
+  const tag=m[0],boost=/(?:product|gallery|book|livro|cover|capa|zoom)/i.test(tag)?45:0,penalty=/(?:author|autor|avatar|logo|icon)/i.test(tag)?-35:0;
+  for(const attr of ['data-zoom-image','data-large-image','data-original','data-src','src']){
+   const am=tag.match(new RegExp(attr+'=["\\\']([^"\\\']+)["\\\']','i'));
+   if(am)add(am[1],boost+penalty+(attr.includes('zoom')||attr.includes('large')?30:0),'img:'+attr);
+  }
+  for(const attr of ['data-srcset','srcset']){
+   const am=tag.match(new RegExp(attr+'=["\\\']([^"\\\']+)["\\\']','i'));
+   if(am){for(const part of am[1].split(',')){const u=part.trim().split(/\s+/)[0];if(u)add(u,boost+penalty+20,'img:'+attr)}}
   }
  }
- return '';
+ for(const m of html.matchAll(/"image"\s*:\s*"([^"]+)"/gi))add(m[1],40,'jsonld:image');
+ for(const m of html.matchAll(/"(?:imageUrl|image_url|large_image|zoom_image)"\s*:\s*"([^"]+)"/gi))add(m[1],35,'json:image');
+ const uniq=new Map();
+ for(const row of rows){const prev=uniq.get(row.url);if(!prev||row.score>prev.score)uniq.set(row.url,row)}
+ return [...uniq.values()].sort((a,b)=>b.score-a.score).slice(0,80);
+}
+async function fetchBinaryImage(url,headers){
+ const res=await fetch(url,{redirect:'follow',headers:{...headers,accept:'image/webp,image/jpeg,image/png,image/*;q=0.9,*/*;q=0.5'}});
+ if(!res.ok)return null;
+ const type=res.headers.get('content-type')||'',buf=Buffer.from(await res.arrayBuffer());
+ if(buf.length<5000||!looksLikeImage(buf,type))return null;
+ return{type,buf,dims:imageDimensions(buf,type),url:res.url};
 }
 async function fetchCover(url){
  const headers={'user-agent':'Mozilla/5.0 (compatible; BibliotecaBruta/1.0; +https://bibliotecabruta.com.br/)','accept':'image/webp,image/jpeg,image/png,image/*;q=0.8,text/html;q=0.7,*/*;q=0.5'};
- let res=await fetch(url,{redirect:'follow',headers});
+ const res=await fetch(url,{redirect:'follow',headers});
  if(!res.ok)throw new Error('HTTP '+res.status);
- let type=res.headers.get('content-type')||'';
- if(type.toLowerCase().includes('text/html')){
-  const html=await res.text();
-  const imageUrl=htmlImageUrl(html,res.url);
-  if(!imageUrl)throw new Error('página sem og:image/twitter:image utilizável');
-  res=await fetch(imageUrl,{redirect:'follow',headers:{...headers,accept:'image/webp,image/jpeg,image/png,image/*;q=0.9,*/*;q=0.5'}});
-  if(!res.ok)throw new Error('imagem da página: HTTP '+res.status);
-  type=res.headers.get('content-type')||'';
-  return{res,type,imageUrl};
+ const type=res.headers.get('content-type')||'';
+ if(!type.toLowerCase().includes('text/html')){
+  const buf=Buffer.from(await res.arrayBuffer());
+  return{type,buf,imageUrl:res.url,candidatesChecked:1};
  }
- return{res,type,imageUrl:res.url};
+ const html=await res.text(),candidates=htmlImageCandidates(html,res.url);
+ let best=null,checked=0;
+ for(const candidate of candidates){
+  try{
+   const img=await fetchBinaryImage(candidate.url,headers);checked++;
+   if(!img?.dims?.width||!img?.dims?.height)continue;
+   const ratio=img.dims.height/img.dims.width;if(ratio<1.2)continue;
+   const score=(img.dims.width*img.dims.height)+(candidate.score*25000);
+   if(!best||score>best.score)best={...img,score,source:candidate.source};
+  }catch{}
+ }
+ if(!best)throw new Error('nenhuma imagem vertical válida entre '+checked+' candidatas');
+ return{type:best.type,buf:best.buf,imageUrl:best.url,candidatesChecked:checked,candidateSource:best.source};
 }
 
 for(const item of batch){
  let result={edition_id:item.edition_id,book_id:item.book_id,title:item.title,original_url:item.url,status:'failed'};
  try{
   const fetched=await fetchCover(item.url);
-  const res=fetched.res,type=fetched.type;
-  const buf=Buffer.from(await res.arrayBuffer());
+  const type=fetched.type,buf=fetched.buf;
   if(buf.length<5000)throw new Error('arquivo pequeno demais: '+buf.length+' bytes');
   if(!looksLikeImage(buf,type))throw new Error('resposta não parece imagem: '+type);
   const ext=extFrom(type,item.url),file=path.join(outDir,item.edition_id+ext),dims=imageDimensions(buf,type);
@@ -111,7 +144,7 @@ for(const item of batch){
     result={...result,status,quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
   }else{
     await writeFile(file,buf);
-    result={...result,status,quality,width:dims.width,height:dims.height,source_image_url:fetched.imageUrl,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
+    result={...result,status,quality,width:dims.width,height:dims.height,source_image_url:fetched.imageUrl,candidate_source:fetched.candidateSource||'direct',candidates_checked:fetched.candidatesChecked||1,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
   }
  }catch(err){
   result={...result,error:String(err?.message||err)};
