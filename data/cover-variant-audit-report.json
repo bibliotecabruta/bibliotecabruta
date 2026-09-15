@@ -52,9 +52,9 @@
     "variant_label": "2ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Sebo do Messias confirma 2ª edição de 2006 e mesmo ISBN; capa limpa candidata via Amazon/ISBN",
+    "source_label": "Companhia das Letras — CDN oficial em alta resolução, mesmo ISBN",
     "audit_key": null,
-    "candidate_url_resolved": "https://images-na.ssl-images-amazon.com/images/P/8571644810.01.LZZZZZZZ.jpg",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571644816/corpo-de-delito.jpg",
     "status": "same",
     "dhash_distance": 1,
     "current": {
@@ -63,8 +63,8 @@
       "format": "JPEG"
     },
     "candidate": {
-      "width": 310,
-      "height": 500,
+      "width": 403,
+      "height": 650,
       "format": "JPEG"
     }
   },
@@ -98,19 +98,19 @@
     "variant_label": "Reimpressão c. 2002/2003",
     "publication_year": 2002,
     "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Skoob confirma reimpressão c. 2002 com mesmo ISBN; capa limpa candidata via Amazon/ISBN",
+    "source_label": "Companhia das Letras — CDN oficial em alta resolução, mesmo ISBN",
     "audit_key": null,
-    "candidate_url_resolved": "https://images-na.ssl-images-amazon.com/images/P/8571646376.01.LZZZZZZZ.jpg",
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571646377/cemiterio-de-indigentes.jpg",
     "status": "same",
-    "dhash_distance": 2,
+    "dhash_distance": 1,
     "current": {
       "width": 928,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 309,
-      "height": 500,
+      "width": 402,
+      "height": 650,
       "format": "JPEG"
     }
   },
