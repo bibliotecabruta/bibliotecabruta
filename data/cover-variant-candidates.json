@@ -99,10 +99,10 @@
     "variant_label": "2ª edição de 2010",
     "publication_year": 2010,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/bbc77899-8585-4792-83c8-7ca4b3c6f8a9.jpg",
-    "candidate_page_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-33",
-    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-33",
-    "source_label": "Sebo do Messias — 2ª edição de 2010, mesmo ISBN; apenas comparação visual",
-    "compare_only": true,
+    "candidate_page_url": "https://www.skoob.com.br/pt/book/265947",
+    "source_url": "https://www.skoob.com.br/pt/book/265947",
+    "source_label": "Skoob — edição Companhia das Letras de 2010, mesmo ISBN; 2ª edição confirmada também por exemplar físico",
+    "compare_only": false,
     "output_basename": "lavoura-de-corpos-9788571647978-2010"
   }
 ]
