@@ -18,10 +18,23 @@
     "variant_label": "Nova fase da Coleção Negra / Especial noir europeu",
     "publication_year": 2007,
     "source_url": "https://www.skoob.com.br/pt/book/494413",
-    "source_label": "Martins Fontes Paulista — imagem do produto pelo mesmo ISBN; 3ª edição Record 2007 confirmada em fontes bibliográficas",
+    "source_label": "Skoob — 3ª edição Record de 2007, mesmo ISBN; exceção de resolução após busca sem arte maior",
     "audit_key": null,
-    "status": "error",
-    "error": "Martins Fontes: produto/capa não localizado no catálogo VTEX pelo ISBN/EAN"
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/11607/A_FORMA_DA_GUA_142401332511607SK1424013325B.jpg",
+    "status": "different",
+    "dhash_distance": 26,
+    "current": {
+      "width": 1006,
+      "height": 1006,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 300,
+      "height": 452,
+      "format": "JPEG"
+    },
+    "saved_path": "assets/covers/variants/a-forma-da-agua-9788501056184-2007.jpg",
+    "sha256": "619da8990970698b5d927b56ab20a0012fca498ded7bbbb45131c86b8daa34d5"
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
@@ -29,22 +42,24 @@
     "isbn": "9788501058126",
     "variant_label": "7ª edição / reimpressão de 2006",
     "publication_year": 2006,
-    "source_url": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
-    "source_label": "Travessa — mesma arte da 7ª edição/reimpressão, tentativa em imagem grande /GR/",
+    "source_url": "https://www.skoob.com.br/book/1609",
+    "source_label": "Skoob — ficha da edição Coleção Negra; comparar com a 7ª edição de 2006 confirmada",
     "audit_key": null,
-    "candidate_url_resolved": "https://img.travessa.com.br/livro/GR/ad/adc26732-571c-4885-b715-3b60f2f86d05.jpg",
-    "status": "different_low_resolution",
-    "dhash_distance": 16,
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/1181/O_COLECIONADOR_DE_OSSOS_1410371210B.jpg",
+    "status": "different",
+    "dhash_distance": 9,
     "current": {
       "width": 1000,
       "height": 1555,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 75,
-      "height": 105,
-      "format": "GIF"
-    }
+      "width": 300,
+      "height": 454,
+      "format": "JPEG"
+    },
+    "saved_path": "assets/covers/variants/o-colecionador-de-ossos-9788501058126-2006.jpg",
+    "sha256": "8d02da95fddafa313f25689643bc35301725aad0ec6f56ebc3098010f9eaa1bb"
   },
   {
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
