@@ -3,38 +3,26 @@
     "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
     "title": "Cemitério de Indigentes",
     "isbn": "9788571646377",
-    "variant_label": "Reimpressão c. 2002/2003",
+    "variant_label": "Capa de edição/reimpressão posterior (c. 2002–2010)",
     "publication_year": 2002,
     "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Livraria da Vila — imagem do produto identificada pelo mesmo ISBN; reimpressão posterior confirmada separadamente",
+    "source_label": "Skoob — edição/reimpressão posterior com 356 p. e mesmo ISBN; ano diverge entre fontes, portanto variante datada como período aproximado",
     "audit_key": null,
-    "status": "error",
-    "error": "404 Client Error: Not Found for url: https://www.livrariadavila.com.br/15008-cemiterio-de-indigentes/p"
-  },
-  {
-    "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
-    "title": "A Forma da Água",
-    "isbn": "9788501056184",
-    "variant_label": "Nova fase da Coleção Negra / Especial noir europeu",
-    "publication_year": 2007,
-    "source_url": "https://www.skoob.com.br/pt/book/494413",
-    "source_label": "Skoob — 3ª edição Record de 2007, mesmo ISBN; exceção de resolução após busca sem arte maior",
-    "audit_key": null,
-    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/11607/A_FORMA_DA_GUA_142401332511607SK1424013325B.jpg",
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/7819/CEMITERIO_DE_INDIGENTES_1232230086B.jpg",
     "status": "different",
-    "dhash_distance": 26,
+    "dhash_distance": 31,
     "current": {
-      "width": 1006,
-      "height": 1006,
+      "width": 928,
+      "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
       "width": 300,
-      "height": 452,
+      "height": 485,
       "format": "JPEG"
     },
-    "saved_path": "assets/covers/variants/a-forma-da-agua-9788501056184-2007.jpg",
-    "sha256": "619da8990970698b5d927b56ab20a0012fca498ded7bbbb45131c86b8daa34d5"
+    "saved_path": "assets/covers/variants/cemiterio-de-indigentes-9788571646377-2002.jpg",
+    "sha256": "f4d4cdc8f17643133bbd86367ef0eed4aad8810dcabd4b2c3c798aecf6dcf961"
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
