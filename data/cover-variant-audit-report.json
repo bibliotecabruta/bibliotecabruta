@@ -99,20 +99,20 @@
     "variant_label": "2ª edição de 2003",
     "publication_year": 2003,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/desumano-e-degradante-32",
-    "source_label": "Sebo do Messias — exemplar da 2ª edição de 2003; imagem usada apenas para comparação",
+    "source_label": "Selecta Livros — imagem limpa do mesmo ISBN; 2ª edição de 2003 comprovada separadamente",
     "audit_key": "desumano-degradante-2ed-2003",
-    "candidate_url_resolved": "https://sebomessiasstorage.blob.core.windows.net/produtos/236/2368595_2368595.jpg",
-    "status": "different_compare_only",
-    "dhash_distance": 22,
+    "candidate_url_resolved": "https://images.tcdn.com.br/img/img_prod/825130/1595101543_logo-selecta.png",
+    "status": "different_low_resolution",
+    "dhash_distance": 25,
     "current": {
       "width": 924,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 360,
-      "height": 500,
-      "format": "JPEG"
+      "width": 251,
+      "height": 140,
+      "format": "PNG"
     }
   },
   {
@@ -122,20 +122,20 @@
     "variant_label": "Reimpressão de 2002",
     "publication_year": 2002,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/lavoura-de-corpos-34",
-    "source_label": "Sebo do Messias — exemplar de 2002 com mesmo ISBN; imagem usada apenas para comparação",
+    "source_label": "Travessa — imagem limpa do mesmo ISBN; reimpressões posteriores de 2002/2010 comprovadas separadamente",
     "audit_key": "lavoura-corpos-reimpressao-2002",
-    "candidate_url_resolved": "https://sebomessiasstorage.blob.core.windows.net/produtos/227/2277006_2277006.jpg",
-    "status": "different_compare_only",
-    "dhash_distance": 36,
+    "candidate_url_resolved": "https://img.travessa.com.br/destaques/POP_UP_FRETE.webp",
+    "status": "different_low_resolution",
+    "dhash_distance": 30,
     "current": {
       "width": 925,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 360,
-      "height": 500,
-      "format": "JPEG"
+      "width": 400,
+      "height": 458,
+      "format": "WEBP"
     }
   }
 ]
