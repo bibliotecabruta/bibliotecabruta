@@ -36,19 +36,5 @@
     "source_label": "Sebo Cultural confirma 7ª edição de 2006 e mesmo ISBN; arte limpa candidata via IndicaLivros",
     "output_basename": "o-colecionador-de-ossos-9788501058126-2006",
     "candidate_url": "https://indicalivros.com/livros/o-colecionador-de-ossos-colecao-negra-jeffery-deaver/o-colecionador-de-ossos-colecao-negra-jeffery-deaver-capa.webp"
-  },
-  {
-    "audit_key": "new-edition-ilha-do-medo-2010",
-    "edition_id": "new-edition-b155987e-3005-4e39-a404-1189b6a4d0cd",
-    "title": "Ilha do Medo",
-    "isbn": "9788535916256",
-    "variant_label": "2ª edição brasileira / novo título",
-    "publication_year": 2010,
-    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/f21113d1-4482-495a-903b-9f57cb0f085b.jpg",
-    "candidate_url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535916256/ilha-do-medo.jpg",
-    "source_url": "https://www.companhiadasletras.com.br/livro/9788535916256/ilha-do-medo",
-    "source_label": "Companhia das Letras — edição de 2010, novo título e novo ISBN",
-    "output_basename": "ilha-do-medo-9788535916256-2010",
-    "output_dir": "assets/covers/editions"
   }
 ]
