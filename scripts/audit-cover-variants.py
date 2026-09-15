@@ -254,7 +254,9 @@ for item in items:
         if reference_limit is not None and not reference_ok:
             row["status"] = "reference_mismatch"
 
-        if dist >= 8 and reference_ok:
+        if (dist >= 8 or item.get("force_save")) and reference_ok:
+            if item.get("force_save") and dist < 8:
+                row["status"] = "same_but_saved"
             if item.get("compare_only"):
                 row["status"] = "different_compare_only"
             elif (cand_info["width"] < 400 or cand_info["height"] < 500) and not item.get("allow_low_res"):
