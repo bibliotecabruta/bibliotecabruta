@@ -50,6 +50,17 @@
       ],
       "dhash_distance": 1,
       "detail": "2ª edição de 2006 confirmada; imagem limpa da Livraria da Vila pelo mesmo ISBN coincide com a capa atual."
+    },
+    {
+      "title": "Vento Sudoeste",
+      "edition_id": "4fcfb6e0-b9f4-4a8f-a48e-191e667fc8b0",
+      "isbn": "9788571649507",
+      "years": [
+        1999,
+        2010
+      ],
+      "dhash_distance": 1,
+      "detail": "4ª edição de 2010 confirmada pela Travessa; capa limpa da Travessa coincide com a capa atual."
     }
   ],
   "confirmed_difference_waiting_clean_image": [
@@ -68,6 +79,22 @@
       "target_year": 2006,
       "dhash_distance": 39,
       "detail": "7ª edição de 2006 com mesmo ISBN; capa distinta confirmada, mas sem arte limpa de resolução suficiente."
+    },
+    {
+      "title": "Tablóide Americano",
+      "edition_id": "8c6b2989-3f79-4f56-a2db-f30e481f27ef",
+      "isbn": "9788501049223",
+      "target_year": 1998,
+      "dhash_distance": 37,
+      "detail": "Capa oficial Record de 1998 difere da capa da edição de 2011 no banco; arquivo histórico oficial disponível apenas em 200x308."
+    },
+    {
+      "title": "Desumano e Degradante",
+      "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
+      "isbn": "9788571645790",
+      "target_year": 2003,
+      "dhash_distance": 22,
+      "detail": "2ª edição de 2003 confirmada; foto do exemplar mostra capa diferente, mas ainda falta arte limpa em resolução adequada."
     }
   ],
   "unresolved_conflict": [
@@ -76,6 +103,12 @@
       "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
       "isbn": "9788571646377",
       "detail": "Reimpressões/edições posteriores com mesmo ISBN são confirmadas. Skoob/Open Library sugerem capa diferente, porém CDN oficial atual mantém a capa do catálogo; requer prova visual melhor antes de cadastrar."
+    },
+    {
+      "title": "Lavoura de Corpos",
+      "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
+      "isbn": "9788571647978",
+      "detail": "Reimpressão 2002 e 2ª edição 2010 confirmadas. Exemplar físico de 2010 mostra capa diferente, mas Skoob 2010 associa capa praticamente igual à atual; não cadastrar até resolver conflito."
     }
   ],
   "official_same_isbn_cover_checked": [
@@ -109,6 +142,13 @@
       "detail": "Novo título e novo ISBN; deve ser cadastrado como outra edição da mesma obra, não como variante de capa.",
       "edition_id": "9fbe24b2-918f-480f-8889-8458d2384671",
       "cover_path": "assets/covers/editions/ilha-do-medo-9788535916256-2010.jpg"
+    }
+  ],
+  "external_false_positive": [
+    {
+      "title": "Um Mês com Montalbano",
+      "isbn": "9788501056238",
+      "detail": "Open Library mostrou capa distinta, porém fontes bibliográficas e Skoob apontam apenas a edição Record de 2002; nenhuma reedição brasileira comprovada."
     }
   ]
 }
