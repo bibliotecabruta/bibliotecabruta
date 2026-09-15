@@ -25,6 +25,34 @@ def fetch(url):
 
 
 def discover_image(page_url, expected_isbn=None):
+    if "martinsfontespaulista.com.br" in page_url:
+        ref_match = re.search(r"-(\\d+)/p(?:$|[?#])", page_url)
+        if ref_match:
+            ref = ref_match.group(1)
+            api = "https://www.martinsfontespaulista.com.br/api/catalog_system/pub/products/search/"
+            attempts = [
+                {"fq": "alternateIds_RefId:" + ref},
+                {"fq": "productId:" + ref},
+                {"ft": ref, "_from": "0", "_to": "4"},
+            ]
+            for params in attempts:
+                try:
+                    rr = requests.get(api, params=params, timeout=30, headers=HEADERS)
+                    if rr.status_code != 200:
+                        continue
+                    data = rr.json()
+                    for product in data if isinstance(data, list) else []:
+                        for sku in product.get("items", []):
+                            for image in sku.get("images", []):
+                                url = image.get("imageUrl") or image.get("imageTag")
+                                if not url:
+                                    continue
+                                if url.startswith("http"):
+                                    url = re.sub(r"-\\d+-\\d+(?=\\.[A-Za-z]+(?:\\?|$))", "-1200-1200", url)
+                                    return url
+                except Exception:
+                    pass
+
     raw, _ = fetch(page_url)
     text = raw.decode("utf-8", errors="ignore")
     normalized = text.replace("\\/", "/")
