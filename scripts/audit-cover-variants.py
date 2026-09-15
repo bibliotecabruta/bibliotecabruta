@@ -18,8 +18,11 @@ OUTDIR.mkdir(parents=True, exist_ok=True)
 HEADERS = {"User-Agent": "Mozilla/5.0 BibliotecaBrutaCoverAudit/1.0"}
 
 
-def fetch(url):
-    r = requests.get(url, timeout=30, headers=HEADERS)
+def fetch(url, referer=None):
+    headers = dict(HEADERS)
+    if referer:
+        headers["Referer"] = referer
+    r = requests.get(url, timeout=30, headers=headers)
     r.raise_for_status()
     return r.content, r.headers.get("content-type", "")
 
@@ -183,13 +186,22 @@ for item in items:
             }
         )
 
+        reference_distance = None
         if item.get("reference_url"):
-            ref_raw, _ = fetch(item["reference_url"])
+            ref_raw, _ = fetch(item["reference_url"], item.get("reference_referer"))
             ref_info = image_info(ref_raw)
+            reference_distance = distance(dhash(cand_raw), dhash(ref_raw))
             row["reference"] = ref_info
-            row["candidate_reference_dhash_distance"] = distance(dhash(cand_raw), dhash(ref_raw))
+            row["candidate_reference_dhash_distance"] = reference_distance
 
-        if dist >= 8:
+        reference_limit = item.get("require_reference_match_under")
+        reference_ok = reference_limit is None or (
+            reference_distance is not None and reference_distance <= int(reference_limit)
+        )
+        if reference_limit is not None and not reference_ok:
+            row["status"] = "reference_mismatch"
+
+        if dist >= 8 and reference_ok:
             if item.get("compare_only"):
                 row["status"] = "different_compare_only"
             elif (cand_info["width"] < 400 or cand_info["height"] < 500) and not item.get("allow_low_res"):
