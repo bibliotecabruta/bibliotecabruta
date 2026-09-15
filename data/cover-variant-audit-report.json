@@ -125,7 +125,7 @@
     "audit_key": null,
     "candidate_url_resolved": "https://i0.wp.com/www.touchelivros.com.br/wp-content/uploads/2025/02/a_forma_da_agua_comissario_montalbano_1.jpg?ssl=1",
     "status": "different_low_resolution",
-    "dhash_distance": 39,
+    "dhash_distance": 40,
     "current": {
       "width": 1006,
       "height": 1006,
@@ -194,8 +194,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788571647657/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-5a8a460d-318c-4910-b124-ab4e0c31c332",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571647657/achados-e-perdidos.jpg",
+    "status": "same",
+    "dhash_distance": 1,
+    "current": {
+      "width": 937,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 406,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "aeb4d7dd-7c18-460b-996c-3bb5b5850c1f",
@@ -207,7 +218,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-aeb4d7dd-7c18-460b-996c-3bb5b5850c1f",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
@@ -219,7 +230,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-b4a196c4-a131-428a-950b-35c058687ba0",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "5c1332e2-4d1e-4ba7-a168-3c18fdbce095",
@@ -230,8 +241,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788571641075/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-5c1332e2-4d1e-4ba7-a168-3c18fdbce095",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571641075/clientes-demais.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 995,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 430,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "d021ced1-5f5a-4b80-b6dd-c87460c70c6a",
@@ -243,7 +265,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-d021ced1-5f5a-4b80-b6dd-c87460c70c6a",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "44061e8a-d60b-4700-a274-8071057b2792",
@@ -255,7 +277,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-44061e8a-d60b-4700-a274-8071057b2792",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
@@ -267,7 +289,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-628090f7-72b3-43cc-a62e-2bb5abc3e46d",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "04eb374b-ea58-44a9-8eff-1414e3edb4c2",
@@ -278,8 +300,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788535902297/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-04eb374b-ea58-44a9-8eff-1414e3edb4c2",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535902297/informacoes-sobre-a-vitima.jpg",
+    "status": "same",
+    "dhash_distance": 1,
+    "current": {
+      "width": 1000,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 433,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
@@ -291,7 +324,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "764e2ead-83c0-4146-b940-554ef98d431e",
@@ -302,8 +335,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788535902181/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-764e2ead-83c0-4146-b940-554ef98d431e",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535902181/morte-no-seminario.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 402,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "876f5c80-7447-48cd-a9cd-fe3e834f0223",
@@ -315,7 +359,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-876f5c80-7447-48cd-a9cd-fe3e834f0223",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "6b747f09-efea-43dc-bd01-3dc10bf6f389",
@@ -326,8 +370,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788571646124/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-6b747f09-efea-43dc-bd01-3dc10bf6f389",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571646124/o-silencio-da-chuva.jpg",
+    "status": "same",
+    "dhash_distance": 3,
+    "current": {
+      "width": 931,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 400,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "f21113d1-4482-495a-903b-9f57cb0f085b",
@@ -338,8 +393,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788535907209/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-f21113d1-4482-495a-903b-9f57cb0f085b",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535907209/paciente-67.jpg",
+    "status": "same",
+    "dhash_distance": 2,
+    "current": {
+      "width": 929,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 402,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "e0f46b61-b86f-427f-87fe-37b41e3beaa8",
@@ -350,8 +416,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788535903058/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-e0f46b61-b86f-427f-87fe-37b41e3beaa8",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535903058/sobre-meninos-e-lobos-mystic-river.jpg",
+    "status": "same",
+    "dhash_distance": 3,
+    "current": {
+      "width": 930,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 402,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "98389bb6-0258-4603-ab76-47c132af1eb8",
@@ -362,8 +439,19 @@
     "source_url": "https://www.companhiadasletras.com.br/livro/9788535901801/",
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-98389bb6-0258-4603-ab76-47c132af1eb8",
-    "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "candidate_url_resolved": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535901801/uma-janela-em-copacabana.jpg",
+    "status": "same",
+    "dhash_distance": 0,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 402,
+      "height": 650,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "e58b4078-0d74-4028-9bab-bb6850072127",
@@ -375,7 +463,7 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-e58b4078-0d74-4028-9bab-bb6850072127",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   },
   {
     "edition_id": "4fcfb6e0-b9f4-4a8f-a48e-191e667fc8b0",
@@ -387,6 +475,6 @@
     "source_label": "Grupo Companhia das Letras — ficha oficial do mesmo ISBN",
     "audit_key": "official-current-4fcfb6e0-b9f4-4a8f-a48e-191e667fc8b0",
     "status": "error",
-    "error": "Nenhuma imagem principal encontrada na página"
+    "error": "Ficha da Companhia sem capa correspondente ao ISBN solicitado"
   }
 ]
