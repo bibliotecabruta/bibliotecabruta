@@ -52,19 +52,5 @@
     "source_label": "Sebo do Messias — 2ª edição, 2007, formato 12×18, 257 p., mesmo ISBN; foto usada apenas para comparação",
     "compare_only": true,
     "output_basename": "bellini-e-o-demonio-9788571647282-2ed"
-  },
-  {
-    "audit_key": "longa-fila-2ed-2006-compare",
-    "edition_id": "c9d32cad-0581-4e3c-9ac4-f46762aab448",
-    "title": "Uma Longa Fila de Homens Mortos",
-    "isbn": "9788571645998",
-    "variant_label": "2ª edição de 2006",
-    "publication_year": 2006,
-    "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/c9d32cad-0581-4e3c-9ac4-f46762aab448.jpg",
-    "candidate_page_url": "https://www.estantevirtual.com.br/livro/uma-longa-fila-de-homens-mortos-FYU-1465-000-BK",
-    "source_url": "https://igr.opac.ar/pergamo/opac.php?a=bsqAutor&n=Block%2C+Lawrence%2C+1938-",
-    "source_label": "IGR confirma 2ª edição Companhia das Letras, 2006; imagem da Estante Virtual usada apenas para comparação visual",
-    "compare_only": true,
-    "output_basename": "uma-longa-fila-de-homens-mortos-9788571645998-2006"
   }
 ]
