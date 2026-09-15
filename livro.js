@@ -8,6 +8,7 @@ function resolveBookId(){
  return match?.[1]||'';
 }
 const bbBookId=resolveBookId();
+window.BB_BOOK_ID=bbBookId;
 function bbSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'livro'}
 function bbBookSeoUrl(b){return location.origin+'/livros/'+bbSlug(b.title)+'-'+b.id+'.html'}
 window.BB_BOOK_PROMISE=window.BB_BOOK_PROMISE||(bbBookId?sbBook.from('books').select('*,authors(id,name,nationality,bio),series(*),book_categories(category_id,categories(id,name)),book_tags(tag_id,tags(id,name)),book_collections(collection_number,collections(id,name,publisher)),editions(*,edition_variants(*))').eq('id',bbBookId).single():Promise.resolve({data:null,error:null}));
