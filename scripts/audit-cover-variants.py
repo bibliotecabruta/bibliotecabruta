@@ -26,7 +26,7 @@ def discover_image(page_url):
     # O site expõe versões /p/ (pequena) e /gg/ (grande).
     if page_isbn and "companhiadasletras.com.br" in page_url:
         escaped = text.replace("\\\/","/")
-        cover_pattern = rf'https?://[^"\\'<> ]+/covers/(?:p|pp|g|gg|100|200|300|400|600)/{re.escape(page_isbn)}/[^"\\'<> ?]+\\.(?:jpg|jpeg|png|webp)'
+        cover_pattern = rf"""https?://[^"'<> ]+/covers/(?:p|pp|g|gg|100|200|300|400|600)/{re.escape(page_isbn)}/[^"'<> ?]+\.(?:jpg|jpeg|png|webp)"""
         m = re.search(cover_pattern, escaped, re.I)
         if m:
             u = html.unescape(m.group(0))
