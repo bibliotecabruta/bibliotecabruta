@@ -108,7 +108,7 @@
     "source_label": "Skoob — edição Companhia das Letras de 1997, ISBN 9788571647282",
     "audit_key": "bellini-demonio-1997-cover",
     "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/15049/BELLINI_E_O_DEMONIO_1244436357B.jpg",
-    "status": "same",
+    "status": "same_but_saved",
     "dhash_distance": 7,
     "current": {
       "width": 946,
@@ -119,6 +119,8 @@
       "width": 300,
       "height": 450,
       "format": "JPEG"
-    }
+    },
+    "saved_path": "assets/covers/editions/bellini-e-o-demonio-9788571647282-1997.jpg",
+    "sha256": "8096fe80552b3ed6df42fe83f5e91509cfc0939e23c214f7cfd34896059ac2f5"
   }
 ]
