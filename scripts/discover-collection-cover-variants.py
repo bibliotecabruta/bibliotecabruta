@@ -96,14 +96,91 @@ def google_candidates(isbn):
 def openlibrary_candidates(isbn):
     return [("Open Library",f"https://covers.openlibrary.org/b/isbn/{quote(isbn)}-L.jpg?default=false",None)]
 
+def year_from_value(v):
+    m=re.search(r"(18|19|20)\d{2}",str(v or ""))
+    return int(m.group(0)) if m else None
+
+def bibliographic_dates(isbn):
+    found=[]
+    # Google Books: multiple records can expose reprints that kept the ISBN.
+    try:
+        r=requests.get(
+            "https://www.googleapis.com/books/v1/volumes",
+            params={"q":"isbn:"+isbn,"maxResults":10},
+            timeout=20,
+            headers={"User-Agent":"BibliotecaBrutaCoverDiscovery/1.0"},
+        )
+        if r.status_code==200:
+            for item in r.json().get("items",[]):
+                info=item.get("volumeInfo") or {}
+                y=year_from_value(info.get("publishedDate"))
+                if y:
+                    found.append({
+                      "source":"Google Books",
+                      "year":y,
+                      "published_date":info.get("publishedDate"),
+                      "publisher":info.get("publisher"),
+                      "pages":info.get("pageCount"),
+                      "title":info.get("title"),
+                      "source_id":item.get("id"),
+                    })
+    except Exception:
+        pass
+
+    # Open Library search consolidates dates seen across edition records.
+    try:
+        r=requests.get(
+            "https://openlibrary.org/search.json",
+            params={
+              "isbn":isbn,
+              "fields":"key,title,publish_date,publisher,number_of_pages_median,edition_count",
+              "limit":10,
+            },
+            timeout=20,
+            headers={"User-Agent":"BibliotecaBrutaCoverDiscovery/1.0"},
+        )
+        if r.status_code==200:
+            for doc in r.json().get("docs",[]):
+                dates=doc.get("publish_date") or []
+                if isinstance(dates,str): dates=[dates]
+                pubs=doc.get("publisher") or []
+                if isinstance(pubs,str): pubs=[pubs]
+                for date in dates:
+                    y=year_from_value(date)
+                    if y:
+                        found.append({
+                          "source":"Open Library",
+                          "year":y,
+                          "published_date":date,
+                          "publisher":pubs[0] if pubs else None,
+                          "pages":doc.get("number_of_pages_median"),
+                          "title":doc.get("title"),
+                          "source_id":doc.get("key"),
+                        })
+    except Exception:
+        pass
+
+    unique={}
+    for row in found:
+        key=(row["source"],row["year"],str(row.get("publisher") or ""),str(row.get("pages") or ""))
+        unique[key]=row
+    return sorted(unique.values(),key=lambda x:(x["year"],x["source"]))
+
 def audit_one(ed):
+    isbn=clean_isbn(ed["isbn"])
+    dates=bibliographic_dates(isbn)
+    base_year=ed.get("publication_year")
+    later_years=sorted({
+        x["year"] for x in dates
+        if base_year and x.get("year") and x["year"]>base_year
+    })
     base_raw,base_info=image_bytes(ed["cover_url"],25)
     if not base_raw:
-        return {**ed,"status":"baseline_error"}
+        return {**ed,"status":"baseline_error","bibliographic_dates":dates,"later_same_isbn_years":later_years}
     base_hash=dhash(base_raw)
     candidates=[]
     seen=set()
-    for source,url,source_id in openlibrary_candidates(clean_isbn(ed["isbn"]))+google_candidates(clean_isbn(ed["isbn"])):
+    for source,url,source_id in openlibrary_candidates(isbn)+google_candidates(isbn):
         if not url or url in seen:continue
         seen.add(url)
         raw,info=image_bytes(url,20)
@@ -124,6 +201,8 @@ def audit_one(ed):
       "baseline":base_info,
       "candidates":diffs[:4],
       "sources_checked":len(candidates),
+      "bibliographic_dates":dates,
+      "later_same_isbn_years":later_years,
     }
 
 editions=fetch_catalog()
@@ -147,6 +226,12 @@ for name in COLLECTIONS.values():
       "no_external_cover":sum(x["status"]=="no_external_cover" for x in rows),
       "errors":sum(x["status"] in ("error","baseline_error") for x in rows),
     }
-payload={"summary":summary,"candidates":[x for x in results if x["status"]=="candidate_difference"],"other_statuses":[x for x in results if x["status"]!="candidate_difference"]}
+date_candidates=[x for x in results if x.get("later_same_isbn_years")]
+payload={
+  "summary":summary,
+  "candidates":[x for x in results if x["status"]=="candidate_difference"],
+  "date_candidates":date_candidates,
+  "other_statuses":[x for x in results if x["status"]!="candidate_difference"],
+}
 REPORT.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n","utf-8")
 print(json.dumps(summary,ensure_ascii=False,indent=2))
