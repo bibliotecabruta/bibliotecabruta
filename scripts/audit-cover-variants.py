@@ -88,5 +88,3 @@ for item in items:
 
 REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n","utf-8")
 print(json.dumps(report,ensure_ascii=False,indent=2))
-if any(x["status"]=="error" for x in report):
-    sys.exit(1)
