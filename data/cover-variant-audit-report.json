@@ -51,5 +51,53 @@
       "format": "JPEG"
     },
     "candidate_reference_dhash_distance": 24
+  },
+  {
+    "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
+    "title": "O Colecionador de Ossos",
+    "isbn": "9788501058126",
+    "variant_label": "Capa da edição/reimpressão de 2000",
+    "publication_year": 2000,
+    "source_url": "https://www.skoob.com.br/pt/book/556551",
+    "source_label": "Skoob — Record 2000, 475 p., mesmo ISBN",
+    "audit_key": "colecionador-ossos-2000",
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/1181/O_COLECIONADOR_DE_OSSOS_14522645831181SK1452264583B.jpg",
+    "status": "same",
+    "dhash_distance": 7,
+    "current": {
+      "width": 1000,
+      "height": 1555,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 300,
+      "height": 450,
+      "format": "JPEG"
+    }
+  },
+  {
+    "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
+    "title": "Desumano e Degradante",
+    "isbn": "9788571645790",
+    "variant_label": "Capa associada à edição/reimpressão de 2009",
+    "publication_year": 2009,
+    "source_url": "https://www.goodreads.com/work/editions/5376585-cruel-unusual",
+    "source_label": "Goodreads — Companhia das Letras, 2009, 354 p., mesmo ISBN",
+    "audit_key": "desumano-degradante-2009",
+    "candidate_url_resolved": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1325294628l/13344975.jpg",
+    "status": "different",
+    "dhash_distance": 8,
+    "current": {
+      "width": 924,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 289,
+      "height": 475,
+      "format": "JPEG"
+    },
+    "saved_path": "assets/covers/variants/desumano-e-degradante-9788571645790-2009.jpg",
+    "sha256": "0c7597642e01b5771ef29660ccab621cf4d5fd08000cd5e6f5187c53c8975c5e"
   }
 ]
