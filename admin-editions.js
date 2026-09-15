@@ -109,13 +109,16 @@ async function syncEditionCoverVariant(editionId,coverUrl){
  if(!editionId||!coverUrl)return;
  const parent=adminEditionRows.find(e=>e.id===editionId);
  const primary=(parent?.edition_variants||[]).find(v=>v.is_primary);
+ let variantId=primary?.id||'';
  if(primary){
    const {error}=await sbAdmin.from('edition_variants').update({cover_url:coverUrl,updated_at:new Date().toISOString()}).eq('id',primary.id);
    if(error)throw error;
  }else{
-   const {error}=await sbAdmin.from('edition_variants').insert({edition_id:editionId,cover_url:coverUrl,variant_label:'Capa principal cadastrada',is_primary:true});
-   if(error)throw error;
+   const {data,error}=await sbAdmin.from('edition_variants').insert({edition_id:editionId,cover_url:coverUrl,variant_label:'Capa principal cadastrada',is_primary:true}).select('id').single();
+   if(error)throw error;variantId=data.id;
  }
+ const {error}=await sbAdmin.rpc('set_primary_edition_variant',{p_variant_id:variantId});
+ if(error)throw error;
 }
 
 async function saveEditionAdmin(ev){
@@ -237,12 +240,9 @@ async function saveVariantAdmin(ev){
      const {data,error}=await sbAdmin.from('edition_variants').insert(payload).select('id').single();
      if(error)throw error;savedId=data.id;
    }
-   const shouldPrimary=fd.get('make_primary')==='on'||!(e.edition_variants||[]).length;
+   const shouldPrimary=fd.get('make_primary')==='on'||!(e.edition_variants||[]).length||!!existing?.is_primary;
    if(shouldPrimary){
      const {error}=await sbAdmin.rpc('set_primary_edition_variant',{p_variant_id:savedId});
-     if(error)throw error;
-   }else if(existing?.is_primary&&newCover){
-     const {error}=await sbAdmin.from('editions').update({cover_url:newCover}).eq('id',editionId);
      if(error)throw error;
    }
    await loadEditionAdmin(adminEditionBookId);
