@@ -7,6 +7,13 @@
       "isbn": "9788501055323",
       "decision": "variant_registered",
       "detail": "Capa de 2000 mantida principal; 3ª edição de 2006 cadastrada como segunda capa do mesmo ISBN."
+    },
+    {
+      "title": "Tablóide Americano",
+      "edition_id": "8c6b2989-3f79-4f56-a2db-f30e481f27ef",
+      "isbn": "9788501049223",
+      "decision": "variant_registered",
+      "detail": "Capa histórica de 1998 cadastrada como variante; capa de 2011 mantida como principal. Imagem 1998 obtida do SKU VTEX da Martins Fontes em 600x800."
     }
   ],
   "same_cover": [
@@ -79,14 +86,6 @@
       "target_year": 2006,
       "dhash_distance": 39,
       "detail": "7ª edição de 2006 com mesmo ISBN; capa distinta confirmada, mas sem arte limpa de resolução suficiente."
-    },
-    {
-      "title": "Tablóide Americano",
-      "edition_id": "8c6b2989-3f79-4f56-a2db-f30e481f27ef",
-      "isbn": "9788501049223",
-      "target_year": 1998,
-      "dhash_distance": 37,
-      "detail": "Capa oficial Record de 1998 difere da capa da edição de 2011 no banco; arquivo histórico oficial disponível apenas em 200x308."
     },
     {
       "title": "Desumano e Degradante",
