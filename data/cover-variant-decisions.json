@@ -159,6 +159,17 @@
       "detail": "Novo título e novo ISBN; deve ser cadastrado como outra edição da mesma obra, não como variante de capa.",
       "edition_id": "9fbe24b2-918f-480f-8889-8458d2384671",
       "cover_path": "assets/covers/editions/ilha-do-medo-9788535916256-2010.jpg"
+    },
+    {
+      "work": "Uma Longa Fila de Homens Mortos",
+      "edition_title": "Uma Longa Fila de Homens Mortos",
+      "year": 2006,
+      "isbn": "9788571645998",
+      "publisher": "Companhia das Letras",
+      "pages": 333,
+      "decision": "second_edition_registered",
+      "edition_id": "c9d32cad-0581-4e3c-9ac4-f46762aab448",
+      "detail": "O registro antigo foi corrigido para representar a 2ª edição de 2006 e passou a ser principal. A 1ª edição de 1997 foi criada separadamente com a capa fornecida pelo usuário, mesmo ISBN, 334 p. e tradução de Beth Vieira."
     }
   ],
   "external_false_positive": [
