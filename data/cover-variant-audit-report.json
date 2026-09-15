@@ -32,8 +32,24 @@
     "source_url": "https://www.goodreads.com/work/editions/5376585-cruel-unusual",
     "source_label": "Goodreads — edição Companhia das Letras de 2009, mesmo ISBN; aceitar só se coincidir com exemplar físico da 2ª edição de 2003",
     "audit_key": "desumano-degradante-2ed-2003",
-    "candidate_url_resolved": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763963i/767.jpg\",\"2x\":\"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763969i/768.jpg\"},\"md\":{\"1x\":\"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763953i/765.jpg\",\"2x\":\"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763958i/766.jpg",
-    "status": "error",
-    "error": "403 Client Error: Forbidden for url: https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763963i/767.jpg%22,%222x%22:%22https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763969i/768.jpg%22%7D,%22md%22:%7B%221x%22:%22https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763953i/765.jpg%22,%222x%22:%22https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/siteheaderbannerimages/1787763958i/766.jpg"
+    "candidate_url_resolved": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1325294628l/13344975.jpg",
+    "status": "reference_mismatch",
+    "dhash_distance": 8,
+    "current": {
+      "width": 924,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 289,
+      "height": 475,
+      "format": "JPEG"
+    },
+    "reference": {
+      "width": 360,
+      "height": 500,
+      "format": "JPEG"
+    },
+    "candidate_reference_dhash_distance": 24
   }
 ]
