@@ -14,6 +14,13 @@
       "isbn": "9788501049223",
       "decision": "variant_registered",
       "detail": "Capa histórica de 1998 cadastrada como variante; capa de 2011 mantida como principal. Imagem 1998 obtida do SKU VTEX da Martins Fontes em 600x800."
+    },
+    {
+      "title": "A Forma da Água",
+      "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
+      "isbn": "9788501056184",
+      "decision": "variant_registered",
+      "detail": "Capa da edição Record cadastrada de 2000 mantida principal; 3ª edição de 2007 — Especial noir europeu cadastrada como variante. Imagem limpa do Skoob 300x452 usada como exceção de resolução."
     }
   ],
   "same_cover": [
@@ -71,14 +78,6 @@
     }
   ],
   "confirmed_difference_waiting_clean_image": [
-    {
-      "title": "A Forma da Água",
-      "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
-      "isbn": "9788501056184",
-      "target_year": 2007,
-      "dhash_distance": 39,
-      "detail": "3ª edição de 2007 / nova fase Especial noir europeu; imagens encontradas ainda abaixo da régua de resolução."
-    },
     {
       "title": "O Colecionador de Ossos",
       "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
