@@ -30,6 +30,7 @@ function enhanceBookEditionUI() {
     const body = card.querySelector('div');
     const isPrimary = card.classList.contains('edition-primary') || card.textContent.toLowerCase().includes('edição principal');
     if (isPrimary) card.classList.add('edition-primary');
+    card.querySelector('.edition-primary-label')?.remove();
     const label = document.createElement('small');
     label.className = 'edition-label';
     label.textContent = isPrimary ? 'EDIÇÃO PRINCIPAL NO CATÁLOGO' : `OUTRA EDIÇÃO BRASILEIRA${cards.length > 2 ? ` · ${index + 1}` : ''}`;
