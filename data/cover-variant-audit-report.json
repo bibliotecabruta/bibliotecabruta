@@ -6,7 +6,7 @@
     "variant_label": "7ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://www.skoob.com.br/book/1609",
-    "source_label": "Skoob — capa limpa; validar contra exemplar físico da 7ª edição de 2006 via proxy WordPress",
+    "source_label": "Skoob — capa limpa; validação final contra exemplar físico da 7ª edição de 2006 via proxy apenas de comparação",
     "audit_key": null,
     "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/1181/O_COLECIONADOR_DE_OSSOS_1410371210B.jpg",
     "status": "error",
@@ -21,7 +21,7 @@
       "height": 454,
       "format": "JPEG"
     },
-    "error": "403 Client Error: Forbidden for url: https://i0.wp.com/lojasebocultural.com.br/wp-content/uploads/2023/09/f5a33444-6e94-4053-bb91-80ea96b4f68c.jpg?ssl=1"
+    "error": "404 Client Error: Not Found for url: https://wsrv.nl/?url=lojasebocultural.com.br/wp-content/uploads/2023/09/f5a33444-6e94-4053-bb91-80ea96b4f68c.jpg&output=jpg"
   },
   {
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
