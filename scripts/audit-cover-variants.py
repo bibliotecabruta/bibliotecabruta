@@ -183,6 +183,12 @@ for item in items:
             }
         )
 
+        if item.get("reference_url"):
+            ref_raw, _ = fetch(item["reference_url"])
+            ref_info = image_info(ref_raw)
+            row["reference"] = ref_info
+            row["candidate_reference_dhash_distance"] = distance(dhash(cand_raw), dhash(ref_raw))
+
         if dist >= 8:
             if item.get("compare_only"):
                 row["status"] = "different_compare_only"
