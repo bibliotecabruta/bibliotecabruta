@@ -105,8 +105,10 @@
       "publisher": "Companhia das Letras",
       "pages": 344,
       "translator": "Luciano Vieira Machado",
-      "decision": "new_edition_not_cover_variant",
-      "detail": "Novo título e novo ISBN; deve ser cadastrado como outra edição da mesma obra, não como variante de capa."
+      "decision": "new_edition_registered",
+      "detail": "Novo título e novo ISBN; deve ser cadastrado como outra edição da mesma obra, não como variante de capa.",
+      "edition_id": "9fbe24b2-918f-480f-8889-8458d2384671",
+      "cover_path": "assets/covers/editions/ilha-do-medo-9788535916256-2010.jpg"
     }
   ]
 }
