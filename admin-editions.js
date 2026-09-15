@@ -5,9 +5,8 @@ function editionEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;',
 
 function ensureEditionManagerUI(){
  if(document.getElementById('editionManagerShell'))return;
- const notes=document.querySelector('#bookForm [name="edition_notes"]');
- if(!notes)return;
- const anchor=notes.closest('.field.full')||notes.parentElement;
+ const anchor=document.getElementById('bookForm');
+ if(!anchor)return;
  const shell=document.createElement('div');
  shell.id='editionManagerShell';
  shell.className='field full hidden';
