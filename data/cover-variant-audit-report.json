@@ -53,20 +53,20 @@
     "variant_label": "Capa da edição original brasileira de 1998",
     "publication_year": 1998,
     "source_url": "https://www.record.com.br/products/tabloide-americano",
-    "source_label": "Editora Record — mesma capa oficial de 1998, solicitada ao CDN em 1200 px",
+    "source_label": "Martins Fontes Paulista / catálogo VTEX — ficha da mesma edição Record ISBN 9788501049223; imagem original do SKU",
     "audit_key": "tabloide-americano-1998-vs-2011",
-    "candidate_url_resolved": "https://www.record.com.br/cdn/shop/files/617cab2e3eaaca5ea6b187c22ea50ac2_3d951c00-8ceb-4eb0-9e71-e26cdf5109f2.jpg?v=1783743085&width=1200",
+    "candidate_url_resolved": "https://martinsfontespaulista.vteximg.com.br/arquivos/emails-martinsfontes-logo.png?v=637266396539000000",
     "status": "different_low_resolution",
-    "dhash_distance": 37,
+    "dhash_distance": 38,
     "current": {
       "width": 1023,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 200,
-      "height": 308,
-      "format": "JPEG"
+      "width": 197,
+      "height": 62,
+      "format": "PNG"
     }
   },
   {
