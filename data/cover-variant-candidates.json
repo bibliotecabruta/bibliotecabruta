@@ -45,9 +45,9 @@
     "variant_label": "Capa da edição original brasileira de 1998",
     "publication_year": 1998,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/8c6b2989-3f79-4f56-a2db-f30e481f27ef.jpg",
-    "candidate_page_url": "https://www.record.com.br/products/tabloide-americano",
     "source_url": "https://www.record.com.br/products/tabloide-americano",
-    "source_label": "Editora Record — ficha oficial, ISBN 9788501049223, lançamento 22/06/1998",
-    "output_basename": "tabloide-americano-9788501049223-1998"
+    "source_label": "Editora Record — mesma capa oficial de 1998, solicitada ao CDN em 1200 px",
+    "output_basename": "tabloide-americano-9788501049223-1998",
+    "candidate_url": "https://www.record.com.br/cdn/shop/files/617cab2e3eaaca5ea6b187c22ea50ac2_3d951c00-8ceb-4eb0-9e71-e26cdf5109f2.jpg?v=1783743085&width=1200"
   }
 ]
