@@ -1,0 +1,112 @@
+{
+  "updated_at": "2026-09-15",
+  "registered": [
+    {
+      "title": "Dália Negra",
+      "edition_id": "69e8173f-6a4b-495a-a28c-890b095412fa",
+      "isbn": "9788501055323",
+      "decision": "variant_registered",
+      "detail": "Capa de 2000 mantida principal; 3ª edição de 2006 cadastrada como segunda capa do mesmo ISBN."
+    }
+  ],
+  "same_cover": [
+    {
+      "title": "Edições Perigosas",
+      "edition_id": "0f7ec4c5-235b-4899-a736-a312f47425c9",
+      "isbn": "9788571643789",
+      "years": [
+        1994,
+        2002
+      ],
+      "dhash_distance": 2
+    },
+    {
+      "title": "Causa Mortis",
+      "edition_id": "aeb4d7dd-7c18-460b-996c-3bb5b5850c1f",
+      "isbn": "9788571649774",
+      "years": [
+        2000,
+        2007
+      ],
+      "dhash_distance": 3
+    },
+    {
+      "title": "A Noiva Estava de Preto",
+      "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
+      "isbn": "9788571640214",
+      "years": [
+        1989,
+        2007
+      ],
+      "dhash_distance": 2
+    },
+    {
+      "title": "Corpo de Delito",
+      "edition_id": "44061e8a-d60b-4700-a274-8071057b2792",
+      "isbn": "9788571644816",
+      "years": [
+        1995,
+        2006
+      ],
+      "dhash_distance": 1,
+      "detail": "2ª edição de 2006 confirmada; imagem limpa da Livraria da Vila pelo mesmo ISBN coincide com a capa atual."
+    }
+  ],
+  "confirmed_difference_waiting_clean_image": [
+    {
+      "title": "A Forma da Água",
+      "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
+      "isbn": "9788501056184",
+      "target_year": 2007,
+      "dhash_distance": 39,
+      "detail": "3ª edição de 2007 / nova fase Especial noir europeu; imagens encontradas ainda abaixo da régua de resolução."
+    },
+    {
+      "title": "O Colecionador de Ossos",
+      "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
+      "isbn": "9788501058126",
+      "target_year": 2006,
+      "dhash_distance": 39,
+      "detail": "7ª edição de 2006 com mesmo ISBN; capa distinta confirmada, mas sem arte limpa de resolução suficiente."
+    }
+  ],
+  "unresolved_conflict": [
+    {
+      "title": "Cemitério de Indigentes",
+      "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
+      "isbn": "9788571646377",
+      "detail": "Reimpressões/edições posteriores com mesmo ISBN são confirmadas. Skoob/Open Library sugerem capa diferente, porém CDN oficial atual mantém a capa do catálogo; requer prova visual melhor antes de cadastrar."
+    }
+  ],
+  "official_same_isbn_cover_checked": [
+    "Achados e Perdidos",
+    "Clientes Demais",
+    "Informações sobre a Vítima",
+    "Morte no Seminário",
+    "O Silêncio da Chuva",
+    "Paciente 67",
+    "Sobre Meninos e Lobos",
+    "Uma Janela em Copacabana"
+  ],
+  "official_page_without_exact_old_isbn_cover": [
+    "Contágio Criminoso",
+    "Desumano e Degradante",
+    "Lavoura de Corpos",
+    "O Homem da Minha Vida",
+    "Vendetta",
+    "Vento Sudoeste"
+  ],
+  "separate_edition_discoveries": [
+    {
+      "work": "Paciente 67",
+      "edition_title": "Ilha do Medo",
+      "year": 2010,
+      "isbn": "9788535916256",
+      "publisher": "Companhia das Letras",
+      "pages": 344,
+      "translator": "Luciano Vieira Machado",
+      "decision": "new_edition_not_cover_variant",
+      "detail": "Novo título e novo ISBN; deve ser cadastrado como outra edição da mesma obra, não como variante de capa."
+    }
+  ]
+}
