@@ -7,15 +7,14 @@
     "publication_year": 2006,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/original/cb5cf51a-1b25-4186-b938-30bffe7dfb53.jpg",
     "source_url": "https://www.skoob.com.br/book/1609",
-    "source_label": "Skoob — capa limpa; só aceitar se coincidir com o exemplar físico da 7ª edição de 2006 do Sebo Cultural",
+    "source_label": "Skoob — capa limpa; validar contra exemplar físico da 7ª edição de 2006 via proxy WordPress",
     "output_basename": "o-colecionador-de-ossos-9788501058126-2006",
     "candidate_page_url": "https://www.skoob.com.br/book/1609",
     "allow_low_res": true,
     "min_width": 280,
     "min_height": 420,
-    "reference_url": "https://lojasebocultural.com.br/wp-content/uploads/2023/09/f5a33444-6e94-4053-bb91-80ea96b4f68c.jpg",
+    "reference_url": "https://i0.wp.com/lojasebocultural.com.br/wp-content/uploads/2023/09/f5a33444-6e94-4053-bb91-80ea96b4f68c.jpg?ssl=1",
     "reference_label": "Foto do exemplar físico da 7ª edição de 2006 — Sebo Cultural; apenas para validação visual",
-    "reference_referer": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
     "require_reference_match_under": 7
   },
   {
@@ -23,12 +22,12 @@
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
     "title": "Desumano e Degradante",
     "isbn": "9788571645790",
-    "variant_label": "2ª edição de 2003",
+    "variant_label": "Capa usada em reimpressões/edições posteriores (2003–2009)",
     "publication_year": 2003,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/628090f7-72b3-43cc-a62e-2bb5abc3e46d.jpg",
-    "candidate_page_url": "https://www.touchelivros.com.br/desumano-e-degradante/",
-    "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/desumano-e-degradante-32",
-    "source_label": "Touché Livros — capa limpa; só aceitar se coincidir com o exemplar físico da 2ª edição de 2003",
+    "candidate_page_url": "https://www.goodreads.com/work/editions/5376585-cruel-unusual",
+    "source_url": "https://www.goodreads.com/work/editions/5376585-cruel-unusual",
+    "source_label": "Goodreads — edição Companhia das Letras de 2009, mesmo ISBN; aceitar só se coincidir com exemplar físico da 2ª edição de 2003",
     "compare_only": false,
     "output_basename": "desumano-e-degradante-9788571645790-2003",
     "reference_url": "https://sebomessiasstorage.blob.core.windows.net/produtos/236/2368595_2368595.jpg",
@@ -36,6 +35,7 @@
     "require_reference_match_under": 7,
     "allow_low_res": true,
     "min_width": 280,
-    "min_height": 420
+    "min_height": 420,
+    "end_year": 2009
   }
 ]
