@@ -1,0 +1,38 @@
+name: Auditar variantes de capa
+
+on:
+  push:
+    paths:
+      - 'data/cover-variant-candidates.json'
+      - 'scripts/audit-cover-variants.py'
+      - '.github/workflows/audit-cover-variants.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependências
+        run: pip install pillow requests
+      - name: Comparar e baixar capas distintas
+        run: python scripts/audit-cover-variants.py
+      - name: Commitar resultados
+        shell: bash
+        run: |
+          if git diff --quiet -- data/cover-variant-audit-report.json assets/covers/variants; then
+            echo "Nenhuma mudança."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cover-variant-audit-report.json assets/covers/variants
+          git commit -m "Audita variantes de capa"
+          git pull --rebase origin main
+          git push origin main
