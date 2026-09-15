@@ -19,18 +19,32 @@ def fetch(url):
 def discover_image(page_url):
     raw, ct = fetch(page_url)
     text = raw.decode("utf-8", errors="ignore")
+    page_isbn_match = re.search(r'/livro/(\\d{10,13})(?:/|$)', page_url)
+    page_isbn = page_isbn_match.group(1) if page_isbn_match else None
+
+    # Nas fichas da Companhia, prioriza a capa que contém o MESMO ISBN.
+    # O site expõe versões /p/ (pequena) e /gg/ (grande).
+    if page_isbn and "companhiadasletras.com.br" in page_url:
+        escaped = text.replace("\\\/","/")
+        cover_pattern = rf'https?://[^"\\'<> ]+/covers/(?:p|pp|g|gg|100|200|300|400|600)/{re.escape(page_isbn)}/[^"\\'<> ?]+\\.(?:jpg|jpeg|png|webp)'
+        m = re.search(cover_pattern, escaped, re.I)
+        if m:
+            u = html.unescape(m.group(0))
+            u = re.sub(r'/covers/(?:p|pp|g|gg|100|200|300|400|600)/', '/covers/gg/', u)
+            return u
+        raise ValueError("Ficha da Companhia sem capa correspondente ao ISBN solicitado")
+
     patterns = [
-        r'<meta[^>]+property=["\']og:image(?::secure_url)?["\'][^>]+content=["\']([^"\']+)',
-        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::secure_url)?["\']',
-        r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
-        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image["\']'
+        r'<meta[^>]+property=["\\']og:image(?::secure_url)?["\\'][^>]+content=["\\']([^"\\']+)',
+        r'<meta[^>]+content=["\\']([^"\\']+)["\\'][^>]+property=["\\']og:image(?::secure_url)?["\\']',
+        r'<meta[^>]+name=["\\']twitter:image["\\'][^>]+content=["\\']([^"\\']+)',
+        r'<meta[^>]+content=["\\']([^"\\']+)["\\'][^>]+name=["\\']twitter:image["\\']'
     ]
     for pattern in patterns:
         m = re.search(pattern, text, re.I)
         if m:
             return urljoin(page_url, html.unescape(m.group(1)))
-    isbn = re.sub(r'\D', '', str(page_url))
-    candidates = re.findall(r'https?://[^"\'<> ]+\.(?:jpg|jpeg|png|webp)(?:\?[^"\'<> ]*)?', text, re.I)
+    candidates = re.findall(r'https?://[^"\\'<> ]+\\.(?:jpg|jpeg|png|webp)(?:\\?[^"\\'<> ]*)?', text, re.I)
     if candidates:
         return html.unescape(candidates[0])
     raise ValueError("Nenhuma imagem principal encontrada na página")
