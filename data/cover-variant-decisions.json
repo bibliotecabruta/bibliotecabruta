@@ -21,6 +21,13 @@
       "isbn": "9788501056184",
       "decision": "variant_registered",
       "detail": "Capa da edição Record cadastrada de 2000 mantida principal; 3ª edição de 2007 — Especial noir europeu cadastrada como variante. Imagem limpa do Skoob 300x452 usada como exceção de resolução."
+    },
+    {
+      "title": "Cemitério de Indigentes",
+      "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
+      "isbn": "9788571646377",
+      "decision": "variant_registered",
+      "detail": "Capa da 1ª edição de 1997 mantida principal; variante posterior cadastrada como período aproximado 2002–2010 devido à divergência entre Skoob (2002), exemplar 2ª ed. 2003 e Goodreads (3ª ed. 2010), todos com 356 p. e o mesmo ISBN."
     }
   ],
   "same_cover": [
@@ -97,12 +104,6 @@
   ],
   "unresolved_conflict": [
     {
-      "title": "Cemitério de Indigentes",
-      "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
-      "isbn": "9788571646377",
-      "detail": "Reimpressões/edições posteriores com mesmo ISBN são confirmadas. Skoob/Open Library sugerem capa diferente, porém CDN oficial atual mantém a capa do catálogo; requer prova visual melhor antes de cadastrar."
-    },
-    {
       "title": "Lavoura de Corpos",
       "edition_id": "bbc77899-8585-4792-83c8-7ca4b3c6f8a9",
       "isbn": "9788571647978",
@@ -177,6 +178,21 @@
       "title": "Noir Americano",
       "isbn": "8501048283",
       "detail": "Registros localizados apontam para a edição Record de 1997/1998; não foi comprovada reedição brasileira posterior com o mesmo ISBN. Divergência de capa externa tratada como associação não comprovada."
+    },
+    {
+      "title": "Contágio Criminoso",
+      "isbn": "9788535901672",
+      "detail": "Fontes consistentes apontam apenas para a 1ª edição Companhia das Letras de 2001 com este ISBN; nenhuma reedição posterior comprovada."
+    },
+    {
+      "title": "O Homem da Minha Vida",
+      "isbn": "9788535904215",
+      "detail": "Fontes localizadas apontam para a edição Companhia das Letras de 2003; nenhuma reedição posterior com o mesmo ISBN foi comprovada."
+    },
+    {
+      "title": "Vendetta",
+      "isbn": "9788571648050",
+      "detail": "Fontes localizadas apontam para a 1ª edição Companhia das Letras de 1998; nenhuma reedição posterior com o mesmo ISBN foi comprovada."
     }
   ]
 }
