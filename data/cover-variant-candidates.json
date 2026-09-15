@@ -20,10 +20,13 @@
     "publication_year": 2007,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/bd31eb6e-e1d3-496e-b9e3-06766d90fb56.jpg",
     "source_url": "https://www.skoob.com.br/pt/book/494413",
-    "source_label": "Martins Fontes Paulista — imagem do produto pelo mesmo ISBN; 3ª edição Record 2007 confirmada em fontes bibliográficas",
+    "source_label": "Skoob — 3ª edição Record de 2007, mesmo ISBN; exceção de resolução após busca sem arte maior",
     "output_basename": "a-forma-da-agua-9788501056184-2007",
     "compare_only": false,
-    "candidate_page_url": "https://www.martinsfontespaulista.com.br/forma-da-agua--a-175093/p"
+    "candidate_page_url": "https://www.skoob.com.br/pt/book/494413",
+    "allow_low_res": true,
+    "min_width": 280,
+    "min_height": 420
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
@@ -32,10 +35,13 @@
     "variant_label": "7ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/original/cb5cf51a-1b25-4186-b938-30bffe7dfb53.jpg",
-    "source_url": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
-    "source_label": "Travessa — mesma arte da 7ª edição/reimpressão, tentativa em imagem grande /GR/",
+    "source_url": "https://www.skoob.com.br/book/1609",
+    "source_label": "Skoob — ficha da edição Coleção Negra; comparar com a 7ª edição de 2006 confirmada",
     "output_basename": "o-colecionador-de-ossos-9788501058126-2006",
-    "candidate_url": "https://img.travessa.com.br/livro/GR/ad/adc26732-571c-4885-b715-3b60f2f86d05.jpg"
+    "candidate_page_url": "https://www.skoob.com.br/book/1609",
+    "allow_low_res": true,
+    "min_width": 280,
+    "min_height": 420
   },
   {
     "audit_key": "desumano-degradante-2ed-2003",
