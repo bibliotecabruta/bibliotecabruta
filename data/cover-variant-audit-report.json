@@ -50,22 +50,20 @@
     "variant_label": "2ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Sebo do Messias — 2ª edição, 2006, mesmo ISBN; imagem candidata via Livraria da Vila",
-    "candidate_url_resolved": "https://i.postimg.cc/WbwXJCH2/og-ldv.png",
-    "status": "different",
-    "dhash_distance": 27,
+    "source_label": "Sebo do Messias — 2ª edição, 2006, mesmo ISBN; foto usada somente para comparação visual",
+    "candidate_url_resolved": "https://sebomessiasstorage.blob.core.windows.net/produtos/275/2757572_2757572.jpg",
+    "status": "different_compare_only",
+    "dhash_distance": 34,
     "current": {
       "width": 931,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 1200,
-      "height": 630,
-      "format": "PNG"
-    },
-    "saved_path": "assets/covers/variants/corpo-de-delito-9788571644816-2006.png",
-    "sha256": "2b4824356d40e757cf3f47cfc7cec13ceb29a529e57053f64dad946773a17ca4"
+      "width": 360,
+      "height": 500,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
@@ -74,19 +72,41 @@
     "variant_label": "2ª edição / reimpressão de 2007",
     "publication_year": 2007,
     "source_url": "https://lojasebocultural.com.br/produto/a-noiva-estava-de-preto/",
-    "source_label": "Sebo Cultural — 2ª edição, 2007, mesmo ISBN; imagem candidata via Livraria da Vila",
-    "status": "error",
-    "error": "404 Client Error: Not Found for url: https://www.livrariadavila.com.br/16046-a-noiva-estava-de-preto/p"
+    "source_label": "Sebo Cultural — 2ª edição, 2007, mesmo ISBN; imagem candidata via Skoob",
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/60707/A_NOIVA_ESTAVA_DE_PRETO_148770383860707SK1487703838B.jpg",
+    "status": "same",
+    "dhash_distance": 2,
+    "current": {
+      "width": 985,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 300,
+      "height": 458,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
     "title": "Cemitério de Indigentes",
     "isbn": "9788571646377",
-    "variant_label": "3ª edição / reimpressão de 2010",
-    "publication_year": 2010,
-    "source_url": "https://www.goodreads.com/work/editions/1455041-from-potter-s-field?expanded=true",
-    "source_label": "Goodreads — 3ª edição brasileira, 2010, mesmo ISBN; imagem candidata via Livraria da Vila",
-    "status": "error",
-    "error": "404 Client Error: Not Found for url: https://www.livrariadavila.com.br/15008-cemiterio-de-indigentes/p"
+    "variant_label": "Reimpressão c. 2002/2003",
+    "publication_year": 2002,
+    "source_url": "https://www.skoob.com.br/pt/book/9073",
+    "source_label": "Skoob — edição Companhia das Letras de 2002, mesmo ISBN",
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/7819/CEMITERIO_DE_INDIGENTES_1232230086B.jpg",
+    "status": "different_low_resolution",
+    "dhash_distance": 31,
+    "current": {
+      "width": 928,
+      "height": 1500,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 300,
+      "height": 485,
+      "format": "JPEG"
+    }
   }
 ]
