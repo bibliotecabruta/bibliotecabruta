@@ -82,6 +82,7 @@
     "output_dir": "assets/covers/editions",
     "allow_low_res": true,
     "min_width": 280,
-    "min_height": 420
+    "min_height": 420,
+    "force_save": true
   }
 ]
