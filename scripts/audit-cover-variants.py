@@ -30,6 +30,59 @@ def fetch(url, referer=None):
 def discover_image(page_url, expected_isbn=None):
     expected_digits = re.sub(r"[^0-9Xx]", "", str(expected_isbn or ""))
 
+    if "goodreads.com/work/editions/" in page_url and expected_digits:
+        for page_num in range(1, 5):
+            try:
+                rr = requests.get(
+                    page_url,
+                    params={"page": page_num, "per_page": 100},
+                    timeout=30,
+                    headers=HEADERS,
+                )
+                if rr.status_code != 200:
+                    continue
+                gr_text = html.unescape(rr.text).replace("\\/", "/")
+                pos = gr_text.find(expected_digits)
+                if pos < 0:
+                    # Goodreads sometimes prints ISBN-10 instead of ISBN-13.
+                    isbn10 = expected_digits
+                    if len(expected_digits) == 13 and expected_digits.startswith("978"):
+                        core = expected_digits[3:12]
+                        total = sum((10 - i) * int(ch) for i, ch in enumerate(core))
+                        check = (11 - (total % 11)) % 11
+                        isbn10 = core + ("X" if check == 10 else str(check))
+                    pos = gr_text.find(isbn10)
+                if pos < 0:
+                    continue
+
+                # An edition card puts its cover before the ISBN metadata.
+                chunk = gr_text[max(0, pos - 9000): pos + 2500]
+                image_urls = re.findall(
+                    r"""https?://[^"'<> ]+\.(?:jpg|jpeg|png)(?:\?[^"'<> ]*)?""",
+                    chunk,
+                    re.I,
+                )
+                image_urls = [
+                    u for u in image_urls
+                    if any(host in u for host in (
+                        "goodreads.com",
+                        "gr-assets.com",
+                        "images-na.ssl-images-amazon.com",
+                        "m.media-amazon.com",
+                    ))
+                    and "user" not in u.lower()
+                    and "icon" not in u.lower()
+                ]
+                if image_urls:
+                    url = image_urls[-1]
+                    # Remove common Goodreads thumbnail size modifiers.
+                    url = re.sub(r"\._S[XYL][0-9_]+_\.", ".", url)
+                    url = re.sub(r"\._S[XY][0-9]+_\.", ".", url)
+                    return url
+            except Exception:
+                continue
+        raise ValueError("Goodreads: capa da edição com o ISBN solicitado não localizada")
+
     if "martinsfontespaulista.com.br" in page_url:
         ref_match = re.search(r"-(\d+)/p(?:$|[?#])", page_url)
         ref = ref_match.group(1) if ref_match else ""
