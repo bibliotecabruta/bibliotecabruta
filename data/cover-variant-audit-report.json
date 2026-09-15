@@ -1,30 +1,5 @@
 [
   {
-    "edition_id": "b4a196c4-a131-428a-950b-35c058687ba0",
-    "title": "Cemitério de Indigentes",
-    "isbn": "9788571646377",
-    "variant_label": "Capa de edição/reimpressão posterior (c. 2002–2010)",
-    "publication_year": 2002,
-    "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Skoob — edição/reimpressão posterior com 356 p. e mesmo ISBN; ano diverge entre fontes, portanto variante datada como período aproximado",
-    "audit_key": null,
-    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/7819/CEMITERIO_DE_INDIGENTES_1232230086B.jpg",
-    "status": "different",
-    "dhash_distance": 31,
-    "current": {
-      "width": 928,
-      "height": 1500,
-      "format": "JPEG"
-    },
-    "candidate": {
-      "width": 300,
-      "height": 485,
-      "format": "JPEG"
-    },
-    "saved_path": "assets/covers/variants/cemiterio-de-indigentes-9788571646377-2002.jpg",
-    "sha256": "f4d4cdc8f17643133bbd86367ef0eed4aad8810dcabd4b2c3c798aecf6dcf961"
-  },
-  {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
     "title": "O Colecionador de Ossos",
     "isbn": "9788501058126",
