@@ -32,10 +32,10 @@
     "publication_year": 2006,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/44061e8a-d60b-4700-a274-8071057b2792.jpg",
     "source_url": "https://sebodomessias.com.br/livro/literatura-estrangeira/corpo-de-delito-37",
-    "source_label": "Companhia das Letras — CDN oficial em alta resolução, mesmo ISBN",
+    "source_label": "Livraria da Vila — imagem do produto identificada pelo mesmo ISBN; 2ª edição de 2006 confirmada separadamente",
     "output_basename": "corpo-de-delito-9788571644816-2006",
     "compare_only": false,
-    "candidate_url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571644816/corpo-de-delito.jpg"
+    "candidate_page_url": "https://www.livrariadavila.com.br/15692-corpo-de-delito/p"
   },
   {
     "edition_id": "58309030-dbb7-4d9f-bca8-b50d4340c083",
@@ -57,10 +57,10 @@
     "publication_year": 2002,
     "current_cover_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/b4a196c4-a131-428a-950b-35c058687ba0.jpg",
     "source_url": "https://www.skoob.com.br/pt/book/9073",
-    "source_label": "Companhia das Letras — CDN oficial em alta resolução, mesmo ISBN",
+    "source_label": "Livraria da Vila — imagem do produto identificada pelo mesmo ISBN; reimpressão posterior confirmada separadamente",
     "output_basename": "cemiterio-de-indigentes-9788571646377-2002",
-    "candidate_url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571646377/cemiterio-de-indigentes.jpg",
-    "compare_only": false
+    "compare_only": false,
+    "candidate_page_url": "https://www.livrariadavila.com.br/15008-cemiterio-de-indigentes/p"
   },
   {
     "edition_id": "bd31eb6e-e1d3-496e-b9e3-06766d90fb56",
