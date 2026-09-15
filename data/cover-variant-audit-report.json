@@ -116,9 +116,20 @@
     "variant_label": "Nova fase da Coleção Negra / Especial noir europeu",
     "publication_year": 2007,
     "source_url": "https://www.skoob.com.br/pt/book/494413",
-    "source_label": "Skoob — Record 2007, mesmo ISBN; nova fase da Coleção Negra; imagem candidata via Martins Fontes",
-    "status": "error",
-    "error": "404 Client Error: Not Found for url: https://www.martinsfontespaulista.com.br/Sistema/404?ProductLinkNotFound=forma-da-agua--a-175093"
+    "source_label": "Skoob — Record 2007, 3ª edição, mesmo ISBN; nova fase da Coleção Negra; imagem usada apenas para comparação visual",
+    "candidate_url_resolved": "https://skoob.s3.amazonaws.com/livros/11607/A_FORMA_DA_GUA_142401332511607SK1424013325B.jpg",
+    "status": "different_compare_only",
+    "dhash_distance": 26,
+    "current": {
+      "width": 1006,
+      "height": 1006,
+      "format": "JPEG"
+    },
+    "candidate": {
+      "width": 300,
+      "height": 452,
+      "format": "JPEG"
+    }
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
@@ -127,19 +138,19 @@
     "variant_label": "7ª edição / reimpressão de 2006",
     "publication_year": 2006,
     "source_url": "https://lojasebocultural.com.br/produto/o-colecionador-de-ossos/",
-    "source_label": "Sebo Cultural — 7ª edição, 2006, mesmo ISBN; imagem candidata via Travessa",
-    "candidate_url_resolved": "https://img.travessa.com.br/livro/BA/ad/adc26732-571c-4885-b715-3b60f2f86d05.jpg",
+    "source_label": "Sebo Cultural confirma 7ª edição de 2006 e mesmo ISBN; capa candidata via Amazon/ISBN",
+    "candidate_url_resolved": "https://images-na.ssl-images-amazon.com/images/P/8501058122.01.LZZZZZZZ.jpg",
     "status": "different_low_resolution",
-    "dhash_distance": 39,
+    "dhash_distance": 21,
     "current": {
       "width": 1000,
       "height": 1555,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 214,
-      "height": 306,
-      "format": "JPEG"
+      "width": 1,
+      "height": 1,
+      "format": "GIF"
     }
   },
   {
