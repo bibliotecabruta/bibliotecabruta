@@ -21,7 +21,7 @@
     "source_label": "Martins Fontes Paulista — imagem do produto pelo mesmo ISBN; 3ª edição Record 2007 confirmada em fontes bibliográficas",
     "audit_key": null,
     "status": "error",
-    "error": "404 Client Error: Not Found for url: https://www.martinsfontespaulista.com.br/Sistema/404?ProductLinkNotFound=forma-da-agua--a-175093"
+    "error": "Martins Fontes: produto/capa não localizado no catálogo VTEX pelo ISBN/EAN"
   },
   {
     "edition_id": "48d6b45e-baad-4290-8edc-e36a6cd7075e",
@@ -55,19 +55,21 @@
     "source_url": "https://www.record.com.br/products/tabloide-americano",
     "source_label": "Martins Fontes Paulista / catálogo VTEX — ficha da mesma edição Record ISBN 9788501049223; imagem original do SKU",
     "audit_key": "tabloide-americano-1998-vs-2011",
-    "candidate_url_resolved": "https://martinsfontespaulista.vteximg.com.br/arquivos/emails-martinsfontes-logo.png?v=637266396539000000",
-    "status": "different_low_resolution",
-    "dhash_distance": 38,
+    "candidate_url_resolved": "https://martinsfontespaulista.vteximg.com.br/arquivos/ids/1444393/174467.jpg?v=638294678015600000",
+    "status": "different",
+    "dhash_distance": 37,
     "current": {
       "width": 1023,
       "height": 1500,
       "format": "JPEG"
     },
     "candidate": {
-      "width": 197,
-      "height": 62,
-      "format": "PNG"
-    }
+      "width": 600,
+      "height": 800,
+      "format": "JPEG"
+    },
+    "saved_path": "assets/covers/variants/tabloide-americano-9788501049223-1998.jpg",
+    "sha256": "7c151f68d5be179dd0aa3fc5acb1d8fea3d9a048735edbc968212963bfaf2ee8"
   },
   {
     "edition_id": "628090f7-72b3-43cc-a62e-2bb5abc3e46d",
