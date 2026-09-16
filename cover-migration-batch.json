@@ -1,9 +1,38 @@
 [
   {
-    "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
-    "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
-    "title": "Los Angeles: Cidade Proibida — Touché original asset",
-    "url": "https://www.touchelivros.com.br/wp-content/uploads/2023/06/PI5788599_2022122718150.jpg",
+    "edition_id": "5c4f9309-dfe0-4331-9165-0ebee7762f5b",
+    "book_id": "1dc567b5-0b20-4f2f-a1ab-9de7ae815ae9",
+    "title": "Cemitério de Indigentes — candidato oficial",
+    "url": "https://www.companhiadasletras.com.br/livro/9788571646377/cemiterio-de-indigentes",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "d8f14415-016e-4c66-a478-0db459d52817",
+    "book_id": "74fd841d-1356-48ed-9ef9-09140a91cad7",
+    "title": "Sexta-feira o Rabino Acordou Tarde — candidato oficial",
+    "url": "https://www.companhiadasletras.com.br/livro/9788571641594/sexta-feira-o-rabino-acordou-tarde",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "6030e07e-cd4b-4f0d-8841-70df3b94ba27",
+    "book_id": "26d09fe7-1027-49e8-9070-9c014e7e952f",
+    "title": "Jogo de Sombras — candidato oficial",
+    "url": "https://www.companhiadasletras.com.br/livro/9788571646278/jogo-de-sombras",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "cfab2450-9315-48c7-8702-180ebfb28a55",
+    "book_id": "520682aa-1db5-423d-b1e2-c82dd289d429",
+    "title": "Transferência Mortal — candidato oficial",
+    "url": "https://www.companhiadasletras.com.br/livro/9788571648647/transferencia-mortal",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "3db4ab8c-748e-4f84-baf7-371bc1a50da4",
+    "book_id": "a6ac34e2-d0aa-4e22-b724-0290a4414491",
+    "title": "Cidade dos Ossos — candidato Record",
+    "url": "https://www.record.com.br/search?q=9788501067616",
+    "target_isbn": "9788501067616",
     "allow_exception": true
   }
 ]
