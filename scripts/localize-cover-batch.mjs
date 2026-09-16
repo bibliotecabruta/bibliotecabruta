@@ -155,7 +155,7 @@ for(const item of batch){
     else{status='rejected_low_resolution';quality='low_resolution'}
   }
   if(!['ok','ok_exception','ok_preserve'].includes(status)){
-    result={...result,status,quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
+    result={...result,status,quality,width:dims.width,height:dims.height,resolved_page_url:fetched.pageUrl||item.url,source_image_url:fetched.imageUrl,candidate_source:fetched.candidateSource||'direct',candidates_checked:fetched.candidatesChecked||1,bytes:buf.length,content_type:type};
   }else{
     await writeFile(file,buf);
     result={...result,status,quality,width:dims.width,height:dims.height,resolved_page_url:fetched.pageUrl||item.url,source_image_url:fetched.imageUrl,candidate_source:fetched.candidateSource||'direct',candidates_checked:fetched.candidatesChecked||1,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
