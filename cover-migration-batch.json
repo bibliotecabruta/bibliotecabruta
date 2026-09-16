@@ -1,49 +1,16 @@
 [
   {
-    "edition_id": "1f41e677-de3c-4d6e-88fc-e0f63de469fd",
-    "book_id": "974af041-20b8-48a7-8a63-ba610336c785",
-    "title": "O Último Deus do Nilo — Best Seller 2005",
-    "url": "https://www.skoob.com.br/o-ultimo-deus-do-nilo-6507ed7681.html",
-    "target_isbn": "9788571235274",
-    "target_year": 2005,
-    "allow_exception": true
-  },
-  {
-    "edition_id": "910b8a25-feb5-4c12-a7bc-34d9ef5f9cf2",
-    "book_id": "ce09c684-f797-46ae-b843-6023ffa1a8fc",
-    "title": "O Sétimo Papiro — Best Seller 2004",
-    "url": "https://www.skoob.com.br/pt/book/2501",
-    "target_isbn": "9788533211599",
-    "target_year": 2004,
-    "allow_exception": true
-  },
-  {
-    "edition_id": "e7d74305-7149-4420-990f-0ebe2f9c067e",
-    "book_id": "4e63316f-2053-4930-bfb8-f41490da9d95",
-    "title": "Os Favoritos de Fortuna — Bertrand 1997",
-    "url": "https://www.skoob.com.br/pt/book/13567?title=os-favoritos-de-fortuna",
-    "target_isbn": "9788528606294",
-    "target_year": 1997,
+    "edition_id": "97c26cad-b782-4de1-967c-a3ca247eee0f",
+    "book_id": "0d6a3e81-9ded-4f5f-9576-c917a79e1893",
+    "title": "O Primeiro Homem de Roma — capa oficial direta",
+    "url": "https://www.record.com.br/cdn/shop/files/8a8ce3a1b18c0340cea0d2fe08ca2cd5_1000x.jpg?v=1783743841",
     "allow_exception": true
   },
   {
     "edition_id": "68f387f1-c4b3-44cf-9be4-9c7b6598a56c",
     "book_id": "30c1986d-c126-436c-9548-e38ec6c61ca5",
-    "title": "A Coroa de Ervas — Bertrand 1994",
-    "url": "https://www.record.com.br/products/a-coroa-de-ervas-vol-2",
-    "target_isbn": "9788528604191",
-    "target_year": 1994,
-    "require_target_match": true,
-    "allow_exception": true
-  },
-  {
-    "edition_id": "97c26cad-b782-4de1-967c-a3ca247eee0f",
-    "book_id": "0d6a3e81-9ded-4f5f-9576-c917a79e1893",
-    "title": "O Primeiro Homem de Roma — Bertrand 1993",
-    "url": "https://www.record.com.br/products/o-primeiro-homem-de-roma-vol-1",
-    "target_isbn": "9788528602012",
-    "target_year": 1993,
-    "require_target_match": true,
+    "title": "A Coroa de Ervas — capa oficial direta",
+    "url": "https://www.record.com.br/cdn/shop/files/7221b5278814526be0de8c4602a08af2_2e456ba6-a8cd-44ac-ae7d-0dffee9247f4_1000x.jpg?v=1783743524",
     "allow_exception": true
   }
 ]
