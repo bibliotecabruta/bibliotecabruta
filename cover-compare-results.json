@@ -1,20 +1,18 @@
 {
   "results": [
     {
-      "title": "Cemitério de Indigentes — variante posterior vs 3ª edição 2010",
-      "left_label": "Variante local c. 2002–2010",
-      "right_label": "Goodreads — 3ª edição Companhia das Letras 2010",
-      "status": "ok",
-      "left_width": 300,
-      "left_height": 485,
-      "left_bytes": 28127,
-      "right_width": 177,
-      "right_height": 285,
-      "right_bytes": 12797,
-      "phash_distance": 32,
-      "dhash_distance": 30,
-      "rms_distance": 10013.1,
-      "same_cover_likely": false
+      "title": "Sexta-feira o Rabino Acordou Tarde — 1991 vs capa oficial atual",
+      "left_label": "1ª edição 1991 cadastrada",
+      "right_label": "Companhia das Letras ISBN 9788571641594",
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "title": "Transferência Mortal — 1999 vs capa oficial atual",
+      "left_label": "1ª edição 1999 cadastrada",
+      "right_label": "Companhia das Letras ISBN 9788571648647",
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     }
   ]
 }
