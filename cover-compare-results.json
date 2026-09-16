@@ -1,18 +1,36 @@
 {
   "results": [
     {
-      "title": "Sexta-feira o Rabino Acordou Tarde — 1991 vs capa oficial atual",
+      "title": "Sexta-feira o Rabino Acordou Tarde — 1991 vs capa oficial",
       "left_label": "1ª edição 1991 cadastrada",
-      "right_label": "Companhia das Letras ISBN 9788571641594",
-      "status": "failed",
-      "error": "HTTP Error 404: Not Found"
+      "right_label": "Companhia ISBN 9788571641594",
+      "status": "ok",
+      "left_width": 1000,
+      "left_height": 1500,
+      "left_bytes": 113453,
+      "right_width": 433,
+      "right_height": 650,
+      "right_bytes": 163449,
+      "phash_distance": 2,
+      "dhash_distance": 1,
+      "rms_distance": 24.97,
+      "same_cover_likely": true
     },
     {
-      "title": "Transferência Mortal — 1999 vs capa oficial atual",
+      "title": "Transferência Mortal — 1999 vs capa oficial",
       "left_label": "1ª edição 1999 cadastrada",
-      "right_label": "Companhia das Letras ISBN 9788571648647",
-      "status": "failed",
-      "error": "HTTP Error 404: Not Found"
+      "right_label": "Companhia ISBN 9788571648647",
+      "status": "ok",
+      "left_width": 1000,
+      "left_height": 1500,
+      "left_bytes": 100931,
+      "right_width": 433,
+      "right_height": 650,
+      "right_bytes": 137842,
+      "phash_distance": 0,
+      "dhash_distance": 0,
+      "rms_distance": 19.89,
+      "same_cover_likely": true
     }
   ]
 }
