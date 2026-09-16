@@ -69,7 +69,7 @@ function bookAreaHref(area){const p=publicBookArea(area);if(p==='Ficção Histó
 function collectionPageHref(name){if(name==='Coleção Negra')return'colecao-negra.html';if(name==='Coleção Policial')return'colecao-policial.html';return''}
 function markBookAreaNav(area){const p=publicBookArea(area),href=p==='Ficção Histórica'?'historica.html':p==='Policial/Mistério'?'policial.html':p==='Ação / Militar'?'militar.html':'';if(!href)return;document.querySelectorAll('.nav a.nav-active').forEach(a=>{a.classList.remove('nav-active');a.removeAttribute('aria-current')});const a=document.querySelector(`.nav a[href="${href}"]`);if(a){a.classList.add('nav-active');a.setAttribute('aria-current','page')}}
 function bookCoverFromRow(x){const ed=(x.editions||[]).find(e=>e.country==='Brasil'&&e.is_primary)||(x.editions||[]).find(e=>e.country==='Brasil');return ed?.cover_url||x.cover_url||''}
-function editionVariantRows(e){return [...(e?.edition_variants||[])].sort((a,z)=>(z.is_primary?1:0)-(a.is_primary?1:0)||(a.publication_year??9999)-(z.publication_year??9999)||String(a.created_at||'').localeCompare(String(z.created_at||'')))}
+function editionVariantRows(e){return [...(e?.edition_variants||[])].sort((a,z)=>(z.is_primary?1:0)-(a.is_primary?1:0)||(z.publication_year??-1)-(a.publication_year??-1)||String(z.created_at||'').localeCompare(String(a.created_at||'')))}
 function editionPrimaryVariant(e){const rows=editionVariantRows(e);return rows.find(v=>v.is_primary)||rows[0]||null}
 function publicEditionCover(e){return editionPrimaryVariant(e)?.cover_url||e?.cover_url||''}
 function editionIsbnKey(v){return String(v||'').replace(/[^0-9Xx]/g,'').toUpperCase()}
@@ -102,7 +102,7 @@ async function loadBook(){
  const {data:b,error}=await window.BB_BOOK_PROMISE;
  if(error||!b){root.innerHTML='<div class="empty">Livro não encontrado.</div>';return}
  document.title=`${b.title} — Biblioteca Bruta`;
- const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(a.publication_year??9999)-(z.publication_year??9999)||((z.is_primary?1:0)-(a.is_primary?1:0))||String(a.created_at||'').localeCompare(String(z.created_at||'')));
+ const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.publication_year??-1)-(a.publication_year??-1)||((z.is_primary?1:0)-(a.is_primary?1:0))||String(z.created_at||'').localeCompare(String(a.created_at||'')));
  const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);markBookAreaNav(b.area);updateBookBreadcrumbData(b,areaLabel,areaHref);
  const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const cover=publicEditionCover(primary)||b.cover_url;updateBookMeta(b,cover);updateBookStructuredData(b,primary,cover);rememberViewedBook(b,cover);
  let siblings=[],authorBooks=[];
