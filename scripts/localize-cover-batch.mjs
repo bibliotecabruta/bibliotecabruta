@@ -119,7 +119,7 @@ async function fetchCover(url,item={}){
  const type=res.headers.get('content-type')||'';
  if(!type.toLowerCase().includes('text/html')){
   const buf=Buffer.from(await res.arrayBuffer());
-  return{type,buf,imageUrl:res.url,candidatesChecked:1};
+  return{type,buf,imageUrl:res.url,pageUrl:res.url,candidatesChecked:1};
  }
  const html=await res.text(),candidates=htmlImageCandidates(html,res.url,item);
  let best=null,checked=0;
@@ -134,7 +134,7 @@ async function fetchCover(url,item={}){
   }catch{}
  }
  if(!best)throw new Error('nenhuma imagem vertical válida entre '+checked+' candidatas');
- return{type:best.type,buf:best.buf,imageUrl:best.url,candidatesChecked:checked,candidateSource:best.source};
+ return{type:best.type,buf:best.buf,imageUrl:best.url,pageUrl:res.url,candidatesChecked:checked,candidateSource:best.source};
 }
 
 for(const item of batch){
@@ -158,7 +158,7 @@ for(const item of batch){
     result={...result,status,quality,width:dims.width,height:dims.height,bytes:buf.length,content_type:type};
   }else{
     await writeFile(file,buf);
-    result={...result,status,quality,width:dims.width,height:dims.height,source_image_url:fetched.imageUrl,candidate_source:fetched.candidateSource||'direct',candidates_checked:fetched.candidatesChecked||1,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
+    result={...result,status,quality,width:dims.width,height:dims.height,resolved_page_url:fetched.pageUrl||item.url,source_image_url:fetched.imageUrl,candidate_source:fetched.candidateSource||'direct',candidates_checked:fetched.candidatesChecked||1,local_path:file,public_url:'https://bibliotecabruta.com.br/'+file,bytes:buf.length,content_type:type};
   }
  }catch(err){
   result={...result,error:String(err?.message||err)};
