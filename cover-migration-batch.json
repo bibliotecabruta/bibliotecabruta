@@ -1,14 +1,100 @@
 [
   {
-    "edition_id": "45291e80-2763-48b8-964f-36a6d5601749",
-    "book_id": "f6a3b27c-8749-4df2-a244-8715ba0b8e7e",
-    "title": "A Casa da Dor — 2ª edição 2021",
-    "url": "https://www.record.com.br/products/a-casa-da-dor"
+    "edition_id": "87daaf66-e03f-40da-811b-dc73c372ad19",
+    "book_id": "27d07f93-8fc3-41ba-be08-ea994f658046",
+    "title": "O Duelo — Grua 2019",
+    "url": "https://www.grualivros.com.br/duelo-o--conrad/",
+    "allow_exception": true
   },
   {
-    "edition_id": "0515a11c-bc7b-4502-82db-f4ed0fcbd722",
-    "book_id": "48288e07-7fea-4608-a4c6-405084cc747a",
-    "title": "Garganta Vermelha — 2ª edição 2021",
-    "url": "https://www.record.com.br/products/garganta-vermelha"
+    "edition_id": "97e860dc-44de-431a-8d8b-4006426e8ad8",
+    "book_id": "61de1e7d-a016-4b24-a32f-f4fd9bccf0b0",
+    "title": "Raptado — Companhia Editora Nacional 2010",
+    "url": "https://indicalivros.com/livros/raptado-colecao-classicos-nacional-robert-louis-stevenson",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "1f41e677-de3c-4d6e-88fc-e0f63de469fd",
+    "book_id": "974af041-20b8-48a7-8a63-ba610336c785",
+    "title": "O Último Deus do Nilo — Best Seller 2005",
+    "url": "https://www.travessa.com.br/o-ultimo-deus-do-nilo/artigo/27012f0d-3ffc-4f4a-ab16-a0f3dbde8352",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "910b8a25-feb5-4c12-a7bc-34d9ef5f9cf2",
+    "book_id": "ce09c684-f797-46ae-b843-6023ffa1a8fc",
+    "title": "O Sétimo Papiro — Best Seller 2004",
+    "url": "https://www.travessa.com.br/o-setimo-papiro/artigo/ff8d0e46-2b66-400c-aef5-27fe127d7e0b",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "d03d721c-b331-4c8c-bfe5-b6878896e01c",
+    "book_id": "fd4b8b11-2930-4c4c-9474-ce9d37ec4878",
+    "title": "As Areias de Amon — Rocco 1999",
+    "url": "https://www.travessa.com.br/alexandros-2-as-areias-de-amon/artigo/ffcfb4cd-df65-439a-9f66-88cf8f681be8",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "1cace2a3-ec87-4bbb-a379-7854a7aceb0c",
+    "book_id": "9fbc5acf-3a5a-4f98-a71a-7f8d34ca58af",
+    "title": "O Sonho de Olympias — Rocco 1999",
+    "url": "https://www.travessa.com.br/alexandros-1-o-sonho-de-olympias/artigo/52852692-7c6a-4490-a63b-cd3560909ed5",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "e7d74305-7149-4420-990f-0ebe2f9c067e",
+    "book_id": "4e63316f-2053-4930-bfb8-f41490da9d95",
+    "title": "Os Favoritos de Fortuna — Bertrand 1997",
+    "url": "https://www.leonardodavinci.com.br/livros/MC0667/9788528606294/favoritos-de-fortuna-os.html",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "68f387f1-c4b3-44cf-9be4-9c7b6598a56c",
+    "book_id": "30c1986d-c126-436c-9548-e38ec6c61ca5",
+    "title": "A Coroa de Ervas — Bertrand 1994",
+    "url": "https://www.record.com.br/products/a-coroa-de-ervas-vol-2",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "97c26cad-b782-4de1-967c-a3ca247eee0f",
+    "book_id": "0d6a3e81-9ded-4f5f-9576-c917a79e1893",
+    "title": "O Primeiro Homem de Roma — Bertrand 1993",
+    "url": "https://www.record.com.br/products/o-primeiro-homem-de-roma-vol-1",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "12b1d29d-c31f-4661-9096-8f9be076da3f",
+    "book_id": "48697715-b806-4f48-ba20-5e55f6880ce7",
+    "title": "Casa Nobre — Record 1996",
+    "url": "https://www.skoob.com.br/pt/book/16364?title=casa-nobre",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "b2c21b8f-4727-48f5-aece-0d2a55a59a87",
+    "book_id": "a4ea4ce6-400c-4edc-8ca5-bf35277b09fc",
+    "title": "Gai-Jin — Record 1995",
+    "url": "https://www.skoob.com.br/gai-jin-15101ed16502.html",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "3b50c40a-67f6-4bce-bc36-a7a1a7f79bad",
+    "book_id": "13fb69b9-9a68-4197-81ec-38fc7daf7abd",
+    "title": "Changi — Record",
+    "url": "https://www.skoob.com.br/pt/book/14262",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "a8558ff5-7511-4ffe-bec7-47eefea7fc8f",
+    "book_id": "5d0c40a4-4169-4b86-b714-97ce7b668978",
+    "title": "Tai-Pan — Record 1986",
+    "url": "https://www.skoob.com.br/pt/book/179310",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "50edbec2-d22c-4cec-8d2a-a1d989146245",
+    "book_id": "ae0b997f-24d7-47eb-98a0-4112b65fe93b",
+    "title": "Turbilhão — Record 1986",
+    "url": "https://www.skoob.com.br/pt/book/16507",
+    "allow_exception": true
   }
 ]
