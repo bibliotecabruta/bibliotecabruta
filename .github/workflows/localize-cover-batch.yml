@@ -28,11 +28,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp cover-migration-results.json /tmp/cover-migration-results.json
+          git restore cover-migration-results.json || true
+          git pull --rebase origin main
+          cp /tmp/cover-migration-results.json cover-migration-results.json
           git add assets/capas-edicoes cover-migration-results.json
           if git diff --cached --quiet; then
             echo "Nenhum arquivo novo."
             exit 0
           fi
           git commit -m "Localiza lote de capas no repositório"
-          git pull --rebase origin main
           git push
