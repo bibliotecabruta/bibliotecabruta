@@ -1,9 +1,16 @@
 [
   {
-    "title": "Cemitério de Indigentes — variante posterior vs 3ª edição 2010",
-    "left_label": "Variante local c. 2002–2010",
-    "left_url": "https://bibliotecabruta.com.br/assets/covers/variants/cemiterio-de-indigentes-9788571646377-2002.jpg",
-    "right_label": "Goodreads — 3ª edição Companhia das Letras 2010",
-    "right_url": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1406730482i/22842394.jpg"
+    "title": "Sexta-feira o Rabino Acordou Tarde — 1991 vs capa oficial atual",
+    "left_label": "1ª edição 1991 cadastrada",
+    "left_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/cc0dcb25-03a9-4497-aebf-17d56d7f27f6.jpg",
+    "right_label": "Companhia das Letras ISBN 9788571641594",
+    "right_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/d8f14415-016e-4c66-a478-0db459d52817.jpg"
+  },
+  {
+    "title": "Transferência Mortal — 1999 vs capa oficial atual",
+    "left_label": "1ª edição 1999 cadastrada",
+    "left_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/7f324783-523e-4bb8-a36d-e5d1494d8ee4.jpg",
+    "right_label": "Companhia das Letras ISBN 9788571648647",
+    "right_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/cfab2450-9315-48c7-8702-180ebfb28a55.jpg"
   }
 ]
