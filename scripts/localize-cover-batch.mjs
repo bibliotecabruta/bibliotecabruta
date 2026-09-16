@@ -75,7 +75,8 @@ function htmlImageCandidates(html,baseUrl,item={}){
  const add=(value,score=0,source='html',index=null)=>{
   const url=decodeHtmlUrl(value,baseUrl);
   if(!url||!/^https?:/i.test(url))return;
-  if(/(?:logo|icon|avatar|sprite|placeholder)/i.test(url))score-=20;
+  if(/(?:\/collections\/|\/collection\/|logo|icon|avatar|sprite|placeholder|banner|header|footer|galera[_-]?junior|grupo\.(?:png|jpe?g|webp)|grupo[_-])/i.test(url))return;
+  if(/(?:brand|menu|navigation|social)/i.test(url))score-=80;
   const match=contextMatch(index);
   score+=match.boost;
   rows.push({url,score,source,targetMatch:(!targetIsbn||match.isbn)&&(!targetYear||match.year)});
