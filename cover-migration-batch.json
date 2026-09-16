@@ -2,9 +2,10 @@
   {
     "edition_id": "24cfe3b5-e83e-4d83-8665-3c9f16faa334",
     "book_id": "30c1986d-c126-436c-9548-e38ec6c61ca5",
-    "title": "A Coroa de Ervas — Bertrand Brasil 2009 — Goodreads",
-    "url": "https://www.goodreads.com/book/show/B0DM1GT89Z",
+    "title": "A Coroa de Ervas — Bertrand Brasil 2009 — Goodreads editions",
+    "url": "https://www.goodreads.com/work/editions/2118098-the-grass-crown?expanded=false",
     "target_year": 2009,
+    "require_target_match": true,
     "force_accept_low_resolution": true
   }
 ]
