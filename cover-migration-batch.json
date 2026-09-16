@@ -3,18 +3,27 @@
     "edition_id": "a5461713-343b-4b7e-a02b-426f9fefdb10",
     "book_id": "e04a1716-ed95-43b3-883e-df08ddac533a",
     "title": "O Rei do Inverno — BestBolso 2015",
-    "url": "https://www.record.com.br/products/o-rei-do-inverno-vol-1-as-cronicas-de-artur-edicao-de-bolso"
+    "url": "https://www.record.com.br/products/o-rei-do-inverno-vol-1-as-cronicas-de-artur-edicao-de-bolso",
+    "target_isbn": "9788577994649",
+    "target_year": 2015,
+    "require_target_match": true
   },
   {
     "edition_id": "a6aa7da2-bcf9-429e-ab14-44720dd6aa14",
     "book_id": "eb89781f-0083-4500-8518-e649387722b1",
     "title": "O Inimigo de Deus — BestBolso 2015",
-    "url": "https://www.record.com.br/products/o-inimigo-de-deus-vol-2-as-cronicas-de-artur-edicao-de-bolso"
+    "url": "https://www.record.com.br/products/o-inimigo-de-deus-vol-2-as-cronicas-de-artur-edicao-de-bolso",
+    "target_isbn": "9788577994656",
+    "target_year": 2015,
+    "require_target_match": true
   },
   {
     "edition_id": "bde3fceb-d795-486f-849f-be0ed774edde",
     "book_id": "8536f678-fd6e-42ca-9fd5-3ad6767ed53c",
     "title": "Excalibur — BestBolso 2016",
-    "url": "https://www.record.com.br/products/excalibur-vol-3-as-cronicas-de-artur-edicao-de-bolso/"
+    "url": "https://www.record.com.br/products/excalibur-vol-3-as-cronicas-de-artur-edicao-de-bolso/",
+    "target_isbn": "9788577994663",
+    "target_year": 2016,
+    "require_target_match": true
   }
 ]
