@@ -1,17 +1,25 @@
 {
-  "generated_at": "2026-09-16T00:04:28.588Z",
+  "generated_at": "2026-09-16T00:05:14.973Z",
   "results": [
     {
       "edition_id": "30229561-2447-4b0e-9c2e-9e2c6da95a16",
       "book_id": "7a6564be-d428-4849-b8f8-81804d6fb98d",
       "title": "Dália Negra — BestBolso 2011",
-      "original_url": "https://martinsfontespaulista.vteximg.com.br/arquivos/ids/707228/660545_ampliada.jpg?v=637262510675870000",
+      "original_url": "https://www.goodreads.com/book/isbn/9788577993482",
       "status": "rejected_low_resolution",
       "quality": "low_resolution",
-      "width": 270,
-      "height": 405,
-      "bytes": 17760,
-      "content_type": "image/webp"
+      "width": 242,
+      "height": 400,
+      "bytes": 76534,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
+      "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
+      "title": "Los Angeles: Cidade Proibida — BestBolso 2011",
+      "original_url": "https://www.goodreads.com/book/isbn/9788577991884",
+      "status": "failed",
+      "error": "nenhuma imagem vertical válida entre 0 candidatas"
     }
   ]
 }
