@@ -1,45 +1,17 @@
 {
-  "generated_at": "2026-09-15T23:58:57.667Z",
+  "generated_at": "2026-09-16T00:00:44.755Z",
   "results": [
     {
       "edition_id": "30229561-2447-4b0e-9c2e-9e2c6da95a16",
       "book_id": "7a6564be-d428-4849-b8f8-81804d6fb98d",
       "title": "Dália Negra — BestBolso 2011",
-      "original_url": "https://www.goodreads.com/work/editions/434-the-black-dahlia?per_page=100",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 1 candidatas"
-    },
-    {
-      "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
-      "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
-      "title": "Los Angeles: Cidade Proibida — BestBolso 2011",
-      "original_url": "https://www.goodreads.com/work/editions/2589940-l-a-confidential?page=9",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
-    },
-    {
-      "edition_id": "5c4f9309-dfe0-4331-9165-0ebee7762f5b",
-      "book_id": "1dc567b5-0b20-4f2f-a1ab-9de7ae815ae9",
-      "title": "Cemitério de Indigentes — 3ª edição 2010",
-      "original_url": "https://www.goodreads.com/work/editions/1455041-from-potter-s-field?page=3",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
-    },
-    {
-      "edition_id": "d8f14415-016e-4c66-a478-0db459d52817",
-      "book_id": "74fd841d-1356-48ed-9ef9-09140a91cad7",
-      "title": "Sexta-feira o Rabino Acordou Tarde — 2ª edição 2004",
-      "original_url": "https://www.goodreads.com/work/editions/1849017-friday-the-rabbi-slept-late?per_page=100",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 1 candidatas"
-    },
-    {
-      "edition_id": "3db4ab8c-748e-4f84-baf7-371bc1a50da4",
-      "book_id": "a6ac34e2-d0aa-4e22-b724-0290a4414491",
-      "title": "Cidade dos Ossos — 2ª edição 2010",
-      "original_url": "https://www.goodreads.com/work/editions/1128039-city-of-bones?per_page=100",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
+      "original_url": "https://www.poupalivros.com.br/livros/literatura/dalia-negra-livro-de-bolso",
+      "status": "rejected_low_resolution",
+      "quality": "low_resolution",
+      "width": 200,
+      "height": 300,
+      "bytes": 11178,
+      "content_type": "image/webp"
     }
   ]
 }
