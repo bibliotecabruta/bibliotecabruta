@@ -1,13 +1,37 @@
 {
-  "generated_at": "2026-09-16T00:21:32.652Z",
+  "generated_at": "2026-09-16T00:23:03.169Z",
   "results": [
     {
       "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
       "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
-      "title": "Los Angeles: Cidade Proibida — BestBolso 2011",
-      "original_url": "https://www.goodreads.com/work/editions/2589940-l-a-confidential?expanded=false",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
+      "title": "Los Angeles: Cidade Proibida — Travessa ampliada",
+      "original_url": "https://www.travessa.com.br/ProdutoAmp.aspx?CodArtigo=54a29bfa-43f5-4697-807b-f206e2bfd380",
+      "status": "rejected_low_resolution",
+      "quality": "low_resolution",
+      "width": 135,
+      "height": 202,
+      "resolved_page_url": "https://www.travessa.com.br/ProdutoAmp.aspx?CodArtigo=54a29bfa-43f5-4697-807b-f206e2bfd380",
+      "source_image_url": "https://img.travessa.com.br/livro/DT/54/54a29bfa-43f5-4697-807b-f206e2bfd380.jpg",
+      "candidate_source": "jsonld:image",
+      "candidates_checked": 1,
+      "bytes": 6435,
+      "content_type": "image/jpeg"
+    },
+    {
+      "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
+      "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
+      "title": "Los Angeles: Cidade Proibida — Touché",
+      "original_url": "https://www.touchelivros.com.br/los-angeles-cidade-proibida/",
+      "status": "rejected_low_resolution",
+      "quality": "low_resolution",
+      "width": 260,
+      "height": 392,
+      "resolved_page_url": "https://www.touchelivros.com.br/los-angeles-cidade-proibida/",
+      "source_image_url": "https://i0.wp.com/www.touchelivros.com.br/wp-content/uploads/2023/06/PI5788599_2022122718150.jpg?w=260&ssl=1",
+      "candidate_source": "img:src",
+      "candidates_checked": 50,
+      "bytes": 14872,
+      "content_type": "image/webp"
     }
   ]
 }
