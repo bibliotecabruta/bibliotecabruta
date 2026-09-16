@@ -1,39 +1,31 @@
 {
-  "generated_at": "2026-09-16T09:30:01.375Z",
+  "generated_at": "2026-09-16T09:35:12.057Z",
   "results": [
-    {
-      "edition_id": "a5461713-343b-4b7e-a02b-426f9fefdb10",
-      "book_id": "e04a1716-ed95-43b3-883e-df08ddac533a",
-      "title": "O Rei do Inverno — BestBolso 2015",
-      "original_url": "https://www.record.com.br/products/o-rei-do-inverno-vol-1-as-cronicas-de-artur-edicao-de-bolso",
-      "status": "ok",
-      "quality": "ok",
-      "width": 1412,
-      "height": 2127,
-      "resolved_page_url": "https://www.record.com.br/products/o-rei-do-inverno-vol-1-as-cronicas-de-artur-edicao-de-bolso",
-      "source_image_url": "https://www.record.com.br/cdn/shop/files/86e38b1bf836403a20a091fe37283bca.jpg?v=1778320155",
-      "candidate_source": "img:srcset",
-      "candidates_checked": 14,
-      "local_path": "assets/capas-edicoes/a5461713-343b-4b7e-a02b-426f9fefdb10.webp",
-      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/a5461713-343b-4b7e-a02b-426f9fefdb10.webp",
-      "bytes": 205402,
-      "content_type": "image/webp"
-    },
     {
       "edition_id": "a6aa7da2-bcf9-429e-ab14-44720dd6aa14",
       "book_id": "eb89781f-0083-4500-8518-e649387722b1",
       "title": "O Inimigo de Deus — BestBolso 2015",
-      "original_url": "https://www.record.com.br/products/o-inimigo-de-deus-vol-2-as-cronicas-de-artur-edicao-de-bolso",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
+      "original_url": "https://www.skoob.com.br/pt/book/554376",
+      "status": "ok_exception",
+      "quality": "low_resolution_exception",
+      "width": 320,
+      "height": 480,
+      "resolved_page_url": "https://www.skoob.com.br/pt/book/554376",
+      "source_image_url": "https://static.skeelo.com/remote/320/480/100/https://skoob.s3.amazonaws.com/livros/544618/O_INIMIGO_DE_DEUS_1451494904544618SK1451494904B.jpg",
+      "candidate_source": "img:src",
+      "candidates_checked": 7,
+      "local_path": "assets/capas-edicoes/a6aa7da2-bcf9-429e-ab14-44720dd6aa14.webp",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/a6aa7da2-bcf9-429e-ab14-44720dd6aa14.webp",
+      "bytes": 45966,
+      "content_type": "image/webp"
     },
     {
       "edition_id": "bde3fceb-d795-486f-849f-be0ed774edde",
       "book_id": "8536f678-fd6e-42ca-9fd5-3ad6767ed53c",
       "title": "Excalibur — BestBolso 2016",
-      "original_url": "https://www.record.com.br/products/excalibur-vol-3-as-cronicas-de-artur-edicao-de-bolso/",
+      "original_url": "https://www.magazineluiza.com.br/livro-excalibur-vol-3-as-cronicas-de-artur-edicao-de-bolso/p/fek6egf5gk/li/llit/",
       "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
+      "error": "HTTP 403"
     }
   ]
 }
