@@ -2,11 +2,19 @@
   {
     "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
     "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
-    "title": "Los Angeles: Cidade Proibida — BestBolso 2011",
-    "url": "https://www.goodreads.com/work/editions/2589940-l-a-confidential?expanded=false",
+    "title": "Los Angeles: Cidade Proibida — Travessa ampliada",
+    "url": "https://www.travessa.com.br/ProdutoAmp.aspx?CodArtigo=54a29bfa-43f5-4697-807b-f206e2bfd380",
     "target_isbn": "9788577991884",
     "target_year": 2011,
-    "require_target_match": true,
+    "allow_exception": true
+  },
+  {
+    "edition_id": "6d3cfc0b-2d76-4cc5-a428-7f3619789cda",
+    "book_id": "cc0ff543-36af-409a-8bfb-e42cff1e5457",
+    "title": "Los Angeles: Cidade Proibida — Touché",
+    "url": "https://www.touchelivros.com.br/los-angeles-cidade-proibida/",
+    "target_isbn": "9788577991884",
+    "target_year": 2011,
     "allow_exception": true
   }
 ]
