@@ -1,20 +1,10 @@
 [
   {
-    "edition_id": "d6e1869c-25aa-492f-90d4-868a793fdc6c",
-    "book_id": "0d6a3e81-9ded-4f5f-9576-c917a79e1893",
-    "title": "O Primeiro Homem de Roma — 4ª edição 2010",
-    "url": "https://www.travessa.com.br/o-primeiro-homem-de-roma/artigo/d1f53965-6f1a-4379-a33c-137960c62a48",
-    "target_isbn": "9788528602012",
-    "target_year": 2010,
-    "force_accept_low_resolution": true
-  },
-  {
     "edition_id": "24cfe3b5-e83e-4d83-8665-3c9f16faa334",
     "book_id": "30c1986d-c126-436c-9548-e38ec6c61ca5",
-    "title": "A Coroa de Ervas — edição Bertrand Brasil 2009",
-    "url": "https://www.skoob.com.br/pt/book/44123",
-    "target_isbn": "9788528604191",
+    "title": "A Coroa de Ervas — Bertrand Brasil 2009 — Goodreads",
+    "url": "https://www.goodreads.com/book/show/B0DM1GT89Z",
     "target_year": 2009,
-    "allow_exception": true
+    "force_accept_low_resolution": true
   }
 ]
