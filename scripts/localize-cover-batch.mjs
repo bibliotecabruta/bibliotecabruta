@@ -64,13 +64,19 @@ function htmlImageCandidates(html,baseUrl,item={}){
  const rows=[];
  const targetIsbn=String(item.target_isbn||item.isbn||'').replace(/[^0-9Xx]/g,'').toUpperCase();
  const targetYear=item.target_year||item.publication_year||null;
+ const normText=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+ const targetTitle=normText(item.target_title||'');
+ const targetText=normText(item.target_text||'');
  const contextMatch=(index)=>{
-  if(index==null)return{boost:0,isbn:false,year:false};
-  const context=html.slice(Math.max(0,index-1800),Math.min(html.length,index+2800));
+  if(index==null)return{boost:0,isbn:false,year:false,title:false,text:false};
+  const context=html.slice(Math.max(0,index-2200),Math.min(html.length,index+3400));
   const compact=context.replace(/[^0-9Xx]/g,'').toUpperCase();
+  const normalized=normText(context);
   const isbn=!!targetIsbn&&compact.includes(targetIsbn);
   const year=!!targetYear&&context.includes(String(targetYear));
-  return{boost:(isbn?600:0)+(year?120:0),isbn,year};
+  const title=!!targetTitle&&normalized.includes(targetTitle);
+  const text=!!targetText&&normalized.includes(targetText);
+  return{boost:(isbn?600:0)+(year?120:0)+(title?700:0)+(text?350:0),isbn,year,title,text};
  };
  const add=(value,score=0,source='html',index=null)=>{
   const url=decodeHtmlUrl(value,baseUrl);
@@ -79,7 +85,7 @@ function htmlImageCandidates(html,baseUrl,item={}){
   if(/(?:brand|menu|navigation|social)/i.test(url))score-=80;
   const match=contextMatch(index);
   score+=match.boost;
-  rows.push({url,score,source,targetMatch:(!targetIsbn||match.isbn)&&(!targetYear||match.year)});
+  rows.push({url,score,source,targetMatch:(!targetIsbn||match.isbn)&&(!targetYear||match.year)&&(!targetTitle||match.title)&&(!targetText||match.text)});
  };
  const metaPatterns=[
   [/<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["']/gi,25,'og:image'],
