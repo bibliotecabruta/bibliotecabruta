@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T09:29:10.563Z",
+  "generated_at": "2026-09-16T09:30:01.375Z",
   "results": [
     {
       "edition_id": "a5461713-343b-4b7e-a02b-426f9fefdb10",
@@ -13,7 +13,7 @@
       "resolved_page_url": "https://www.record.com.br/products/o-rei-do-inverno-vol-1-as-cronicas-de-artur-edicao-de-bolso",
       "source_image_url": "https://www.record.com.br/cdn/shop/files/86e38b1bf836403a20a091fe37283bca.jpg?v=1778320155",
       "candidate_source": "img:srcset",
-      "candidates_checked": 80,
+      "candidates_checked": 14,
       "local_path": "assets/capas-edicoes/a5461713-343b-4b7e-a02b-426f9fefdb10.webp",
       "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/a5461713-343b-4b7e-a02b-426f9fefdb10.webp",
       "bytes": 205402,
@@ -24,36 +24,16 @@
       "book_id": "eb89781f-0083-4500-8518-e649387722b1",
       "title": "O Inimigo de Deus — BestBolso 2015",
       "original_url": "https://www.record.com.br/products/o-inimigo-de-deus-vol-2-as-cronicas-de-artur-edicao-de-bolso",
-      "status": "ok",
-      "quality": "ok",
-      "width": 1197,
-      "height": 1829,
-      "resolved_page_url": "https://www.record.com.br/products/o-inimigo-de-deus-vol-2-as-cronicas-de-artur-edicao-de-bolso",
-      "source_image_url": "https://www.record.com.br/cdn/shop/files/9b49e8c41d6d7bc00ad42bb903cc34d1_e62bbf99-f4ec-4c80-a772-78986e9b48fe.jpg?v=1785210571",
-      "candidate_source": "img:srcset",
-      "candidates_checked": 80,
-      "local_path": "assets/capas-edicoes/a6aa7da2-bcf9-429e-ab14-44720dd6aa14.webp",
-      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/a6aa7da2-bcf9-429e-ab14-44720dd6aa14.webp",
-      "bytes": 248694,
-      "content_type": "image/webp"
+      "status": "failed",
+      "error": "nenhuma imagem vertical válida entre 0 candidatas"
     },
     {
       "edition_id": "bde3fceb-d795-486f-849f-be0ed774edde",
       "book_id": "8536f678-fd6e-42ca-9fd5-3ad6767ed53c",
       "title": "Excalibur — BestBolso 2016",
       "original_url": "https://www.record.com.br/products/excalibur-vol-3-as-cronicas-de-artur-edicao-de-bolso/",
-      "status": "ok",
-      "quality": "ok",
-      "width": 1197,
-      "height": 1829,
-      "resolved_page_url": "https://www.record.com.br/products/excalibur-vol-3-as-cronicas-de-artur-edicao-de-bolso/",
-      "source_image_url": "https://www.record.com.br/cdn/shop/files/9b49e8c41d6d7bc00ad42bb903cc34d1_e62bbf99-f4ec-4c80-a772-78986e9b48fe.jpg?v=1785210571",
-      "candidate_source": "img:srcset",
-      "candidates_checked": 80,
-      "local_path": "assets/capas-edicoes/bde3fceb-d795-486f-849f-be0ed774edde.webp",
-      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/bde3fceb-d795-486f-849f-be0ed774edde.webp",
-      "bytes": 248694,
-      "content_type": "image/webp"
+      "status": "failed",
+      "error": "nenhuma imagem vertical válida entre 0 candidatas"
     }
   ]
 }
