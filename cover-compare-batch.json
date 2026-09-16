@@ -1,16 +1,16 @@
 [
   {
-    "title": "Sexta-feira o Rabino Acordou Tarde — 1991 vs capa oficial atual",
+    "title": "Sexta-feira o Rabino Acordou Tarde — 1991 vs capa oficial",
     "left_label": "1ª edição 1991 cadastrada",
     "left_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/cc0dcb25-03a9-4497-aebf-17d56d7f27f6.jpg",
-    "right_label": "Companhia das Letras ISBN 9788571641594",
-    "right_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/d8f14415-016e-4c66-a478-0db459d52817.jpg"
+    "right_label": "Companhia ISBN 9788571641594",
+    "right_url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571641594/sexta-feira-o-rabino-acordou-tarde.jpg"
   },
   {
-    "title": "Transferência Mortal — 1999 vs capa oficial atual",
+    "title": "Transferência Mortal — 1999 vs capa oficial",
     "left_label": "1ª edição 1999 cadastrada",
     "left_url": "https://mjlujvpvpxelpcbxgleo.supabase.co/storage/v1/object/public/book-covers/edicoes-br/7f324783-523e-4bb8-a36d-e5d1494d8ee4.jpg",
-    "right_label": "Companhia das Letras ISBN 9788571648647",
-    "right_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/cfab2450-9315-48c7-8702-180ebfb28a55.jpg"
+    "right_label": "Companhia ISBN 9788571648647",
+    "right_url": "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788571648647/transferencia-mortal.jpg"
   }
 ]
