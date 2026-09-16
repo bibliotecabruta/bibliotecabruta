@@ -1,29 +1,41 @@
 {
-  "generated_at": "2026-09-16T09:50:32.434Z",
+  "generated_at": "2026-09-16T09:53:10.248Z",
   "results": [
     {
       "edition_id": "45291e80-2763-48b8-964f-36a6d5601749",
       "book_id": "f6a3b27c-8749-4df2-a244-8715ba0b8e7e",
       "title": "A Casa da Dor — 2ª edição 2021",
       "original_url": "https://www.record.com.br/products/a-casa-da-dor",
-      "status": "failed",
-      "error": "nenhuma imagem vertical válida entre 0 candidatas"
+      "status": "ok",
+      "quality": "ok",
+      "width": 1832,
+      "height": 2718,
+      "resolved_page_url": "https://www.record.com.br/products/a-casa-da-dor",
+      "source_image_url": "https://www.record.com.br/cdn/shop/files/e0aae4690befab4d685e283b19c8fccd_bb865aea-de30-48dd-9441-003238db6a17.jpg?v=1778901124",
+      "candidate_source": "img:srcset",
+      "candidates_checked": 80,
+      "local_path": "assets/capas-edicoes/45291e80-2763-48b8-964f-36a6d5601749.webp",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/45291e80-2763-48b8-964f-36a6d5601749.webp",
+      "bytes": 196932,
+      "content_type": "image/webp"
     },
     {
-      "edition_id": "de70e9fb-0691-428d-8caf-31104c7b201e",
-      "book_id": "dd16488e-08c0-458b-9fc2-af925fbe9591",
-      "title": "Boneco de Neve — capa do filme 2017",
-      "original_url": "https://www.record.com.br/products/boneco-de-neve-capa-do-filme",
-      "status": "rejected_low_resolution",
-      "quality": "low_resolution",
-      "width": 200,
-      "height": 297,
-      "resolved_page_url": "https://www.record.com.br/products/boneco-de-neve-capa-do-filme",
-      "source_image_url": "https://www.record.com.br/cdn/shop/files/3107bd56cdc66dbd7f1e9731343170fe_b87d9a4c-ea44-4125-99de-6f05a15723c5.jpg?v=1783742659&width=1920",
-      "candidate_source": "jsonld:image",
-      "candidates_checked": 1,
-      "bytes": 11423,
-      "content_type": "image/jpeg"
+      "edition_id": "0515a11c-bc7b-4502-82db-f4ed0fcbd722",
+      "book_id": "48288e07-7fea-4608-a4c6-405084cc747a",
+      "title": "Garganta Vermelha — 2ª edição 2021",
+      "original_url": "https://www.record.com.br/products/garganta-vermelha",
+      "status": "ok",
+      "quality": "ok",
+      "width": 1832,
+      "height": 2718,
+      "resolved_page_url": "https://www.record.com.br/products/garganta-vermelha",
+      "source_image_url": "https://www.record.com.br/cdn/shop/files/d7b63bcd8c94f9149090fcc6d94dc5a4_8d41f21d-e004-4117-9702-24602cbbf007.jpg?v=1781736321",
+      "candidate_source": "img:srcset",
+      "candidates_checked": 28,
+      "local_path": "assets/capas-edicoes/0515a11c-bc7b-4502-82db-f4ed0fcbd722.webp",
+      "public_url": "https://bibliotecabruta.com.br/assets/capas-edicoes/0515a11c-bc7b-4502-82db-f4ed0fcbd722.webp",
+      "bytes": 175240,
+      "content_type": "image/webp"
     }
   ]
 }
