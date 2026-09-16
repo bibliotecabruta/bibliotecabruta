@@ -1,38 +1,37 @@
 [
   {
-    "edition_id": "ref-jogo-sombras-2002",
+    "edition_id": "cand-cemiterio-amazon",
     "book_id": "audit",
-    "title": "REF Jogo de Sombras 2ª edição 2002",
-    "url": "https://www.estantevirtual.com.br/busca/jogo-de-sombras",
-    "target_year": 2002,
-    "require_target_match": true,
+    "title": "Cemitério de Indigentes — Amazon ISBN",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8571646376.01.LZZZZZZZ.jpg",
     "allow_exception": true
   },
   {
-    "edition_id": "ref-transferencia-mortal-2002",
+    "edition_id": "cand-cidade-ossos-amazon",
     "book_id": "audit",
-    "title": "REF Transferência Mortal 2ª edição 2002",
-    "url": "https://www.estantevirtual.com.br/busca/jean-gattegno",
-    "target_year": 2002,
-    "require_target_match": true,
+    "title": "Cidade dos Ossos — Amazon ISBN",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/850106761X.01.LZZZZZZZ.jpg",
     "allow_exception": true
   },
   {
-    "edition_id": "ref-sexta-rabino-2004",
+    "edition_id": "cand-sexta-amazon",
     "book_id": "audit",
-    "title": "REF Sexta-feira o Rabino 2ª edição 2004",
-    "url": "https://www.estantevirtual.com.br/busca/kemelman",
-    "target_year": 2004,
-    "require_target_match": true,
+    "title": "Sexta-feira o Rabino — Amazon ISBN",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8571641595.01.LZZZZZZZ.jpg",
     "allow_exception": true
   },
   {
-    "edition_id": "ref-cidade-ossos-2010",
+    "edition_id": "cand-jogo-amazon",
     "book_id": "audit",
-    "title": "REF Cidade dos Ossos 2ª edição 2010",
-    "url": "https://www.estantevirtual.com.br/busca/cidade-dos-ossos-michael-connelly",
-    "target_year": 2010,
-    "require_target_match": true,
+    "title": "Jogo de Sombras — Amazon ISBN",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8571646279.01.LZZZZZZZ.jpg",
+    "allow_exception": true
+  },
+  {
+    "edition_id": "cand-transferencia-amazon",
+    "book_id": "audit",
+    "title": "Transferência Mortal — Amazon ISBN",
+    "url": "https://images-na.ssl-images-amazon.com/images/P/8571648646.01.LZZZZZZZ.jpg",
     "allow_exception": true
   }
 ]
