@@ -152,6 +152,7 @@ for(const item of batch){
   else if(ratio<1.2){status='rejected_aspect_ratio';quality='not_portrait'}
   else if(dims.width<600||dims.height<900){
     if(item.allow_exception&&dims.width>=300&&dims.height>=450){status='ok_exception';quality='low_resolution_exception'}
+    else if(item.force_accept_low_resolution&&dims.width>=200&&dims.height>=280){status='ok_exception';quality='forced_low_resolution_exception'}
     else{status='rejected_low_resolution';quality='low_resolution'}
   }
   if(!['ok','ok_exception','ok_preserve'].includes(status)){
