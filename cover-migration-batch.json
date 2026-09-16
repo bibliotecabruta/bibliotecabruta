@@ -1,9 +1,12 @@
 [
   {
-    "edition_id": "68f387f1-c4b3-44cf-9be4-9c7b6598a56c",
-    "book_id": "30c1986d-c126-436c-9548-e38ec6c61ca5",
-    "title": "A Coroa de Ervas — Bertrand Brasil 1994 — oficial Record",
-    "url": "https://www.record.com.br/cdn/shop/files/7221b5278814526be0de8c4602a08af2_2e456ba6-a8cd-44ac-ae7d-0dffee9247f4.jpg?v=1783743524",
-    "force_accept_low_resolution": true
+    "edition_id": "43e9aada-3544-40eb-86a3-f42e610d7def",
+    "book_id": "ef249494-a570-4c62-a68a-68a94bfb53e1",
+    "title": "O Preço de uma Vida — Edições de Ouro 1409",
+    "url": "https://arquivosdolobo.blogspot.com/2018/05/edicoes-de-ouro-tecnoprint.html",
+    "target_title": "O PREÇO DE UMA VIDA",
+    "target_text": "1409",
+    "require_target_match": true,
+    "allow_exception": true
   }
 ]
