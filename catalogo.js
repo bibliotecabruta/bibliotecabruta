@@ -66,7 +66,20 @@ function clearRefinementsKeepSearch(){
  applyCatalogFilters();
 }
 function renderCatalogRows(f){const root=document.getElementById('filteredCatalog'),shown=catalogFilteredRows.slice(0,catalogVisible);root.innerHTML=shown.length?shown.map(b=>cBookCard(b,f.q)).join(''):catalogEmptyState(f);document.getElementById('filterSummary').textContent=`${catalogFilteredRows.length} ${catalogFilteredRows.length===1?'livro encontrado':'livros encontrados'}`;document.getElementById('catalogResultTitle').textContent=f.q?`Resultados para “${f.q}”`:'Acervo';const more=document.getElementById('catalogMoreWrap');more.classList.toggle('hidden',catalogVisible>=catalogFilteredRows.length);if(!more.classList.contains('hidden'))more.querySelector('button').textContent=`Mostrar mais ${Math.min(48,catalogFilteredRows.length-catalogVisible)} livros`}
-function showMoreCatalog(){catalogVisible+=48;renderCatalogRows(getFilters())}
+function showMoreCatalog(){
+ const root=document.getElementById('filteredCatalog');
+ const previousCount=Math.min(catalogVisible,catalogFilteredRows.length);
+ catalogVisible+=48;
+ const f=getFilters(),shown=catalogFilteredRows.slice(0,catalogVisible);
+ if(root){
+  const extra=shown.slice(previousCount).map(b=>cBookCard(b,f.q)).join('');
+  root.insertAdjacentHTML('beforeend',extra);
+ }
+ document.getElementById('filterSummary').textContent=`${catalogFilteredRows.length} ${catalogFilteredRows.length===1?'livro encontrado':'livros encontrados'}`;
+ const more=document.getElementById('catalogMoreWrap');
+ more.classList.toggle('hidden',catalogVisible>=catalogFilteredRows.length);
+ if(!more.classList.contains('hidden'))more.querySelector('button').textContent=`Mostrar mais ${Math.min(48,catalogFilteredRows.length-catalogVisible)} livros`;
+}
 function surpriseMe(){if(!catalogFilteredRows.length)return;const b=catalogFilteredRows[Math.floor(Math.random()*catalogFilteredRows.length)];window.bbTrack?.('catalog_surprise',{item_id:b.id,result_count:catalogFilteredRows.length});location.href=`livro.html?id=${encodeURIComponent(b.id)}`}
 async function shareCatalogSearch(){
  const btn=document.getElementById('shareCatalogSearch'),url=location.href,title='Garimpo na Biblioteca Bruta';
