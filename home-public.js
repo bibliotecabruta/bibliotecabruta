@@ -3,6 +3,8 @@ window.BB_HOME_DISCOVERY_PROMISE=window.BB_HOME_DISCOVERY_PROMISE||(async()=>{
  const {data,error}=await sbHomePublic.from('public_home_discovery').select('item_type,id,name,area,item_count,brazil_status,brazil_published_volumes,original_total_volumes,total_volumes');
  return {data:data||[],error};
 })();
+function hpSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'livro'}
+function hpBookHref(b){return 'livros/'+hpSlug(b.title)+'-'+b.id+'.html'}
 function hpEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function goHomeSearch(){const q=(document.getElementById('q')?.value||'').trim();location.href='catalogo.html'+(q?`?q=${encodeURIComponent(q)}`:'')}
 function handleHomeSearchKey(e){if(e.key==='Enter'){e.preventDefault();goHomeSearch()}}
@@ -58,7 +60,7 @@ function renderRecentBooks(){
  rows=(Array.isArray(rows)?rows:[]).filter(x=>x&&x.id).slice(0,6);
  if(!rows.length){section.classList.add('hidden');return}
  section.classList.remove('hidden');
- root.innerHTML=rows.map(x=>`<a class="book book-link" href="livro.html?id=${encodeURIComponent(x.id)}"><div class="cover">${x.cover?`<img src="${hpEsc(x.cover)}" alt="Capa de ${hpEsc(x.title)}" loading="lazy" onerror="this.remove()">`:hpEsc(x.title)}</div><div class="book-body"><div class="book-title">${hpEsc(x.title)}</div><div class="book-author">${hpEsc(x.author||'')}</div></div></a>`).join('');
+ root.innerHTML=rows.map(x=>`<a class="book book-link" href="${hpBookHref(x)}"><div class="cover">${x.cover?`<img src="${hpEsc(x.cover)}" alt="Capa de ${hpEsc(x.title)}" loading="lazy" onerror="this.remove()">`:hpEsc(x.title)}</div><div class="book-body"><div class="book-title">${hpEsc(x.title)}</div><div class="book-author">${hpEsc(x.author||'')}</div></div></a>`).join('');
 }
 function clearRecentBooks(){try{localStorage.removeItem('bb_recent_books')}catch{}document.getElementById('recentBooksSection')?.classList.add('hidden')}
 
