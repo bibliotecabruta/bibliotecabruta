@@ -106,7 +106,14 @@ async function loadBook(){
  const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);markBookAreaNav(b.area);updateBookBreadcrumbData(b,areaLabel,areaHref);
  const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const cover=publicEditionCover(primary)||b.cover_url;updateBookMeta(b,cover);updateBookStructuredData(b,primary,cover);rememberViewedBook(b,cover);
  let siblings=[],authorBooks=[];
- const {data:navCtx,error:navError}=await sbBook.rpc('book_navigation_context',{p_book_id:b.id});
+ let navCtx=null,navError=null;
+ try{
+  const navResp=await Promise.race([
+   sbBook.rpc('book_navigation_context',{p_book_id:b.id}),
+   new Promise(resolve=>setTimeout(()=>resolve({data:null,error:{message:'navigation timeout'}}),2500))
+  ]);
+  navCtx=navResp?.data||null;navError=navResp?.error||null;
+ }catch(e){navError=e}
  if(!navError&&navCtx){
   siblings=Array.isArray(navCtx.siblings)?navCtx.siblings:[];
   authorBooks=Array.isArray(navCtx.author_books)?navCtx.author_books:[];
