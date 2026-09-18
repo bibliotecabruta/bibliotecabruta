@@ -42,7 +42,7 @@ function renderThemes(){
   rows.sort(sort==='name'?(a,b)=>a.name.localeCompare(b.name,'pt-BR'):(a,b)=>b.displayCount-a.displayCount||a.name.localeCompare(b.name,'pt-BR'));
   const summary=document.getElementById('themesSummary');
   if(summary)summary.textContent=`${rows.length} ${rows.length===1?'tema encontrado':'temas encontrados'}${area?' em '+area:''}`;
-  target.innerHTML=rows.length?rows.map(t=>`<a class="category-card taxonomy-theme-card" href="tema.html?id=${encodeURIComponent(t.id)}"><div class="eyebrow">TEMA</div><h2>${esc(t.name)}</h2><p>${t.displayCount} ${t.displayCount===1?'livro relacionado':'livros relacionados'}${!area&&t.publicAreas.length?`<span class="theme-area-line">${t.publicAreas.map(esc).join(' • ')}</span>`:''}</p></a>`).join(''):'<div class="empty">Nenhum tema encontrado nesse recorte.</div>';
+  target.innerHTML=rows.length?rows.map(t=>`<a class="entity-card taxonomy-card taxonomy-theme-card" href="tema.html?id=${encodeURIComponent(t.id)}"><div><div class="eyebrow">TEMA</div><h2>${esc(t.name)}</h2>${!area&&t.publicAreas.length?`<span class="theme-area-line">${t.publicAreas.map(esc).join(' • ')}</span>`:''}</div><div class="entity-meta"><strong>${t.displayCount} ${t.displayCount===1?'livro':'livros'}</strong><span>Ver prateleira →</span></div></a>`).join(''):'<div class="empty">Nenhum tema encontrado nesse recorte.</div>';
   const p=new URLSearchParams();if(raw)p.set('q',raw);if(area)p.set('area',area);if(sort!=='count')p.set('sort',sort);
   history.replaceState(null,'',location.pathname+(p.toString()?'?'+p.toString():''));
 }
