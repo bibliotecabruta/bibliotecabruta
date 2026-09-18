@@ -1,5 +1,7 @@
 (()=>{const sb=window.supabase.createClient(BB_CONFIG.supabaseUrl,BB_CONFIG.supabasePublishableKey);
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function homeSlug(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,90)||'livro'}
+function homeBookHref(b){return 'livros/'+homeSlug(b.title)+'-'+b.id+'.html'}
 function primaryBrEdition(b){return (b.editions||[]).find(e=>e.country==="Brasil"&&e.is_primary)||(b.editions||[]).find(e=>e.country==="Brasil")}
 function latestBookCard(b){
  const catNames=(b.book_categories||[]).map(x=>x.categories?.name).filter(Boolean),tagNames=(b.book_tags||[]).map(x=>x.tags?.name).filter(Boolean),cats=catNames.slice(0,2),tags=tagNames.slice(0,3),ed=primaryBrEdition(b),cover=ed?.cover_url||b.cover_url;
@@ -8,7 +10,7 @@ function latestBookCard(b){
  const br=[ed?.publisher,ed?.publication_year].filter(Boolean).join(" · ");
  const catLine=cats.length?`<div class="book-meta"><strong>${catNames.length===1?'Categoria':'Categorias'}:</strong> ${esc(cats.join(" • "))}${catNames.length>cats.length?` • +${catNames.length-cats.length}`:''}</div>`:'';
  const tagLine=tags.length?`<div class="book-meta"><strong>Temas:</strong> ${esc(tags.join(" • "))}${tagNames.length>tags.length?` • +${tagNames.length-tags.length}`:''}</div>`:'';
- return `<a class="book book-link" href="livro.html?id=${encodeURIComponent(b.id)}"><div class="cover">${coverHtml}</div><div class="book-body"><div class="book-title">${esc(b.title)}</div><div class="book-author">${esc(b.authors?.name||"Autor não informado")}</div>${br?`<div class="book-meta"><strong>Brasil:</strong> ${esc(br)}</div>`:""}<div class="book-meta">${esc(b.series?.name||"")}${b.series_volume?" · vol. "+esc(b.series_volume):""}</div>${catLine}${tagLine}${b.original_title?`<div class="book-meta" style="margin-top:7px">Original: ${esc(b.original_title)}${b.original_year?" ("+esc(b.original_year)+")":""}</div>`:""}</div></a>`;
+ return `<a class="book book-link" href="${homeBookHref(b)}"><div class="cover">${coverHtml}</div><div class="book-body"><div class="book-title">${esc(b.title)}</div><div class="book-author">${esc(b.authors?.name||"Autor não informado")}</div>${br?`<div class="book-meta"><strong>Brasil:</strong> ${esc(br)}</div>`:""}<div class="book-meta">${esc(b.series?.name||"")}${b.series_volume?" · vol. "+esc(b.series_volume):""}</div>${catLine}${tagLine}${b.original_title?`<div class="book-meta" style="margin-top:7px">Original: ${esc(b.original_title)}${b.original_year?" ("+esc(b.original_year)+")":""}</div>`:""}</div></a>`;
 }
 async function renderLatest(){
  const target=document.getElementById("latest");if(!target)return;
