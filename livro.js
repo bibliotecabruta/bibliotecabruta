@@ -108,8 +108,12 @@ async function loadBook(){
  const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.publication_year??-1)-(a.publication_year??-1)||((z.is_primary?1:0)-(a.is_primary?1:0))||String(z.created_at||'').localeCompare(String(a.created_at||'')));
  const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);markBookAreaNav(b.area);updateBookBreadcrumbData(b,areaLabel,areaHref);
  const primary=editions.find(e=>e.is_primary)||editions[0];const cats=(b.book_categories||[]).map(x=>x.categories).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const tags=(b.book_tags||[]).map(x=>x.tags).filter(Boolean).sort((a,z)=>a.name.localeCompare(z.name,'pt-BR'));const cover=publicEditionCover(primary)||b.cover_url;updateBookMeta(b,cover);updateBookStructuredData(b,primary,cover);rememberViewedBook(b,cover);
- // A ficha essencial renderiza sem depender de navegação, relacionados ou autor.
+ // A ficha essencial carrega primeiro; a navegação complementar tem timeout curto e não bloqueia a ficha.
  let siblings=[],authorBooks=[];
+ try{
+  const navResp=await Promise.race([sbBook.rpc('book_navigation_context',{p_book_id:id}),new Promise(resolve=>setTimeout(()=>resolve({data:null,error:{message:'nav timeout'}}),2500))]);
+  if(navResp?.data){siblings=Array.isArray(navResp.data.siblings)?navResp.data.siblings:[];authorBooks=Array.isArray(navResp.data.author_books)?navResp.data.author_books:[]}
+ }catch(e){console.warn('Navegação complementar indisponível',e)}
  const currentSeriesIndex=siblings.findIndex(x=>x.id===b.id),prevVolume=currentSeriesIndex>0?siblings[currentSeriesIndex-1]:null,nextVolume=currentSeriesIndex>=0&&currentSeriesIndex<siblings.length-1?siblings[currentSeriesIndex+1]:null,backHref=bookBackHref();
  const s=b.series,brCount=s?.brazil_published_volumes??siblings.length,origCount=s?.original_total_volumes??s?.total_volumes,status=s?.brazil_status;
  const statusText=brCount!==null&&brCount!==undefined&&origCount?`${brCount} de ${origCount} volumes publicados no Brasil`:brCount?`${brCount} volumes publicados no Brasil`:'';
