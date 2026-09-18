@@ -99,8 +99,11 @@ async function shareBook(){
 async function loadBook(){
  const root=document.getElementById('bookPage'),id=bbBookId;
  if(!id){root.innerHTML='<div class="empty">Livro não informado.</div>';return}
- const {data:b,error}=await window.BB_BOOK_PROMISE;
- if(error||!b){root.innerHTML='<div class="empty">Livro não encontrado.</div>';return}
+ let bookResp;
+ try{bookResp=await Promise.race([window.BB_BOOK_PROMISE,new Promise(resolve=>setTimeout(()=>resolve({data:null,error:{message:'book timeout'}}),6500))])}
+ catch(e){bookResp={data:null,error:e}}
+ const {data:b,error}=bookResp||{};
+ if(error||!b){root.innerHTML='<div class="empty">Não foi possível carregar este livro agora. <button class="secondary" type="button" onclick="location.reload()">Tentar novamente</button></div>';return}
  document.title=`${b.title} — Biblioteca Bruta`;
  const editions=(b.editions||[]).filter(e=>e.country==='Brasil').sort((a,z)=>(z.publication_year??-1)-(a.publication_year??-1)||((z.is_primary?1:0)-(a.is_primary?1:0))||String(z.created_at||'').localeCompare(String(a.created_at||'')));
  const areaLabel=publicBookArea(b.area),areaHref=bookAreaHref(b.area);markBookAreaNav(b.area);updateBookBreadcrumbData(b,areaLabel,areaHref);
@@ -118,12 +121,8 @@ async function loadBook(){
   siblings=Array.isArray(navCtx.siblings)?navCtx.siblings:[];
   authorBooks=Array.isArray(navCtx.author_books)?navCtx.author_books:[];
  }else{
-  const [seriesResp,authorResp]=await Promise.all([
-   b.series_id?sbBook.from('books').select('id,title,cover_url,series_volume,editions(cover_url,is_primary,country)').eq('series_id',b.series_id).order('series_volume',{ascending:true}):Promise.resolve({data:[]}),
-   b.authors?.id?sbBook.from('books').select('id,title,cover_url,series_volume,series(name),editions(cover_url,is_primary,country)').eq('author_id',b.authors.id).neq('id',b.id).order('title').limit(6):Promise.resolve({data:[]})
-  ]);
-  siblings=seriesResp.data||[];
-  authorBooks=authorResp.data||[];
+  // A ficha principal nunca deve esperar consultas secundárias.
+  siblings=[];authorBooks=[];
  }
  const currentSeriesIndex=siblings.findIndex(x=>x.id===b.id),prevVolume=currentSeriesIndex>0?siblings[currentSeriesIndex-1]:null,nextVolume=currentSeriesIndex>=0&&currentSeriesIndex<siblings.length-1?siblings[currentSeriesIndex+1]:null,backHref=bookBackHref();
  const s=b.series,brCount=s?.brazil_published_volumes??siblings.length,origCount=s?.original_total_volumes??s?.total_volumes,status=s?.brazil_status;
